@@ -29,10 +29,18 @@ class CountriesRepositoryImpl implements ICountriesRepository {
     try {
       final models = await remoteDatasource.getCountries();
       final rawEntities = models.map((m) => m.toEntity()).toList();
-      final entities = await compute(
-        CountryIsolateUtils.parseCountries,
-        rawEntities,
-      );
+
+      final List<CountryEntity> entities;
+
+      if (performanceSettings.state.useIsolate) {
+        entities = await compute(
+          CountryIsolateUtils.heavyParseCountries,
+          rawEntities,
+        );
+      } else {
+        entities = CountryIsolateUtils.heavyParseCountries(rawEntities);
+      }
+
       return Success(entities);
     } on Failure catch (failure) {
       return Error(failure);

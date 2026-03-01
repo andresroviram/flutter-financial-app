@@ -1,0 +1,133 @@
+{
+    // Use IntelliSense para saber los atributos posibles.
+    // Mantenga el puntero para ver las descripciones de los existentes atributos.
+    // Para más información, visite: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "flutter_wigilabs_sr",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "client-app",
+            "cwd": "apps/client-app",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "client-app (profile mode)",
+            "cwd": "apps/client-app",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "client-app (release mode)",
+            "cwd": "apps/client-app",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "components",
+            "cwd": "packages/components",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "components (profile mode)",
+            "cwd": "packages/components",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "components (release mode)",
+            "cwd": "packages/components",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "core",
+            "cwd": "packages/core",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "core (profile mode)",
+            "cwd": "packages/core",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "core (release mode)",
+            "cwd": "packages/core",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "home",
+            "cwd": "packages/client-features/home",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "home (profile mode)",
+            "cwd": "packages/client-features/home",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "home (release mode)",
+            "cwd": "packages/client-features/home",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "settings",
+            "cwd": "packages/client-features/settings",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "settings (profile mode)",
+            "cwd": "packages/client-features/settings",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "settings (release mode)",
+            "cwd": "packages/client-features/settings",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "wishlist",
+            "cwd": "packages/client-features/wishlist",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "wishlist (profile mode)",
+            "cwd": "packages/client-features/wishlist",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "wishlist (release mode)",
+            "cwd": "packages/client-features/wishlist",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}
