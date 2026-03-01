@@ -3,6 +3,7 @@ import 'package:core/entities/country_entity.dart';
 import 'package:core/errors/error.dart';
 import 'package:core/errors/result.dart';
 import 'package:feature_home/domain/usecases/countries_usecases.dart';
+import 'package:feature_home/domain/usecases/home_usecases.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'home_bloc.freezed.dart';
@@ -10,16 +11,12 @@ part 'home_event.dart';
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  HomeBloc({
-    required GetCountriesUseCase getCountries,
-    required GetWishlistUseCase getWishlist,
-    required AddToWishlistUseCase addToWishlist,
-    required RemoveFromWishlistUseCase removeFromWishlist,
-  }) : _getCountries = getCountries,
-       _getWishlist = getWishlist,
-       _addToWishlist = addToWishlist,
-       _removeFromWishlist = removeFromWishlist,
-       super(const _Initial()) {
+  HomeBloc({required HomeUseCases useCases})
+    : _getCountries = useCases.getCountries,
+      _getWishlist = useCases.getWishlist,
+      _addToWishlist = useCases.addToWishlist,
+      _removeFromWishlist = useCases.removeFromWishlist,
+      super(const _Initial()) {
     on<_LoadCountries>(_onLoadCountries);
     on<_LoadWishlist>(_onLoadWishlist);
     on<_ToggleWishlist>(_onToggleWishlist);

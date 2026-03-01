@@ -1,6 +1,6 @@
 import 'package:core/get_it.dart';
 import 'package:core/utils/helpers.dart';
-import 'package:feature_wishlist/domain/usecases/wishlist_usecases.dart';
+import 'package:feature_wishlist/domain/usecases/wishlist_grouped_usecases.dart';
 import 'package:feature_wishlist/presentation/bloc/wishlist_bloc.dart';
 import 'package:feature_wishlist/presentation/view/wishlist_mobile.dart';
 import 'package:feature_wishlist/presentation/view/wishlist_web.dart';
@@ -21,10 +21,9 @@ class WishlistView extends StatefulWidget {
     providers: [
       BlocProvider(
         lazy: false,
-        create: (_) => WishlistBloc(
-          getWishlist: getIt<GetWishlistUseCase>(),
-          removeFromWishlist: getIt<RemoveFromWishlistUseCase>(),
-        )..add(const WishlistEvent.loadWishlist()),
+        create: (_) =>
+            WishlistBloc(useCases: getIt<WishlistUseCases>())
+              ..add(const WishlistEvent.loadWishlist()),
       ),
     ],
     child: const WishlistView(),

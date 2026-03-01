@@ -13,6 +13,8 @@ import 'package:feature_wishlist/data/repository/wishlist_repository_impl.dart'
     as _i960;
 import 'package:feature_wishlist/domain/repository/i_wishlist_repository.dart'
     as _i167;
+import 'package:feature_wishlist/domain/usecases/wishlist_grouped_usecases.dart'
+    as _i605;
 import 'package:feature_wishlist/domain/usecases/wishlist_usecases.dart'
     as _i767;
 import 'package:injectable/injectable.dart' as _i526;
@@ -29,5 +31,9 @@ class FeatureWishlistPackageModule extends _i526.MicroPackageModule {
         () => _i767.GetWishlistUseCase(gh<_i167.IWishlistRepository>()));
     gh.lazySingleton<_i767.RemoveFromWishlistUseCase>(
         () => _i767.RemoveFromWishlistUseCase(gh<_i167.IWishlistRepository>()));
+    gh.lazySingleton<_i605.WishlistUseCases>(() => _i605.WishlistUseCases(
+          getWishlist: gh<_i767.GetWishlistUseCase>(),
+          removeFromWishlist: gh<_i767.RemoveFromWishlistUseCase>(),
+        ));
   }
 }

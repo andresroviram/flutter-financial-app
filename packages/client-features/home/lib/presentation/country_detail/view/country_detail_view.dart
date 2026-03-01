@@ -1,7 +1,7 @@
 import 'package:core/entities/country_entity.dart';
 import 'package:core/get_it.dart';
 import 'package:core/utils/helpers.dart';
-import 'package:feature_home/domain/usecases/countries_usecases.dart';
+import 'package:feature_home/domain/usecases/country_detail_usecases.dart';
 import 'package:feature_home/presentation/country_detail/bloc/country_detail_bloc.dart';
 import 'package:feature_home/presentation/country_detail/view/country_detail_mobile.dart';
 import 'package:feature_home/presentation/country_detail/view/country_detail_web.dart';
@@ -42,11 +42,7 @@ class CountryDetailView extends StatelessWidget {
           lazy: false,
           create: (_) {
             final bloc = CountryDetailBloc(
-              getCountryDetail: getIt<GetCountryDetailUseCase>(),
-              getCountryByCode: getIt<GetCountryByCodeUseCase>(),
-              isInWishlist: getIt<IsInWishlistUseCase>(),
-              addToWishlist: getIt<AddToWishlistUseCase>(),
-              removeFromWishlist: getIt<RemoveFromWishlistUseCase>(),
+              useCases: getIt<CountryDetailUseCases>(),
             );
 
             if (country != null) {

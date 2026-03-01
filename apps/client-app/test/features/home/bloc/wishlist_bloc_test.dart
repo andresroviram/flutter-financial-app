@@ -2,6 +2,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:core/entities/country_entity.dart';
 import 'package:core/errors/error.dart';
 import 'package:core/errors/result.dart';
+import 'package:feature_wishlist/domain/usecases/wishlist_grouped_usecases.dart';
 import 'package:feature_wishlist/domain/usecases/wishlist_usecases.dart';
 import 'package:feature_wishlist/presentation/bloc/wishlist_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -42,8 +43,10 @@ void main() {
   });
 
   WishlistBloc buildBloc() => WishlistBloc(
-    getWishlist: mockGetWishlist,
-    removeFromWishlist: mockRemoveFromWishlist,
+    useCases: WishlistUseCases(
+      getWishlist: mockGetWishlist,
+      removeFromWishlist: mockRemoveFromWishlist,
+    ),
   );
 
   group('WishlistBloc', () {

@@ -52,8 +52,8 @@ melos:
       description: Aplica formato a todos los packages (excluye archivos generados).
 
     build:all:
-      run: melos run build:core && melos run build:feature_home && melos run build:feature_wishlist && melos run build:app
-      description: Genera código en todos los packages en orden secuencial.
+      run: melos run build:core && melos run build:feature_home && melos run build:feature_wishlist && melos run build:app && melos run build:web-worker
+      description: Genera código en todos los packages en orden secuencial y recompila el web worker.
 
     build:core:
       exec: dart run build_runner build --delete-conflicting-outputs
@@ -78,6 +78,10 @@ melos:
       packageFilters:
         scope: flutter_wigilabs_sr
       description: Genera código en la app principal.
+
+    build:web-worker:
+      run: cd apps/client-app && dart compile js -O1 -o web/drift_worker.dart.js web/drift_worker.dart
+      description: Recompila el web worker de Drift (drift_worker.dart.js). Necesario después de build:app porque build_runner elimina el archivo al detectarlo como output conflictivo.
 
     build:watch:
       exec: dart run build_runner watch --delete-conflicting-outputs

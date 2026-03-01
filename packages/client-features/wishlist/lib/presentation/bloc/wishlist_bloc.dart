@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:core/entities/country_entity.dart';
 import 'package:core/errors/error.dart';
 import 'package:core/errors/result.dart';
+import 'package:feature_wishlist/domain/usecases/wishlist_grouped_usecases.dart';
 import 'package:feature_wishlist/domain/usecases/wishlist_usecases.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -10,12 +11,10 @@ part 'wishlist_event.dart';
 part 'wishlist_state.dart';
 
 class WishlistBloc extends Bloc<WishlistEvent, WishlistState> {
-  WishlistBloc({
-    required GetWishlistUseCase getWishlist,
-    required RemoveFromWishlistUseCase removeFromWishlist,
-  }) : _getWishlist = getWishlist,
-       _removeFromWishlist = removeFromWishlist,
-       super(const WishlistState()) {
+  WishlistBloc({required WishlistUseCases useCases})
+    : _getWishlist = useCases.getWishlist,
+      _removeFromWishlist = useCases.removeFromWishlist,
+      super(const WishlistState()) {
     on<_LoadWishlist>(_onLoadWishlist);
     on<_RemoveFromWishlist>(_onRemoveFromWishlist);
     on<_Search>(_onSearch);
