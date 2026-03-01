@@ -41,6 +41,7 @@ packages/**/build/
 *.freezed.dart
 *.gr.dart
 *.config.dart
+injectable.module.dart
 
 # Symbolication related
 app.*.symbols
