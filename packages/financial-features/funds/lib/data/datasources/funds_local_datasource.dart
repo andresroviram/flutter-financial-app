@@ -80,9 +80,9 @@ class FundsLocalDatasource implements IFundsLocalDatasource {
   @override
   Future<int> getBalance() async {
     await _ensureSeeded();
-    final row = await (database.select(database.balanceTable)
-          ..where((t) => t.id.equals(1)))
-        .getSingle();
+    final row = await (database.select(
+      database.balanceTable,
+    )..where((t) => t.id.equals(1))).getSingle();
     return row.amount;
   }
 
@@ -93,39 +93,42 @@ class FundsLocalDatasource implements IFundsLocalDatasource {
   ) async {
     await _ensureSeeded();
     await database.transaction(() async {
-      final fundRow = await (database.select(database.fundsTable)
-            ..where((t) => t.id.equals(fundId)))
-          .getSingleOrNull();
+      final fundRow = await (database.select(
+        database.fundsTable,
+      )..where((t) => t.id.equals(fundId))).getSingleOrNull();
       if (fundRow == null) throw Exception('Fondo no encontrado');
-      if (fundRow.isSubscribed) throw Exception('Ya está suscrito a este fondo');
+      if (fundRow.isSubscribed)
+        throw Exception('Ya está suscrito a este fondo');
 
-      final balanceRow = await (database.select(database.balanceTable)
-            ..where((t) => t.id.equals(1)))
-          .getSingle();
+      final balanceRow = await (database.select(
+        database.balanceTable,
+      )..where((t) => t.id.equals(1))).getSingle();
       if (balanceRow.amount < fundRow.minimumAmount) {
         throw Exception(
           'No tiene saldo disponible para vincularse al fondo ${fundRow.name}',
         );
       }
 
-      await (database.update(database.fundsTable)
-            ..where((t) => t.id.equals(fundId)))
-          .write(
-            FundsTableCompanion(
-              isSubscribed: const Value(true),
-              subscribedAmount: Value(fundRow.minimumAmount),
-            ),
-          );
+      await (database.update(
+        database.fundsTable,
+      )..where((t) => t.id.equals(fundId))).write(
+        FundsTableCompanion(
+          isSubscribed: const Value(true),
+          subscribedAmount: Value(fundRow.minimumAmount),
+        ),
+      );
 
-      await (database.update(database.balanceTable)
-            ..where((t) => t.id.equals(1)))
-          .write(
-            BalanceTableCompanion(
-              amount: Value(balanceRow.amount - fundRow.minimumAmount),
-            ),
-          );
+      await (database.update(
+        database.balanceTable,
+      )..where((t) => t.id.equals(1))).write(
+        BalanceTableCompanion(
+          amount: Value(balanceRow.amount - fundRow.minimumAmount),
+        ),
+      );
 
-      await database.into(database.fundsTransactionsTable).insert(
+      await database
+          .into(database.fundsTransactionsTable)
+          .insert(
             FundsTransactionsTableCompanion.insert(
               id: DateTime.now().millisecondsSinceEpoch.toString(),
               fundId: fundId,
@@ -143,33 +146,36 @@ class FundsLocalDatasource implements IFundsLocalDatasource {
   Future<void> cancelFund(String fundId) async {
     await _ensureSeeded();
     await database.transaction(() async {
-      final fundRow = await (database.select(database.fundsTable)
-            ..where((t) => t.id.equals(fundId)))
-          .getSingleOrNull();
+      final fundRow = await (database.select(
+        database.fundsTable,
+      )..where((t) => t.id.equals(fundId))).getSingleOrNull();
       if (fundRow == null) throw Exception('Fondo no encontrado');
-      if (!fundRow.isSubscribed) throw Exception('No está suscrito a este fondo');
+      if (!fundRow.isSubscribed)
+        throw Exception('No está suscrito a este fondo');
 
       final amount = fundRow.subscribedAmount ?? fundRow.minimumAmount;
-      final balanceRow = await (database.select(database.balanceTable)
-            ..where((t) => t.id.equals(1)))
-          .getSingle();
+      final balanceRow = await (database.select(
+        database.balanceTable,
+      )..where((t) => t.id.equals(1))).getSingle();
 
-      await (database.update(database.fundsTable)
-            ..where((t) => t.id.equals(fundId)))
-          .write(
-            const FundsTableCompanion(
-              isSubscribed: Value(false),
-              subscribedAmount: Value(null),
-            ),
-          );
+      await (database.update(
+        database.fundsTable,
+      )..where((t) => t.id.equals(fundId))).write(
+        const FundsTableCompanion(
+          isSubscribed: Value(false),
+          subscribedAmount: Value(null),
+        ),
+      );
 
-      await (database.update(database.balanceTable)
-            ..where((t) => t.id.equals(1)))
-          .write(
-            BalanceTableCompanion(amount: Value(balanceRow.amount + amount)),
-          );
+      await (database.update(
+        database.balanceTable,
+      )..where((t) => t.id.equals(1))).write(
+        BalanceTableCompanion(amount: Value(balanceRow.amount + amount)),
+      );
 
-      await database.into(database.fundsTransactionsTable).insert(
+      await database
+          .into(database.fundsTransactionsTable)
+          .insert(
             FundsTransactionsTableCompanion.insert(
               id: DateTime.now().millisecondsSinceEpoch.toString(),
               fundId: fundId,
@@ -186,9 +192,9 @@ class FundsLocalDatasource implements IFundsLocalDatasource {
   @override
   Future<List<TransactionEntity>> getTransactions() async {
     await _ensureSeeded();
-    final rows = await (database.select(database.fundsTransactionsTable)
-          ..orderBy([(t) => OrderingTerm.desc(t.date)]))
-        .get();
+    final rows = await (database.select(
+      database.fundsTransactionsTable,
+    )..orderBy([(t) => OrderingTerm.desc(t.date)])).get();
     return rows.map(_txRowToEntity).toList();
   }
 
