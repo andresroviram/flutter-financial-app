@@ -48,6 +48,18 @@ jobs:
           API_KEY=${{ secrets.PROD_API_KEY }}
           BASE_URL=${{ secrets.PROD_BASE_URL || 'https://restcountries.com/v3.1' }}
           EOF
+          cat > apps/financial-app/.env.dev << EOF
+          API_KEY=${{ secrets.FINANCIAL_DEV_API_KEY }}
+          BASE_URL=${{ secrets.FINANCIAL_DEV_BASE_URL || 'http://localhost:3000' }}
+          EOF
+          cat > apps/financial-app/.env.qa << EOF
+          API_KEY=${{ secrets.FINANCIAL_QA_API_KEY }}
+          BASE_URL=${{ secrets.FINANCIAL_QA_BASE_URL || 'http://localhost:3000' }}
+          EOF
+          cat > apps/financial-app/.env.prod << EOF
+          API_KEY=${{ secrets.FINANCIAL_PROD_API_KEY }}
+          BASE_URL=${{ secrets.FINANCIAL_PROD_BASE_URL || 'http://localhost:3000' }}
+          EOF
 
       - name: Melos Bootstrap (instala todas las dependencias del workspace)
         run: melos bootstrap
@@ -108,6 +120,18 @@ jobs:
           cat > apps/client-app/.env.prod << EOF
           API_KEY=${{ secrets.PROD_API_KEY }}
           BASE_URL=${{ secrets.PROD_BASE_URL || 'https://restcountries.com/v3.1' }}
+          EOF
+          cat > apps/financial-app/.env.dev << EOF
+          API_KEY=${{ secrets.FINANCIAL_DEV_API_KEY }}
+          BASE_URL=${{ secrets.FINANCIAL_DEV_BASE_URL || 'http://localhost:3000' }}
+          EOF
+          cat > apps/financial-app/.env.qa << EOF
+          API_KEY=${{ secrets.FINANCIAL_QA_API_KEY }}
+          BASE_URL=${{ secrets.FINANCIAL_QA_BASE_URL || 'http://localhost:3000' }}
+          EOF
+          cat > apps/financial-app/.env.prod << EOF
+          API_KEY=${{ secrets.FINANCIAL_PROD_API_KEY }}
+          BASE_URL=${{ secrets.FINANCIAL_PROD_BASE_URL || 'http://localhost:3000' }}
           EOF
 
       - name: Melos Bootstrap
@@ -174,6 +198,18 @@ jobs:
           cat > apps/client-app/.env.prod << EOF
           API_KEY=${{ secrets.PROD_API_KEY }}
           BASE_URL=${{ secrets.PROD_BASE_URL || 'https://restcountries.com/v3.1' }}
+          EOF
+          cat > apps/financial-app/.env.dev << EOF
+          API_KEY=${{ secrets.FINANCIAL_DEV_API_KEY }}
+          BASE_URL=${{ secrets.FINANCIAL_DEV_BASE_URL || 'http://localhost:3000' }}
+          EOF
+          cat > apps/financial-app/.env.qa << EOF
+          API_KEY=${{ secrets.FINANCIAL_QA_API_KEY }}
+          BASE_URL=${{ secrets.FINANCIAL_QA_BASE_URL || 'http://localhost:3000' }}
+          EOF
+          cat > apps/financial-app/.env.prod << EOF
+          API_KEY=${{ secrets.FINANCIAL_PROD_API_KEY }}
+          BASE_URL=${{ secrets.FINANCIAL_PROD_BASE_URL || 'http://localhost:3000' }}
           EOF
 
       - name: Melos Bootstrap
