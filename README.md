@@ -85,8 +85,9 @@ flutter_wigilabs_sr/            # Workspace raíz (Melos)
 │   └── client-app/             # Aplicación Flutter principal
 │       ├── lib/
 │       │   ├── main.dart
-│       │   ├── my_app.dart
+│       │   ├── app.dart
 │       │   └── config/
+│       │       ├── database/    # Drift: tablas, DAOs,
 │       │       ├── env/         # Flavors + Envied (dev/qa/prod)
 │       │       ├── injectable/  # DI con GetIt
 │       │       ├── routes/      # go_router
@@ -96,7 +97,7 @@ flutter_wigilabs_sr/            # Workspace raíz (Melos)
 │   ├── core/                    # Capa compartida entre features
 │   │   └── lib/
 │   │       ├── constants/       # Constantes globales
-│   │       ├── database/        # Drift: tablas, DAOs, conexión web/mobile
+│   │       ├── database/        # Drift: conexión web/mobile
 │   │       ├── entities/        # Entidades globales (CountryEntity…)
 │   │       ├── enum/            # Enums compartidos
 │   │       ├── env/             # Interfaz IEnvConfig
@@ -106,10 +107,11 @@ flutter_wigilabs_sr/            # Workspace raíz (Melos)
 │   │       └── utils/
 │   │           └── isolates/    # CountryIsolateUtils (compute)
 │   ├── components/              # Widgets reutilizables y temas
-│   └── client-features/
-│       ├── home/                # Listado y detalle de países
-│       ├── wishlist/            # Lista de deseos (favoritos)
-│       └── settings/            # Idioma, tema y performance toggle
+│   └── features/
+│       └── client-app/
+│           ├── home/            # Listado y detalle de países
+│           ├── wishlist/        # Lista de deseos (favoritos)
+│           └── settings/        # Idioma, tema y performance toggle
 ├── scripts/
 │   ├── setup_web.sh/.ps1        # Configura sqlite3.wasm y drift worker
 │   └── check_coverage.sh/.ps1   # Verifica umbral de cobertura
