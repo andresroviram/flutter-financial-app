@@ -2,19 +2,23 @@ import 'package:core/errors/error.dart';
 import 'package:feature_funds/domain/entities/fund_entity.dart';
 import 'package:feature_funds/domain/entities/transaction_entity.dart';
 import 'package:feature_funds/domain/repository/i_funds_repository.dart';
+import 'package:injectable/injectable.dart';
 
+@injectable
 class GetFundsUseCase {
   const GetFundsUseCase(this._repository);
   final IFundsRepository _repository;
   Future<(List<FundEntity>, Failure?)> call() => _repository.getFunds();
 }
 
+@injectable
 class GetBalanceUseCase {
   const GetBalanceUseCase(this._repository);
   final IFundsRepository _repository;
   Future<(int, Failure?)> call() => _repository.getBalance();
 }
 
+@injectable
 class SubscribeFundUseCase {
   const SubscribeFundUseCase(this._repository);
   final IFundsRepository _repository;
@@ -27,6 +31,7 @@ class SubscribeFundUseCase {
   );
 }
 
+@injectable
 class CancelFundUseCase {
   const CancelFundUseCase(this._repository);
   final IFundsRepository _repository;
@@ -34,6 +39,7 @@ class CancelFundUseCase {
       _repository.cancelFund(fundId);
 }
 
+@injectable
 class GetTransactionsUseCase {
   const GetTransactionsUseCase(this._repository);
   final IFundsRepository _repository;
