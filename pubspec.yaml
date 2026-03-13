@@ -9,10 +9,10 @@ workspace:
   - apps/financial-app
   - packages/core
   - packages/components
-  - packages/client-features/home
-  - packages/client-features/wishlist
-  - packages/client-features/settings
-  - packages/financial-features/funds
+  - packages/features/client-app/home
+  - packages/features/client-app/wishlist
+  - packages/features/client-app/settings
+  - packages/features/financial-app/funds
 
 dev_dependencies:
   melos: ^7.4.0

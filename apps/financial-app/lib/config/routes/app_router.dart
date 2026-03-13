@@ -3,6 +3,7 @@ import 'package:components/layout/scaffold_with_navigation.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:feature_funds/presentation/funds/view/funds_view.dart';
 import 'package:feature_funds/routes.dart';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:injectable/injectable.dart';

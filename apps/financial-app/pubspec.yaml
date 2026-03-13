@@ -18,7 +18,7 @@ dependencies:
   components:
     path: ../../packages/components
   feature_funds:
-    path: ../../packages/financial-features/funds
+    path: ../../packages/features/financial-app/funds
 
   # UI
   adaptive_theme: ^3.7.2

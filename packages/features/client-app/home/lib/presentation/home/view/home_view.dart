@@ -1,0 +1,109 @@
+import 'package:core/get_it.dart';
+import 'package:core/utils/helpers.dart';
+import '../../../domain/usecases/home_usecases.dart';
+import '../bloc/home_bloc.dart';
+import 'home_mobile.dart';
+import 'home_web.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:responsive_framework/responsive_framework.dart';
+
+class HomeView extends StatefulWidget {
+  const HomeView({super.key});
+  static const String path = '/';
+  static const String name = 'home';
+
+  static Widget create() => MultiBlocProvider(
+    providers: [
+      BlocProvider(
+        lazy: false,
+        create: (_) =>
+            HomeBloc(useCases: getIt<HomeUseCases>())
+              ..add(const HomeEvent.loadCountries()),
+      ),
+    ],
+    child: const HomeView(),
+  );
+
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  static const int _branchIndex = 0;
+  int? _prevShellIndex;
+  GoRouter? _router;
+  String? _prevRoutePath;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      _router = GoRouter.of(context);
+      _prevRoutePath = _router!.routerDelegate.currentConfiguration.uri.path;
+      _router!.routerDelegate.addListener(_onRouteChanged);
+    });
+  }
+
+  @override
+  void dispose() {
+    _router?.routerDelegate.removeListener(_onRouteChanged);
+    super.dispose();
+  }
+
+  void _onRouteChanged() {
+    if (!mounted) return;
+    final currentPath = _router!.routerDelegate.currentConfiguration.uri.path;
+    if (_prevRoutePath != null &&
+        _prevRoutePath != HomeView.path &&
+        currentPath == HomeView.path) {
+      context.read<HomeBloc>().add(const HomeEvent.loadWishlist());
+    }
+    _prevRoutePath = currentPath;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final shell = StatefulNavigationShell.of(context);
+    final currentIndex = shell.currentIndex;
+    if (_prevShellIndex != null &&
+        _prevShellIndex != currentIndex &&
+        currentIndex == _branchIndex) {
+      context.read<HomeBloc>().add(const HomeEvent.loadWishlist());
+    }
+    _prevShellIndex = currentIndex;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final breakpoint = ResponsiveBreakpoints.of(context).breakpoint;
+    return Listener(
+      behavior: HitTestBehavior.opaque,
+      onPointerDown: (_) {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
+      child: Scaffold(
+        body: BlocListener<HomeBloc, HomeState>(
+          listenWhen: (previous, current) =>
+              previous.failure != current.failure && current.failure != null,
+          listener: (context, state) {
+            if (context.mounted) {
+              ShowFailure.instance.mapFailuresToNotification(
+                context,
+                failure: state.failure!,
+              );
+              context.read<HomeBloc>().add(const HomeEvent.invalidate());
+            }
+          },
+          child: switch (breakpoint.name) {
+            MOBILE => const HomeMobile(),
+            (_) => const HomeWeb(),
+          },
+        ),
+      ),
+    );
+  }
+}

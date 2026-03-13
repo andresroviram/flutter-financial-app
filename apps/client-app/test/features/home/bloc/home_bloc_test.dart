@@ -2,9 +2,9 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:core/entities/country_entity.dart';
 import 'package:core/errors/error.dart';
 import 'package:core/errors/result.dart';
-import 'package:feature_home/domain/usecases/countries_usecases.dart';
-import 'package:feature_home/domain/usecases/home_usecases.dart';
-import 'package:feature_home/presentation/home/bloc/home_bloc.dart';
+import '../../../../../../packages/features/client-app/home/lib/domain/usecases/countries_usecases.dart';
+import '../../../../../../packages/features/client-app/home/lib/domain/usecases/home_usecases.dart';
+import '../../../../../../packages/features/client-app/home/lib/presentation/home/bloc/home_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
