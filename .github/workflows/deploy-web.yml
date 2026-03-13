@@ -70,7 +70,7 @@ jobs:
       - name: Setup web assets
         run: |
           chmod +x scripts/setup_web.sh
-          ./scripts/setup_web.sh
+          ./scripts/setup_web.sh apps/financial-app
 
       - name: Run tests
         run: melos run test
