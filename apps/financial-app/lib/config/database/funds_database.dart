@@ -1,8 +1,8 @@
 import 'package:core/database/connection/shared.dart';
 import 'package:drift/drift.dart';
-import 'package:feature_funds/data/database/tables/balance_table.dart';
-import 'package:feature_funds/data/database/tables/funds_table.dart';
-import 'package:feature_funds/data/database/tables/funds_transactions_table.dart';
+import 'package:financial_app/config/database/tables/balance_table.dart';
+import 'package:financial_app/config/database/tables/funds_table.dart';
+import 'package:financial_app/config/database/tables/funds_transactions_table.dart';
 
 part 'funds_database.g.dart';
 
