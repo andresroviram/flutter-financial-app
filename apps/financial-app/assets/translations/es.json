@@ -1,0 +1,35 @@
+{
+  "app_title": "BTG Fondos",
+  "nav": {
+    "funds": "Fondos",
+    "transactions": "Historial"
+  },
+  "funds": {
+    "title": "Mis Fondos",
+    "available": "Fondos disponibles",
+    "subscribed": "Fondos suscritos",
+    "balance": "Saldo disponible",
+    "subscribe": "Suscribirse",
+    "cancel": "Cancelar suscripción",
+    "retry": "Reintentar",
+    "success": "Operación realizada con éxito"
+  },
+  "transactions": {
+    "title": "Historial de transacciones",
+    "empty": "Sin transacciones aún",
+    "subscribe": "Suscripción",
+    "cancel": "Cancelación"
+  },
+  "errors": {
+    "no_balance": "No tiene saldo disponible para vincularse al fondo",
+    "unexpected": "Ocurrió un error inesperado",
+    "retry": "Reintentar"
+  },
+  "switch_to_dark": "Cambiar a modo oscuro",
+  "switch_to_light": "Cambiar a modo claro",
+  "performance_toggle": {
+    "label": "Isolate",
+    "active_tooltip": "Isolate activo — sin janks",
+    "inactive_tooltip": "Sin isolate — janks visibles"
+  }
+}

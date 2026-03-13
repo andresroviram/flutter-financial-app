@@ -1,8 +1,8 @@
-import 'package:core/database/app_database.dart';
 import 'package:core/entities/country_entity.dart';
 import 'package:drift/native.dart';
 import 'package:feature_home/data/datasources/wishlist_local_datasource.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_wigilabs_sr/config/database/app_database.dart';
 
 const tSpain = CountryEntity(
   cca2: 'ES',

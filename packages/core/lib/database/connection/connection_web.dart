@@ -5,11 +5,11 @@ import 'package:drift/wasm.dart';
 import 'package:flutter/material.dart';
 import 'package:web/web.dart' as web;
 
-DatabaseConnection connect() {
+DatabaseConnection connect(String databaseName) {
   return DatabaseConnection.delayed(
     Future(() async {
       final result = await WasmDatabase.open(
-        databaseName: 'countries_wishlist',
+        databaseName: databaseName,
         sqlite3Uri: Uri.parse('sqlite3.wasm'),
         driftWorkerUri: Uri.parse('drift_worker.dart.js'),
       );

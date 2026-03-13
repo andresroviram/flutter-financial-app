@@ -15,35 +15,35 @@ La aplicación está desplegada automáticamente en GitHub Pages mediante GitHub
 ### Mobile (Light Theme)
 <br>
 <p align="center">
-<img src="screenshots/mobile/Screenshot_1771544371.png" width="30%">
-<img src="screenshots/mobile/Screenshot_1771544373.png" width="30%">
-<img src="screenshots/mobile/Screenshot_1771544394.png" width="30%">
+<img src="apps/client-app/screenshots/mobile/Screenshot_1771544371.png" width="30%">
+<img src="apps/client-app/screenshots/mobile/Screenshot_1771544373.png" width="30%">
+<img src="apps/client-app/screenshots/mobile/Screenshot_1771544394.png" width="30%">
 </p>
 
 ### Mobile (Dark Theme)
 <br>
 <p align="center">
-<img src="screenshots/mobile/Screenshot_1771544419.png" width="30%">
-<img src="screenshots/mobile/Screenshot_1771544421.png" width="30%">
-<img src="screenshots/mobile/Screenshot_1771544398.png" width="30%">
+<img src="apps/client-app/screenshots/mobile/Screenshot_1771544419.png" width="30%">
+<img src="apps/client-app/screenshots/mobile/Screenshot_1771544421.png" width="30%">
+<img src="apps/client-app/screenshots/mobile/Screenshot_1771544398.png" width="30%">
 </p>
 
 ### Web (Light Theme)
 <br>
 <p align="center">
-<img src="screenshots/web/Screenshot_19-2-2026_182939_localhost.jpeg" width="45%">
-<img src="screenshots/web/Screenshot_19-2-2026_183136_localhost.jpeg" width="45%">
-<img src="screenshots/web/Screenshot_19-2-2026_183254_localhost.jpeg" width="45%">
-<img src="screenshots/web/Screenshot_19-2-2026_183346_localhost.jpeg" width="45%">
+<img src="apps/client-app/screenshots/web/Screenshot_19-2-2026_182939_localhost.jpeg" width="45%">
+<img src="apps/client-app/screenshots/web/Screenshot_19-2-2026_183136_localhost.jpeg" width="45%">
+<img src="apps/client-app/screenshots/web/Screenshot_19-2-2026_183254_localhost.jpeg" width="45%">
+<img src="apps/client-app/screenshots/web/Screenshot_19-2-2026_183346_localhost.jpeg" width="45%">
 </p>
 
 ### Web (Dark Theme)
 <br>
 <p align="center">
-<img src="screenshots/web/Screenshot_19-2-2026_183514_localhost.jpeg" width="45%">
-<img src="screenshots/web/Screenshot_19-2-2026_183538_localhost.jpeg" width="45%">
-<img src="screenshots/web/Screenshot_19-2-2026_18369_localhost.jpeg" width="45%">
-<img src="screenshots/web/Screenshot_19-2-2026_183626_localhost.jpeg" width="45%">
+<img src="apps/client-app/screenshots/web/Screenshot_19-2-2026_183514_localhost.jpeg" width="45%">
+<img src="apps/client-app/screenshots/web/Screenshot_19-2-2026_183538_localhost.jpeg" width="45%">
+<img src="apps/client-app/screenshots/web/Screenshot_19-2-2026_18369_localhost.jpeg" width="45%">
+<img src="apps/client-app/screenshots/web/Screenshot_19-2-2026_183626_localhost.jpeg" width="45%">
 </p>
 
 ## Stack tecnológico

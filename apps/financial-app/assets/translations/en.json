@@ -1,0 +1,35 @@
+{
+  "app_title": "BTG Funds",
+  "nav": {
+    "funds": "Funds",
+    "transactions": "History"
+  },
+  "funds": {
+    "title": "My Funds",
+    "available": "Available funds",
+    "subscribed": "Subscribed funds",
+    "balance": "Available balance",
+    "subscribe": "Subscribe",
+    "cancel": "Cancel subscription",
+    "retry": "Retry",
+    "success": "Operation completed successfully"
+  },
+  "transactions": {
+    "title": "Transaction history",
+    "empty": "No transactions yet",
+    "subscribe": "Subscription",
+    "cancel": "Cancellation"
+  },
+  "errors": {
+    "no_balance": "Insufficient balance to subscribe to fund",
+    "unexpected": "An unexpected error occurred",
+    "retry": "Retry"
+  },
+  "switch_to_dark": "Switch to dark mode",
+  "switch_to_light": "Switch to light mode",
+  "performance_toggle": {
+    "label": "Isolate",
+    "active_tooltip": "Isolate active — no janks",
+    "inactive_tooltip": "No isolate — janks visible"
+  }
+}

@@ -1,4 +1,7 @@
 {
   "dart.flutterSdkPath": ".fvm/versions/3.38.9",
-  "yaml.schemaStore.enable": false
+  "yaml.schemaStore.enable": false,
+  "chat.tools.terminal.autoApprove": {
+    "dart": true
+  }
 }
