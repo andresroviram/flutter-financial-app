@@ -70,8 +70,9 @@ jobs:
           files: |
             apps/client-app/coverage/lcov.info
             packages/core/coverage/lcov.info
-            packages/client-features/home/coverage/lcov.info
-            packages/client-features/wishlist/coverage/lcov.info
+            packages/features/client-app/home/coverage/lcov.info
+            packages/features/client-app/wishlist/coverage/lcov.info
+            packages/features/client-app/settings/coverage/lcov.info
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: false
 

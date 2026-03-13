@@ -30,8 +30,8 @@ jobs:
           channel: "stable"
           cache: true
 
-      - name: Install Melos & Bootstrap
-        run: dart pub global activate melos && melos bootstrap
+      - name: Install Melos
+        run: dart pub global activate melos
 
       - name: Create .env files (dev / qa / prod)
         run: |
@@ -47,6 +47,9 @@ jobs:
           API_KEY=${{ secrets.PROD_API_KEY }}
           BASE_URL=${{ secrets.PROD_BASE_URL || 'https://restcountries.com/v3.1' }}
           EOF
+
+      - name: Melos Bootstrap
+        run: melos bootstrap
 
       - name: Run code generation
         run: melos run build:all
