@@ -76,7 +76,7 @@ jobs:
         run: melos run test:financial
 
       - name: Build web
-        run: cd apps/financial-app && flutter build web --release --base-href /flutter_wigilabs_sr/ --dart-define=FLAVOR=${{ steps.flavor.outputs.flavor }}
+        run: cd apps/financial-app && flutter build web --release --base-href /flutter-financial-app/ --dart-define=FLAVOR=${{ steps.flavor.outputs.flavor }}
 
       - name: Upload web artifact
         uses: actions/upload-artifact@v4
