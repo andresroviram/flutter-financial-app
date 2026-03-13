@@ -73,7 +73,7 @@ jobs:
           ./scripts/setup_web.sh apps/financial-app
 
       - name: Run tests
-        run: melos run test
+        run: melos run test:financial
 
       - name: Build web
         run: cd apps/financial-app && flutter build web --release --base-href /flutter_wigilabs_sr/ --dart-define=FLAVOR=${{ steps.flavor.outputs.flavor }}
