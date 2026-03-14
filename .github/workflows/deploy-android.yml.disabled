@@ -1,5 +1,8 @@
 name: Deploy Android
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 on:
   push:
     branches:
@@ -27,7 +30,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Java
         uses: actions/setup-java@v4
