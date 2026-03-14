@@ -1,6 +1,6 @@
 import 'package:drift/drift.dart';
-import '../../domain/entities/fund_entity.dart';
-import '../../domain/entities/transaction_entity.dart';
+import 'package:feature_funds/domain/entities/fund_entity.dart';
+import 'package:feature_funds/domain/entities/transaction_entity.dart';
 import 'package:financial_app/config/database/funds_database.dart';
 import 'package:injectable/injectable.dart';
 
@@ -130,7 +130,7 @@ class FundsLocalDatasource implements IFundsLocalDatasource {
           .into(database.fundsTransactionsTable)
           .insert(
             FundsTransactionsTableCompanion.insert(
-              id: DateTime.now().millisecondsSinceEpoch.toString(),
+              id: DateTime.now().microsecondsSinceEpoch.toString(),
               fundId: fundId,
               fundName: fundRow.name,
               type: 'subscribe',
@@ -178,7 +178,7 @@ class FundsLocalDatasource implements IFundsLocalDatasource {
           .into(database.fundsTransactionsTable)
           .insert(
             FundsTransactionsTableCompanion.insert(
-              id: DateTime.now().millisecondsSinceEpoch.toString(),
+              id: DateTime.now().microsecondsSinceEpoch.toString(),
               fundId: fundId,
               fundName: fundRow.name,
               type: 'cancel',

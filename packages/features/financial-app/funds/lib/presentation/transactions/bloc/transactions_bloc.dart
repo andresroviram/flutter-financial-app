@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
-import '../../../domain/usecases/funds_usecases.dart';
-import 'transactions_event.dart';
-import 'transactions_state.dart';
+import 'package:feature_funds/domain/usecases/funds_usecases.dart';
+import 'package:feature_funds/presentation/transactions/bloc/transactions_event.dart';
+import 'package:feature_funds/presentation/transactions/bloc/transactions_state.dart';
 
 class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
   TransactionsBloc({required GetTransactionsUseCase getTransactions})

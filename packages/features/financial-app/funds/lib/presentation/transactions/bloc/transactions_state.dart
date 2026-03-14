@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import '../../../domain/entities/transaction_entity.dart';
+import 'package:feature_funds/domain/entities/transaction_entity.dart';
 
 enum TransactionsStatus { initial, loading, success, failure }
 

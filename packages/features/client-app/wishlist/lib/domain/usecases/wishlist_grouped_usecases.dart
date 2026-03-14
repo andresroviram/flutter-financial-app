@@ -1,4 +1,4 @@
-import 'wishlist_usecases.dart';
+import 'package:feature_wishlist/domain/usecases/wishlist_usecases.dart';
 import 'package:injectable/injectable.dart';
 
 @lazySingleton

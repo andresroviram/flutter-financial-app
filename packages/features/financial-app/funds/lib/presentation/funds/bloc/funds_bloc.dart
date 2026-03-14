@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
-import '../../../domain/usecases/funds_usecases.dart';
-import 'funds_event.dart';
-import 'funds_state.dart';
+import 'package:feature_funds/domain/usecases/funds_usecases.dart';
+import 'package:feature_funds/presentation/funds/bloc/funds_event.dart';
+import 'package:feature_funds/presentation/funds/bloc/funds_state.dart';
 
 class FundsBloc extends Bloc<FundsEvent, FundsState> {
   FundsBloc({

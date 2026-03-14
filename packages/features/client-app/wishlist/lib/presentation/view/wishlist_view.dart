@@ -1,9 +1,9 @@
 import 'package:core/get_it.dart';
 import 'package:core/utils/helpers.dart';
-import '../../domain/usecases/wishlist_grouped_usecases.dart';
-import '../bloc/wishlist_bloc.dart';
-import 'wishlist_mobile.dart';
-import 'wishlist_web.dart';
+import 'package:feature_wishlist/domain/usecases/wishlist_grouped_usecases.dart';
+import 'package:feature_wishlist/presentation/bloc/wishlist_bloc.dart';
+import 'package:feature_wishlist/presentation/view/wishlist_mobile.dart';
+import 'package:feature_wishlist/presentation/view/wishlist_web.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';

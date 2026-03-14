@@ -1,9 +1,9 @@
 import 'package:core/entities/country_entity.dart';
 import 'package:core/utils/format_utils.dart';
 import 'package:easy_localization/easy_localization.dart';
-import '../bloc/country_detail_bloc.dart';
-import 'detail_row.dart';
-import 'detail_section.dart';
+import 'package:feature_home/presentation/country_detail/bloc/country_detail_bloc.dart';
+import 'package:feature_home/presentation/country_detail/widgets/detail_row.dart';
+import 'package:feature_home/presentation/country_detail/widgets/detail_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';

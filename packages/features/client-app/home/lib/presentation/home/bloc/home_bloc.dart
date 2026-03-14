@@ -2,8 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:core/entities/country_entity.dart';
 import 'package:core/errors/error.dart';
 import 'package:core/errors/result.dart';
-import '../../../domain/usecases/countries_usecases.dart';
-import '../../../domain/usecases/home_usecases.dart';
+import 'package:feature_home/domain/usecases/countries_usecases.dart';
+import 'package:feature_home/domain/usecases/home_usecases.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'home_bloc.freezed.dart';

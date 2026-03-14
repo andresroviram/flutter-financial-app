@@ -1,4 +1,4 @@
-import 'countries_usecases.dart';
+import 'package:feature_home/domain/usecases/countries_usecases.dart';
 import 'package:injectable/injectable.dart';
 
 @lazySingleton

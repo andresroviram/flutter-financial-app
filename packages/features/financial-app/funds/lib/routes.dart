@@ -1,5 +1,5 @@
-import 'presentation/funds/view/funds_view.dart';
-import 'presentation/transactions/view/transactions_view.dart';
+import 'package:feature_funds/presentation/funds/view/funds_view.dart';
+import 'package:feature_funds/presentation/transactions/view/transactions_view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

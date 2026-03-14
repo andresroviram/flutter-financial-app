@@ -53,6 +53,11 @@ melos:
       concurrency: 4
       description: Aplica formato a todos los packages (excluye archivos generados).
 
+    fix:
+      exec: dart fix --apply
+      concurrency: 1
+      description: Aplica correcciones automáticas de lint (incluye directives_ordering, etc.) en todos los packages.
+
     build:all:
       run: melos run build:core && melos run build:feature_home && melos run build:feature_wishlist && melos run build:feature_funds && melos run build:app && melos run build:financial-app && melos run build:web-worker && melos run build:web-worker:financial
       description: Genera código en todos los packages en orden secuencial y recompila el web worker.

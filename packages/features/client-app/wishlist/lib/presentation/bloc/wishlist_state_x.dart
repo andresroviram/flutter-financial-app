@@ -1,6 +1,6 @@
 import 'package:core/entities/country_entity.dart';
 import 'package:core/errors/error.dart';
-import 'wishlist_bloc.dart';
+import 'package:feature_wishlist/presentation/bloc/wishlist_bloc.dart';
 
 extension WishlistStateX on WishlistState {
   List<CountryEntity> get filteredWishlist {

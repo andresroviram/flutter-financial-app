@@ -1,9 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
-import '../bloc/wishlist_bloc.dart';
-import '../bloc/wishlist_state_x.dart';
-import 'wishlist_view.dart';
-import '../widgets/empty_wishlist.dart';
-import '../widgets/wishlist_card.dart';
+import 'package:feature_wishlist/presentation/bloc/wishlist_bloc.dart';
+import 'package:feature_wishlist/presentation/bloc/wishlist_state_x.dart';
+import 'package:feature_wishlist/presentation/view/wishlist_view.dart';
+import 'package:feature_wishlist/presentation/widgets/empty_wishlist.dart';
+import 'package:feature_wishlist/presentation/widgets/wishlist_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';

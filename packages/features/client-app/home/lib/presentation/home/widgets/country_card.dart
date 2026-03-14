@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:core/entities/country_entity.dart';
 import 'package:core/utils/format_utils.dart';
-import 'info_row.dart';
-import 'wishlist_button.dart';
+import 'package:feature_home/presentation/home/widgets/info_row.dart';
+import 'package:feature_home/presentation/home/widgets/wishlist_button.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:shimmer/shimmer.dart';

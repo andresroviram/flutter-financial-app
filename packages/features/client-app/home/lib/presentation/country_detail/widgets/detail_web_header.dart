@@ -1,6 +1,6 @@
 import 'package:components/shimmer/country_detail_shimmer_title.dart';
-import '../bloc/country_detail_bloc.dart';
-import '../bloc/country_detail_state_x.dart';
+import 'package:feature_home/presentation/country_detail/bloc/country_detail_bloc.dart';
+import 'package:feature_home/presentation/country_detail/bloc/country_detail_state_x.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:core/entities/country_entity.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'chip_list.dart';
-import 'country_detail_info.dart';
-import 'detail_section.dart';
+import 'package:feature_home/presentation/country_detail/widgets/chip_list.dart';
+import 'package:feature_home/presentation/country_detail/widgets/country_detail_info.dart';
+import 'package:feature_home/presentation/country_detail/widgets/detail_section.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 

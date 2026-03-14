@@ -1,11 +1,11 @@
 import 'package:components/shimmer/countries_grid_shimmer.dart';
 import 'package:core/utils/snackbar_utils.dart';
-import '../../country_detail/view/country_detail_view.dart';
-import '../bloc/home_bloc.dart';
-import '../bloc/home_state_x.dart';
-import '../widgets/country_card.dart';
-import '../widgets/error_retry.dart';
-import '../widgets/home_web_header.dart';
+import 'package:feature_home/presentation/country_detail/view/country_detail_view.dart';
+import 'package:feature_home/presentation/home/bloc/home_bloc.dart';
+import 'package:feature_home/presentation/home/bloc/home_state_x.dart';
+import 'package:feature_home/presentation/home/widgets/country_card.dart';
+import 'package:feature_home/presentation/home/widgets/error_retry.dart';
+import 'package:feature_home/presentation/home/widgets/home_web_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';

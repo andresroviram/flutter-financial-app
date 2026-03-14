@@ -2,7 +2,7 @@ import 'package:core/constants/app_constants.dart';
 import 'package:core/errors/error.dart';
 import 'package:core/network/dio_client.dart';
 import 'package:core/network/dio_response_converter.dart';
-import '../models/country_model.dart';
+import 'package:feature_home/data/models/country_model.dart';
 import 'package:injectable/injectable.dart';
 
 abstract class ICountriesRemoteDatasource {

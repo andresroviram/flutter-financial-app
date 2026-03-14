@@ -1,6 +1,6 @@
 import 'package:core/entities/country_entity.dart';
 import 'package:core/errors/error.dart';
-import 'home_bloc.dart';
+import 'package:feature_home/presentation/home/bloc/home_bloc.dart';
 
 extension HomeStateX on HomeState {
   List<CountryEntity> get filteredCountries {
