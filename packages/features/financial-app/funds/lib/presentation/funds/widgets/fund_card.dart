@@ -1,6 +1,7 @@
 import 'package:feature_funds/domain/entities/fund_entity.dart';
 import 'package:feature_funds/domain/entities/transaction_entity.dart';
 import 'package:feature_funds/presentation/funds/bloc/funds_state.dart';
+import 'package:feature_funds/presentation/funds/widgets/subscribe_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
@@ -18,6 +19,15 @@ class FundCard extends StatelessWidget {
   final FundsStatus fundsStatus;
   final void Function(NotificationMethod method) onSubscribe;
   final VoidCallback onCancel;
+
+  void _showSubscribeDialog(BuildContext context) {
+    showDialog<NotificationMethod>(
+      context: context,
+      builder: (_) => SubscribeDialog(fundName: fund.name),
+    ).then((method) {
+      if (method != null) onSubscribe(method);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -135,79 +145,6 @@ class FundCard extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-
-  void _showSubscribeDialog(BuildContext context) {
-    showDialog<NotificationMethod>(
-      context: context,
-      builder: (_) => _SubscribeDialog(fundName: fund.name),
-    ).then((method) {
-      if (method != null) onSubscribe(method);
-    });
-  }
-}
-
-class _SubscribeDialog extends StatefulWidget {
-  const _SubscribeDialog({required this.fundName});
-  final String fundName;
-
-  @override
-  State<_SubscribeDialog> createState() => _SubscribeDialogState();
-}
-
-class _SubscribeDialogState extends State<_SubscribeDialog> {
-  NotificationMethod _selected = NotificationMethod.email;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return AlertDialog(
-      title: const Text('Confirmar suscripción'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Fondo: ${widget.fundName}',
-            style: theme.textTheme.bodyMedium?.copyWith(
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          const Gap(16),
-          Text('Método de notificación:', style: theme.textTheme.bodySmall),
-          RadioGroup<NotificationMethod>(
-            groupValue: _selected,
-            onChanged: (v) => setState(() => _selected = v!),
-            child: const Column(
-              children: [
-                RadioListTile<NotificationMethod>(
-                  title: Text('Email'),
-                  value: NotificationMethod.email,
-                  contentPadding: EdgeInsets.zero,
-                  dense: true,
-                ),
-                RadioListTile<NotificationMethod>(
-                  title: Text('SMS'),
-                  value: NotificationMethod.sms,
-                  contentPadding: EdgeInsets.zero,
-                  dense: true,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Cancelar'),
-        ),
-        FilledButton(
-          onPressed: () => Navigator.of(context).pop(_selected),
-          child: const Text('Confirmar'),
-        ),
-      ],
     );
   }
 }

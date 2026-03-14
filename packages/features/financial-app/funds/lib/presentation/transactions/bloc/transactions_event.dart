@@ -1,12 +1,9 @@
-import 'package:equatable/equatable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-abstract class TransactionsEvent extends Equatable {
-  const TransactionsEvent();
+part 'transactions_event.freezed.dart';
 
-  @override
-  List<Object?> get props => [];
-}
-
-class TransactionsLoadRequested extends TransactionsEvent {
-  const TransactionsLoadRequested();
+@freezed
+abstract class TransactionsEvent with _$TransactionsEvent {
+  const factory TransactionsEvent.loadRequested() =
+      TransactionsLoadRequested;
 }

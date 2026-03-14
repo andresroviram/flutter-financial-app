@@ -1,35 +1,15 @@
-import 'package:equatable/equatable.dart';
 import 'package:feature_funds/domain/entities/transaction_entity.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-abstract class FundsEvent extends Equatable {
-  const FundsEvent();
+part 'funds_event.freezed.dart';
 
-  @override
-  List<Object?> get props => [];
-}
-
-class FundsLoadRequested extends FundsEvent {
-  const FundsLoadRequested();
-}
-
-class FundsSubscribeRequested extends FundsEvent {
-  const FundsSubscribeRequested({
-    required this.fundId,
-    required this.notificationMethod,
-  });
-
-  final String fundId;
-  final NotificationMethod notificationMethod;
-
-  @override
-  List<Object?> get props => [fundId, notificationMethod];
-}
-
-class FundsCancelRequested extends FundsEvent {
-  const FundsCancelRequested(this.fundId);
-
-  final String fundId;
-
-  @override
-  List<Object?> get props => [fundId];
+@freezed
+abstract class FundsEvent with _$FundsEvent {
+  const factory FundsEvent.loadRequested() = FundsLoadRequested;
+  const factory FundsEvent.subscribeRequested({
+    required String fundId,
+    required NotificationMethod notificationMethod,
+  }) = FundsSubscribeRequested;
+  const factory FundsEvent.cancelRequested(String fundId) =
+      FundsCancelRequested;
 }

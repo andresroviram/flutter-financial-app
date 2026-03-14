@@ -29,7 +29,7 @@ class FundsMobile extends StatelessWidget {
                   const Gap(16),
                   FilledButton(
                     onPressed: () => context.read<FundsBloc>().add(
-                      const FundsLoadRequested(),
+                      const FundsEvent.loadRequested(),
                     ),
                     child: const Text('Reintentar'),
                   ),
@@ -39,7 +39,9 @@ class FundsMobile extends StatelessWidget {
           }
           return RefreshIndicator(
             onRefresh: () async =>
-                context.read<FundsBloc>().add(const FundsLoadRequested()),
+                context.read<FundsBloc>().add(
+                  const FundsEvent.loadRequested(),
+                ),
             child: CustomScrollView(
               slivers: [
                 const SliverAppBar(
@@ -65,7 +67,7 @@ class FundsMobile extends StatelessWidget {
                             fundsStatus: state.status,
                             onSubscribe: (_) {},
                             onCancel: () => context.read<FundsBloc>().add(
-                              FundsCancelRequested(fund.id),
+                              FundsEvent.cancelRequested(fund.id),
                             ),
                           ),
                         ),
@@ -82,7 +84,7 @@ class FundsMobile extends StatelessWidget {
                           fundsStatus: state.status,
                           onSubscribe: (method) =>
                               context.read<FundsBloc>().add(
-                                FundsSubscribeRequested(
+                                FundsEvent.subscribeRequested(
                                   fundId: fund.id,
                                   notificationMethod: method,
                                 ),

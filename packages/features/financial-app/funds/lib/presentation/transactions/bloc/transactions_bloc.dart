@@ -16,7 +16,7 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
     TransactionsLoadRequested event,
     Emitter<TransactionsState> emit,
   ) async {
-    emit(state.copyWith(status: TransactionsStatus.loading));
+    emit(state.copyWith(status: TransactionsStatus.loading, errorMessage: null));
     final (transactions, failure) = await _getTransactions();
     if (failure != null) {
       emit(
@@ -31,6 +31,7 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
       state.copyWith(
         status: TransactionsStatus.success,
         transactions: transactions,
+        errorMessage: null,
       ),
     );
   }

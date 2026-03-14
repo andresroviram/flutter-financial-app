@@ -1,48 +1,23 @@
-import 'package:equatable/equatable.dart';
 import 'package:feature_funds/domain/entities/fund_entity.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'funds_state.freezed.dart';
 
 enum FundsStatus { initial, loading, success, failure, subscribing, canceling }
 
-class FundsState extends Equatable {
-  const FundsState({
-    this.status = FundsStatus.initial,
-    this.funds = const [],
-    this.balance = 500000,
-    this.errorMessage,
-    this.lastActionSuccess = false,
-  });
-
-  final FundsStatus status;
-  final List<FundEntity> funds;
-  final int balance;
-  final String? errorMessage;
-  final bool lastActionSuccess;
-
-  FundsState copyWith({
-    FundsStatus? status,
-    List<FundEntity>? funds,
-    int? balance,
+@freezed
+abstract class FundsState with _$FundsState {
+  const FundsState._();
+  const factory FundsState({
+    @Default(FundsStatus.initial) FundsStatus status,
+    @Default([]) List<FundEntity> funds,
+    @Default(500000) int balance,
     String? errorMessage,
-    bool? lastActionSuccess,
-  }) => FundsState(
-    status: status ?? this.status,
-    funds: funds ?? this.funds,
-    balance: balance ?? this.balance,
-    errorMessage: errorMessage,
-    lastActionSuccess: lastActionSuccess ?? this.lastActionSuccess,
-  );
+    @Default(false) bool lastActionSuccess,
+  }) = _FundsState;
 
   List<FundEntity> get availableFunds =>
       funds.where((f) => !f.isSubscribed).toList();
   List<FundEntity> get subscribedFunds =>
       funds.where((f) => f.isSubscribed).toList();
-
-  @override
-  List<Object?> get props => [
-    status,
-    funds,
-    balance,
-    errorMessage,
-    lastActionSuccess,
-  ];
 }

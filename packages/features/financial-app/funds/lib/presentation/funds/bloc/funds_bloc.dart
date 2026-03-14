@@ -28,7 +28,7 @@ class FundsBloc extends Bloc<FundsEvent, FundsState> {
     FundsLoadRequested event,
     Emitter<FundsState> emit,
   ) async {
-    emit(state.copyWith(status: FundsStatus.loading));
+    emit(state.copyWith(status: FundsStatus.loading, errorMessage: null));
     final (funds, fundsFailure) = await _getFunds();
     final (balance, _) = await _getBalance();
     if (fundsFailure != null) {
@@ -45,6 +45,7 @@ class FundsBloc extends Bloc<FundsEvent, FundsState> {
         status: FundsStatus.success,
         funds: funds,
         balance: balance,
+        errorMessage: null,
       ),
     );
   }
@@ -54,7 +55,11 @@ class FundsBloc extends Bloc<FundsEvent, FundsState> {
     Emitter<FundsState> emit,
   ) async {
     emit(
-      state.copyWith(status: FundsStatus.subscribing, lastActionSuccess: false),
+      state.copyWith(
+        status: FundsStatus.subscribing,
+        lastActionSuccess: false,
+        errorMessage: null,
+      ),
     );
     final (_, failure) = await _subscribeFund(
       fundId: event.fundId,
@@ -77,6 +82,7 @@ class FundsBloc extends Bloc<FundsEvent, FundsState> {
         funds: funds,
         balance: balance,
         lastActionSuccess: true,
+        errorMessage: null,
       ),
     );
   }
@@ -86,7 +92,11 @@ class FundsBloc extends Bloc<FundsEvent, FundsState> {
     Emitter<FundsState> emit,
   ) async {
     emit(
-      state.copyWith(status: FundsStatus.canceling, lastActionSuccess: false),
+      state.copyWith(
+        status: FundsStatus.canceling,
+        lastActionSuccess: false,
+        errorMessage: null,
+      ),
     );
     final (_, failure) = await _cancelFund(event.fundId);
     if (failure != null) {
@@ -106,6 +116,7 @@ class FundsBloc extends Bloc<FundsEvent, FundsState> {
         funds: funds,
         balance: balance,
         lastActionSuccess: true,
+        errorMessage: null,
       ),
     );
   }

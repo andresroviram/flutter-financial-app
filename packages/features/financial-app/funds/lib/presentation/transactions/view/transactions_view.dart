@@ -18,7 +18,7 @@ class TransactionsView extends StatefulWidget {
   static Widget create() => BlocProvider(
     create: (_) =>
         TransactionsBloc(getTransactions: getIt<GetTransactionsUseCase>())
-          ..add(const TransactionsLoadRequested()),
+          ..add(const TransactionsEvent.loadRequested()),
     child: const TransactionsView(),
   );
 
@@ -44,7 +44,9 @@ class _TransactionsViewState extends State<TransactionsView> {
     if (!mounted) return;
     final uri = _delegate?.currentConfiguration.uri.path;
     if (uri == TransactionsView.path) {
-      context.read<TransactionsBloc>().add(const TransactionsLoadRequested());
+      context.read<TransactionsBloc>().add(
+        const TransactionsEvent.loadRequested(),
+      );
     }
   }
 
@@ -94,7 +96,7 @@ class _TransactionsViewState extends State<TransactionsView> {
           }
           return RefreshIndicator(
             onRefresh: () async => context.read<TransactionsBloc>().add(
-              const TransactionsLoadRequested(),
+              const TransactionsEvent.loadRequested(),
             ),
             child: ListView.separated(
               padding: const EdgeInsets.symmetric(vertical: 8),
