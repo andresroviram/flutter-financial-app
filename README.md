@@ -15,35 +15,33 @@ La aplicación está desplegada automáticamente en GitHub Pages mediante GitHub
 ### Mobile (Light Theme)
 <br>
 <p align="center">
-<img src="apps/financial-app/screenshots/financial-light-1.png" width="30%">
-<img src="apps/financial-app/screenshots/financial-light-2.png" width="30%">
-<img src="apps/financial-app/screenshots/financial-light-3.png" width="30%">
+<img src="apps/financial-app/screenshots/mobile/financial-light-1.png" width="30%">
+<img src="apps/financial-app/screenshots/mobile/financial-light-2.png" width="30%">
+<img src="apps/financial-app/screenshots/mobile/financial-light-3.png" width="30%">
 </p>
 
 ### Mobile (Dark Theme)
 <br>
 <p align="center">
-<img src="apps/financial-app/screenshots/financial-dark-1.png" width="30%">
-<img src="apps/financial-app/screenshots/financial-dark-2.png" width="30%">
-<img src="apps/financial-app/screenshots/financial-dark-3.png" width="30%">
+<img src="apps/financial-app/screenshots/mobile/financial-dark-1.png" width="30%">
+<img src="apps/financial-app/screenshots/mobile/financial-dark-2.png" width="30%">
+<img src="apps/financial-app/screenshots/mobile/financial-dark-3.png" width="30%">
 </p>
 
 ### Web (Light Theme)
 <br>
 <p align="center">
-<img src="apps/client-app/screenshots/web/Screenshot_19-2-2026_182939_localhost.jpeg" width="45%">
-<img src="apps/client-app/screenshots/web/Screenshot_19-2-2026_183136_localhost.jpeg" width="45%">
-<img src="apps/client-app/screenshots/web/Screenshot_19-2-2026_183254_localhost.jpeg" width="45%">
-<img src="apps/client-app/screenshots/web/Screenshot_19-2-2026_183346_localhost.jpeg" width="45%">
+<img src="apps/financial-app/screenshots/web/financial-web-light-1.jpeg" width="45%">
+<img src="apps/financial-app/screenshots/web/financial-web-light-2.jpeg" width="45%">
+<img src="apps/financial-app/screenshots/web/financial-web-light-3.jpeg" width="45%">
 </p>
 
 ### Web (Dark Theme)
 <br>
 <p align="center">
-<img src="apps/client-app/screenshots/web/Screenshot_19-2-2026_183514_localhost.jpeg" width="45%">
-<img src="apps/client-app/screenshots/web/Screenshot_19-2-2026_183538_localhost.jpeg" width="45%">
-<img src="apps/client-app/screenshots/web/Screenshot_19-2-2026_18369_localhost.jpeg" width="45%">
-<img src="apps/client-app/screenshots/web/Screenshot_19-2-2026_183626_localhost.jpeg" width="45%">
+<img src="apps/financial-app/screenshots/web/financial-web-dark-1.jpeg" width="45%">
+<img src="apps/financial-app/screenshots/web/financial-web-dark-2.jpeg" width="45%">
+<img src="apps/financial-app/screenshots/web/financial-web-dark-3.jpeg" width="45%">
 </p>
 
 ## Stack tecnológico
