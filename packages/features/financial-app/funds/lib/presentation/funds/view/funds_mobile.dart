@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:feature_funds/presentation/funds/bloc/funds_bloc.dart';
 import 'package:feature_funds/presentation/funds/bloc/funds_event.dart';
 import 'package:feature_funds/presentation/funds/bloc/funds_state.dart';
@@ -24,13 +25,17 @@ class FundsMobile extends StatelessWidget {
               children: [
                 const Icon(Icons.error_outline, size: 48),
                 const Gap(16),
-                Text(errorMessage),
+                Text(
+                  errorMessage.isEmpty
+                      ? 'funds.error_loading'.tr()
+                      : errorMessage,
+                ),
                 const Gap(16),
                 FilledButton(
                   onPressed: () => context.read<FundsBloc>().add(
                     const FundsEvent.loadRequested(),
                   ),
-                  child: const Text('Reintentar'),
+                  child: Text('funds.retry'.tr()),
                 ),
               ],
             ),
@@ -40,8 +45,8 @@ class FundsMobile extends StatelessWidget {
                 context.read<FundsBloc>().add(const FundsEvent.loadRequested()),
             child: CustomScrollView(
               slivers: [
-                const SliverAppBar(
-                  title: Text('Mis Fondos'),
+                SliverAppBar(
+                  title: Text('funds.title'.tr()),
                   floating: true,
                   snap: true,
                 ),
@@ -53,7 +58,7 @@ class FundsMobile extends StatelessWidget {
                       const Gap(24),
                       if (state.subscribedFunds.isNotEmpty) ...[
                         SectionTitle(
-                          title: 'Fondos suscritos',
+                          title: 'funds.subscribed'.tr(),
                           count: state.subscribedFunds.length,
                         ),
                         const Gap(8),
@@ -70,7 +75,7 @@ class FundsMobile extends StatelessWidget {
                         const Gap(16),
                       ],
                       SectionTitle(
-                        title: 'Fondos disponibles',
+                        title: 'funds.available'.tr(),
                         count: state.availableFunds.length,
                       ),
                       const Gap(8),

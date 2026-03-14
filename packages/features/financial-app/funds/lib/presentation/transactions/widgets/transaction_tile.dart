@@ -1,6 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:feature_funds/domain/entities/transaction_entity.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class TransactionTile extends StatelessWidget {
   const TransactionTile({super.key, required this.transaction});
@@ -25,8 +25,8 @@ class TransactionTile extends StatelessWidget {
 
     final notifLabel =
         transaction.notificationMethod == NotificationMethod.email
-        ? 'Email'
-        : 'SMS';
+        ? 'funds.dialog.email'.tr()
+        : 'funds.dialog.sms'.tr();
 
     return ListTile(
       leading: CircleAvatar(
@@ -58,7 +58,9 @@ class TransactionTile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Text(
-            isSubscribe ? 'Suscripción' : 'Cancelación',
+            isSubscribe
+                ? 'transactions.subscribe'.tr()
+                : 'transactions.cancel'.tr(),
             style: theme.textTheme.labelSmall?.copyWith(
               color: isSubscribe ? colorScheme.primary : colorScheme.error,
               fontWeight: FontWeight.w600,

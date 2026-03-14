@@ -1,5 +1,6 @@
 import 'package:core/get_it.dart';
 import 'package:core/utils/notifications.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:feature_funds/domain/usecases/funds_usecases.dart';
 import 'package:feature_funds/presentation/funds/bloc/funds_bloc.dart';
 import 'package:feature_funds/presentation/funds/bloc/funds_event.dart';
@@ -34,7 +35,8 @@ class FundsView extends StatelessWidget {
           prev.errorMessage != curr.errorMessage,
       listener: (context, state) {
         if (context.mounted) {
-          if (state.errorMessage != null && state.status == FundsStatus.success) {
+          if (state.errorMessage != null &&
+              state.status == FundsStatus.success) {
             AppNotification.showNotificationError(
               context,
               title: state.errorMessage!,
@@ -43,7 +45,7 @@ class FundsView extends StatelessWidget {
           if (state.lastActionSuccess) {
             AppNotification.showNotification(
               context,
-              title: 'Operación realizada con éxito',
+              title: 'funds.success'.tr(),
             );
           }
         }

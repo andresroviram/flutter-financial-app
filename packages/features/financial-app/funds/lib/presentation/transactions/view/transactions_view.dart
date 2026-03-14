@@ -1,4 +1,5 @@
 import 'package:core/get_it.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:feature_funds/domain/usecases/funds_usecases.dart';
 import 'package:feature_funds/presentation/transactions/bloc/transactions_bloc.dart';
 import 'package:feature_funds/presentation/transactions/bloc/transactions_event.dart';
@@ -60,11 +61,17 @@ class _TransactionsViewState extends State<TransactionsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Historial de transacciones')),
+      appBar: AppBar(title: Text('transactions.title'.tr())),
       body: BlocBuilder<TransactionsBloc, TransactionsState>(
         builder: (context, state) => state.resolve(
           loading: () => const Center(child: CircularProgressIndicator()),
-          failure: (errorMessage) => Center(child: Text(errorMessage)),
+          failure: (errorMessage) => Center(
+            child: Text(
+              errorMessage.isEmpty
+                  ? 'transactions.error_loading'.tr()
+                  : errorMessage,
+            ),
+          ),
           empty: () => Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -76,7 +83,7 @@ class _TransactionsViewState extends State<TransactionsView> {
                 ),
                 const Gap(16),
                 Text(
-                  'Sin transacciones aún',
+                  'transactions.empty'.tr(),
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                     color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),

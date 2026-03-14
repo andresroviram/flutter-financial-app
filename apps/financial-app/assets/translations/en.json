@@ -12,13 +12,27 @@
     "subscribe": "Subscribe",
     "cancel": "Cancel subscription",
     "retry": "Retry",
-    "success": "Operation completed successfully"
+    "success": "Operation completed successfully",
+    "empty": "No funds",
+    "subscribed_badge": "Subscribed",
+    "minimum_amount": "Minimum amount: {}",
+    "error_loading": "Error loading funds",
+    "dialog": {
+      "confirm_title": "Confirm subscription",
+      "fund_label": "Fund: {}",
+      "notification_method": "Notification method:",
+      "email": "Email",
+      "sms": "SMS",
+      "cancel": "Cancel",
+      "confirm": "Confirm"
+    }
   },
   "transactions": {
     "title": "Transaction history",
     "empty": "No transactions yet",
     "subscribe": "Subscription",
-    "cancel": "Cancellation"
+    "cancel": "Cancellation",
+    "error_loading": "Error loading transactions"
   },
   "errors": {
     "no_balance": "Insufficient balance to subscribe to fund",
