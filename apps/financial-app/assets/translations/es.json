@@ -25,6 +25,7 @@
     "unexpected": "Ocurrió un error inesperado",
     "retry": "Reintentar"
   },
+  "dashboard": "Tablero",
   "switch_to_dark": "Cambiar a modo oscuro",
   "switch_to_light": "Cambiar a modo claro",
   "performance_toggle": {
