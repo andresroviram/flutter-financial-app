@@ -177,7 +177,7 @@ melos run run:financial:desktop # macOS
 
 > **Nota:** El `--dart-define=FLAVOR` selecciona qué variables de entorno usa la app en runtime. `build_runner` genera código obfuscado para los 3 entornos simultáneamente; no es necesario regenerar al cambiar de flavor.
 
-### Configuración web (Drift + SQLite)
+### Configuración web (Drift + SQLite) - Esto es Opcional
 
 Antes de ejecutar en web por primera vez:
 
