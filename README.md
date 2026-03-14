@@ -6,7 +6,7 @@ Arquitectura de **monorepo con Melos**, Clean Architecture por feature y soporte
 
 ## 🌐 Demo en vivo
 
-**Web App (client-app):** [https://andresroviram.github.io/flutter-financial-app/](https://andresroviram.github.io/flutter-financial-app/)
+**Web App (financial-app):** [https://andresroviram.github.io/flutter-financial-app/](https://andresroviram.github.io/flutter-financial-app/)
 
 La aplicación está desplegada automáticamente en GitHub Pages mediante GitHub Actions.
 
