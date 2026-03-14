@@ -13,12 +13,14 @@ class ScaffoldWithNavigation extends StatelessWidget {
     required this.logoPath,
     this.logoDarkPath,
     required this.navigationItems,
+    this.appBarActions,
   });
 
   final StatefulNavigationShell navigationShell;
   final String logoPath;
   final String? logoDarkPath;
   final List<NavigationItem> navigationItems;
+  final List<Widget>? appBarActions;
 
   @override
   Widget build(BuildContext context) {
@@ -32,18 +34,21 @@ class ScaffoldWithNavigation extends StatelessWidget {
         logoPath: logoPath,
         logoDarkPath: logoDarkPath,
         navigationItems: navigationItems,
+        appBarActions: appBarActions,
       ),
       TABLET => _ScaffoldWithDrawer(
         navigationShell,
         scaffoldDrawerKey,
         logoPath: logoPath,
         navigationItems: navigationItems,
+        appBarActions: appBarActions,
       ),
       (_) => _ScaffoldWithNavigationRail(
         navigationShell,
         scaffoldDrawerKey,
         logoPath: logoPath,
         navigationItems: navigationItems,
+        appBarActions: appBarActions,
       ),
     };
   }
@@ -55,19 +60,21 @@ class _ScaffoldWithNavigationRail extends StatelessWidget {
     this.scaffoldDrawerKey, {
     required this.logoPath,
     required this.navigationItems,
+    this.appBarActions,
   });
 
   final StatefulNavigationShell navigationShell;
   final GlobalKey<ScaffoldState>? scaffoldDrawerKey;
   final String logoPath;
   final List<NavigationItem> navigationItems;
+  final List<Widget>? appBarActions;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     return Scaffold(
-      appBar: NavigationAppBar(scaffoldDrawerKey: scaffoldDrawerKey),
+      appBar: NavigationAppBar(scaffoldDrawerKey: scaffoldDrawerKey, actions: appBarActions),
       key: scaffoldDrawerKey,
       drawer: Drawer(
         child: Column(
@@ -130,17 +137,19 @@ class _ScaffoldWithDrawer extends StatelessWidget {
     this.scaffoldDrawerKey, {
     required this.logoPath,
     required this.navigationItems,
+    this.appBarActions,
   });
 
   final StatefulNavigationShell navigationShell;
   final GlobalKey<ScaffoldState>? scaffoldDrawerKey;
   final String logoPath;
   final List<NavigationItem> navigationItems;
+  final List<Widget>? appBarActions;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: NavigationAppBar(scaffoldDrawerKey: scaffoldDrawerKey),
+      appBar: NavigationAppBar(scaffoldDrawerKey: scaffoldDrawerKey, actions: appBarActions),
       body: navigationShell,
       key: scaffoldDrawerKey,
       drawer: Drawer(
@@ -272,6 +281,7 @@ class _ScaffoldWithNavigationBar extends StatelessWidget {
     required this.logoPath,
     this.logoDarkPath,
     required this.navigationItems,
+    this.appBarActions,
   });
 
   final StatefulNavigationShell navigationShell;
@@ -279,11 +289,12 @@ class _ScaffoldWithNavigationBar extends StatelessWidget {
   final String logoPath;
   final String? logoDarkPath;
   final List<NavigationItem> navigationItems;
+  final List<Widget>? appBarActions;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: NavigationAppBar(scaffoldDrawerKey: scaffoldDrawerKey),
+      appBar: NavigationAppBar(scaffoldDrawerKey: scaffoldDrawerKey, actions: appBarActions),
       key: scaffoldDrawerKey,
       body: navigationShell,
       drawer: Drawer(

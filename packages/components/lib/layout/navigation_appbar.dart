@@ -7,8 +7,9 @@ import 'package:gap/gap.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 class NavigationAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const NavigationAppBar({super.key, this.scaffoldDrawerKey});
+  const NavigationAppBar({super.key, this.scaffoldDrawerKey, this.actions});
   final GlobalKey<ScaffoldState>? scaffoldDrawerKey;
+  final List<Widget>? actions;
 
   @override
   Widget build(BuildContext context) {
@@ -47,9 +48,8 @@ class NavigationAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       centerTitle: true,
-      actions: [
+      actions: actions ?? [
         PerformanceToggleButton(),
-
         const ThemeModeButton.icon(),
         const LanguageSwitcherButton(),
         const Gap(2),
