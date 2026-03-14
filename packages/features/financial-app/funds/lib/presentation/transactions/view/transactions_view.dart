@@ -3,6 +3,7 @@ import 'package:feature_funds/domain/usecases/funds_usecases.dart';
 import 'package:feature_funds/presentation/transactions/bloc/transactions_bloc.dart';
 import 'package:feature_funds/presentation/transactions/bloc/transactions_event.dart';
 import 'package:feature_funds/presentation/transactions/bloc/transactions_state.dart';
+import 'package:feature_funds/presentation/transactions/bloc/transactions_state_x.dart';
 import 'package:feature_funds/presentation/transactions/widgets/transaction_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -61,52 +62,41 @@ class _TransactionsViewState extends State<TransactionsView> {
     return Scaffold(
       appBar: AppBar(title: const Text('Historial de transacciones')),
       body: BlocBuilder<TransactionsBloc, TransactionsState>(
-        builder: (context, state) {
-          if (state.status == TransactionsStatus.loading ||
-              state.status == TransactionsStatus.initial) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (state.status == TransactionsStatus.failure) {
-            return Center(
-              child: Text(
-                state.errorMessage ?? 'Error al cargar transacciones',
-              ),
-            );
-          }
-          if (state.transactions.isEmpty) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.receipt_long_outlined,
-                    size: 64,
+        builder: (context, state) => state.resolve(
+          loading: () => const Center(child: CircularProgressIndicator()),
+          failure: (errorMessage) => Center(child: Text(errorMessage)),
+          empty: () => Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.receipt_long_outlined,
+                  size: 64,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+                const Gap(16),
+                Text(
+                  'Sin transacciones aún',
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                     color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
-                  const Gap(16),
-                  Text(
-                    'Sin transacciones aún',
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    ),
-                  ),
-                ],
-              ),
-            );
-          }
-          return RefreshIndicator(
+                ),
+              ],
+            ),
+          ),
+          data: (transactions) => RefreshIndicator(
             onRefresh: () async => context.read<TransactionsBloc>().add(
               const TransactionsEvent.loadRequested(),
             ),
             child: ListView.separated(
               padding: const EdgeInsets.symmetric(vertical: 8),
-              itemCount: state.transactions.length,
+              itemCount: transactions.length,
               separatorBuilder: (_, _) => const Divider(height: 1, indent: 72),
               itemBuilder: (_, i) =>
-                  TransactionTile(transaction: state.transactions[i]),
+                  TransactionTile(transaction: transactions[i]),
             ),
-          );
-        },
+          ),
+        ),
       ),
     );
   }
