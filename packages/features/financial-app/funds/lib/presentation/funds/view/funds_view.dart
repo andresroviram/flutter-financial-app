@@ -1,4 +1,5 @@
 import 'package:core/get_it.dart';
+import 'package:core/utils/notifications.dart';
 import 'package:feature_funds/domain/usecases/funds_usecases.dart';
 import 'package:feature_funds/presentation/funds/bloc/funds_bloc.dart';
 import 'package:feature_funds/presentation/funds/bloc/funds_event.dart';
@@ -32,23 +33,19 @@ class FundsView extends StatelessWidget {
           prev.lastActionSuccess != curr.lastActionSuccess ||
           prev.errorMessage != curr.errorMessage,
       listener: (context, state) {
-        if (state.errorMessage != null && state.status == FundsStatus.success) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.errorMessage!),
-              backgroundColor: Theme.of(context).colorScheme.error,
-              behavior: SnackBarBehavior.floating,
-            ),
-          );
-        }
-        if (state.lastActionSuccess) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Operación realizada con éxito'),
-              backgroundColor: Colors.green,
-              behavior: SnackBarBehavior.floating,
-            ),
-          );
+        if (context.mounted) {
+          if (state.errorMessage != null && state.status == FundsStatus.success) {
+            AppNotification.showNotificationError(
+              context,
+              title: state.errorMessage!,
+            );
+          }
+          if (state.lastActionSuccess) {
+            AppNotification.showNotification(
+              context,
+              title: 'Operación realizada con éxito',
+            );
+          }
         }
       },
       child: ResponsiveBreakpoints.of(context).largerThan(MOBILE)
