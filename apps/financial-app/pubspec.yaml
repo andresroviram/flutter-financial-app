@@ -53,10 +53,13 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  integration_test:
+    sdk: flutter
   flutter_lints: ^6.0.0
   flutter_launcher_icons: ^0.14.3
   mocktail: ^1.0.4
   bloc_test: ^10.0.0
+  shared_preferences: ^2.3.0
   build_runner: ^2.10.5
   injectable_generator: ^2.9.0
   drift_dev: ^2.24.0

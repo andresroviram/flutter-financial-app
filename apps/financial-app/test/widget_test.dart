@@ -1,7 +1,47 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:financial_app/app.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shared_preferences_platform_interface/in_memory_shared_preferences_async.dart';
+import 'package:shared_preferences_platform_interface/shared_preferences_async_platform_interface.dart';
 
 void main() {
-  testWidgets('placeholder test', (WidgetTester tester) async {
-    expect(true, isTrue);
+  setUpAll(() async {
+    SharedPreferences.setMockInitialValues({});
+    await EasyLocalization.ensureInitialized();
+  });
+
+  setUp(() {
+    SharedPreferences.setMockInitialValues({});
+    SharedPreferencesAsyncPlatform.instance =
+        InMemorySharedPreferencesAsync.empty();
+
+    if (!GetIt.instance.isRegistered<GoRouter>()) {
+      GetIt.instance.registerSingleton<GoRouter>(
+        GoRouter(
+          routes: [GoRoute(path: '/', builder: (_, __) => const SizedBox())],
+        ),
+      );
+    }
+  });
+
+  tearDown(() async {
+    await GetIt.instance.reset();
+  });
+
+  testWidgets('App arranca y renderiza MaterialApp', (tester) async {
+    await tester.pumpWidget(
+      EasyLocalization(
+        supportedLocales: const [Locale('es'), Locale('en')],
+        path: 'assets/translations',
+        fallbackLocale: const Locale('es'),
+        child: const App(),
+      ),
+    );
+
+    expect(find.byType(MaterialApp), findsOneWidget);
   });
 }

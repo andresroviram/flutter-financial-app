@@ -86,6 +86,77 @@
                 "panel": "shared"
             },
             "problemMatcher": []
+        },
+        {
+            "label": "financial-app: test:all",
+            "type": "shell",
+            "command": "cd apps/financial-app && flutter test test",
+            "group": "test",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "financial-app: test:widgets",
+            "type": "shell",
+            "command": "cd apps/financial-app && flutter test test/features/funds/widgets test/features/funds/view test/widget_test.dart",
+            "group": "test",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "financial-app: test:bloc",
+            "type": "shell",
+            "command": "cd apps/financial-app && flutter test test/features/funds/bloc",
+            "group": "test",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "financial-app: test:integration:macos",
+            "type": "shell",
+            "command": "cd apps/financial-app && flutter test integration_test/app_test.dart -d macos -r compact",
+            "group": "test",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "financial-app: test:integration:chrome",
+            "type": "shell",
+            "command": "cd apps/financial-app && flutter test integration_test/app_test.dart -d chrome -r compact",
+            "group": "test",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "financial-app: test:ci:macos",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "financial-app: test:bloc",
+                "financial-app: test:widgets",
+                "financial-app: test:integration:macos"
+            ],
+            "group": "test",
+            "problemMatcher": []
         }
     ]
 }
