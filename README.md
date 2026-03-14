@@ -62,7 +62,6 @@ La aplicación está desplegada automáticamente en GitHub Pages mediante GitHub
 - adaptive_theme
 - bot_toast
 - cached_network_image
-- [REST Countries API](https://restcountries.com/)
 
 ## Clean Architecture
 
