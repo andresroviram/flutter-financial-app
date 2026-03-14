@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:core/errors/result.dart';
 import 'package:feature_funds/domain/usecases/funds_usecases.dart';
 import 'package:feature_funds/presentation/funds/bloc/funds_event.dart';
 import 'package:feature_funds/presentation/funds/bloc/funds_state.dart';
@@ -29,23 +30,22 @@ class FundsBloc extends Bloc<FundsEvent, FundsState> {
     Emitter<FundsState> emit,
   ) async {
     emit(state.copyWith(status: FundsStatus.loading, errorMessage: null));
-    final (funds, fundsFailure) = await _getFunds();
-    final (balance, _) = await _getBalance();
-    if (fundsFailure != null) {
-      emit(
+    final fundsResult = await _getFunds();
+    final balanceResult = await _getBalance();
+    fundsResult.fold(
+      onSuccess: (funds) => emit(
+        state.copyWith(
+          status: FundsStatus.success,
+          funds: funds,
+          balance: balanceResult.valueOrNull ?? state.balance,
+          errorMessage: null,
+        ),
+      ),
+      onFailure: (failure) => emit(
         state.copyWith(
           status: FundsStatus.failure,
-          errorMessage: fundsFailure.message,
+          errorMessage: failure.message,
         ),
-      );
-      return;
-    }
-    emit(
-      state.copyWith(
-        status: FundsStatus.success,
-        funds: funds,
-        balance: balance,
-        errorMessage: null,
       ),
     );
   }
@@ -61,28 +61,29 @@ class FundsBloc extends Bloc<FundsEvent, FundsState> {
         errorMessage: null,
       ),
     );
-    final (_, failure) = await _subscribeFund(
+    final result = await _subscribeFund(
       fundId: event.fundId,
       notificationMethod: event.notificationMethod,
     );
-    if (failure != null) {
-      emit(
+    await result.fold(
+      onSuccess: (_) async {
+        final fundsResult = await _getFunds();
+        final balanceResult = await _getBalance();
+        emit(
+          state.copyWith(
+            status: FundsStatus.success,
+            funds: fundsResult.valueOrNull ?? state.funds,
+            balance: balanceResult.valueOrNull ?? state.balance,
+            lastActionSuccess: true,
+            errorMessage: null,
+          ),
+        );
+      },
+      onFailure: (failure) async => emit(
         state.copyWith(
           status: FundsStatus.success,
           errorMessage: failure.message,
         ),
-      );
-      return;
-    }
-    final (funds, _) = await _getFunds();
-    final (balance, _) = await _getBalance();
-    emit(
-      state.copyWith(
-        status: FundsStatus.success,
-        funds: funds,
-        balance: balance,
-        lastActionSuccess: true,
-        errorMessage: null,
       ),
     );
   }
@@ -98,25 +99,26 @@ class FundsBloc extends Bloc<FundsEvent, FundsState> {
         errorMessage: null,
       ),
     );
-    final (_, failure) = await _cancelFund(event.fundId);
-    if (failure != null) {
-      emit(
+    final result = await _cancelFund(event.fundId);
+    await result.fold(
+      onSuccess: (_) async {
+        final fundsResult = await _getFunds();
+        final balanceResult = await _getBalance();
+        emit(
+          state.copyWith(
+            status: FundsStatus.success,
+            funds: fundsResult.valueOrNull ?? state.funds,
+            balance: balanceResult.valueOrNull ?? state.balance,
+            lastActionSuccess: true,
+            errorMessage: null,
+          ),
+        );
+      },
+      onFailure: (failure) async => emit(
         state.copyWith(
           status: FundsStatus.success,
           errorMessage: failure.message,
         ),
-      );
-      return;
-    }
-    final (funds, _) = await _getFunds();
-    final (balance, _) = await _getBalance();
-    emit(
-      state.copyWith(
-        status: FundsStatus.success,
-        funds: funds,
-        balance: balance,
-        lastActionSuccess: true,
-        errorMessage: null,
       ),
     );
   }

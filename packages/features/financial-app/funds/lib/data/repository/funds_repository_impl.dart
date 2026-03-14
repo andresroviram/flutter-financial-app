@@ -1,4 +1,5 @@
 import 'package:core/errors/error.dart';
+import 'package:core/errors/result.dart';
 import 'package:feature_funds/data/datasources/funds_local_datasource.dart';
 import 'package:feature_funds/domain/entities/fund_entity.dart';
 import 'package:feature_funds/domain/entities/transaction_entity.dart';
@@ -11,52 +12,52 @@ class FundsRepositoryImpl implements IFundsRepository {
   final IFundsLocalDatasource _datasource;
 
   @override
-  Future<(List<FundEntity>, Failure?)> getFunds() async {
+  Future<Result<List<FundEntity>>> getFunds() async {
     try {
-      return (await _datasource.getFunds(), null);
+      return Success(await _datasource.getFunds());
     } catch (e) {
-      return (<FundEntity>[], UnknownFailure(message: e.toString()));
+      return Error(UnknownFailure(message: e.toString()));
     }
   }
 
   @override
-  Future<(int, Failure?)> getBalance() async {
+  Future<Result<int>> getBalance() async {
     try {
-      return (await _datasource.getBalance(), null);
+      return Success(await _datasource.getBalance());
     } catch (e) {
-      return (0, UnknownFailure(message: e.toString()));
+      return Error(UnknownFailure(message: e.toString()));
     }
   }
 
   @override
-  Future<(void, Failure?)> subscribeFund({
+  Future<Result<void>> subscribeFund({
     required String fundId,
     required NotificationMethod notificationMethod,
   }) async {
     try {
       await _datasource.subscribeFund(fundId, notificationMethod);
-      return (null, null);
+      return const Success(null);
     } catch (e) {
-      return (null, UnknownFailure(message: e.toString()));
+      return Error(UnknownFailure(message: e.toString()));
     }
   }
 
   @override
-  Future<(void, Failure?)> cancelFund(String fundId) async {
+  Future<Result<void>> cancelFund(String fundId) async {
     try {
       await _datasource.cancelFund(fundId);
-      return (null, null);
+      return const Success(null);
     } catch (e) {
-      return (null, UnknownFailure(message: e.toString()));
+      return Error(UnknownFailure(message: e.toString()));
     }
   }
 
   @override
-  Future<(List<TransactionEntity>, Failure?)> getTransactions() async {
+  Future<Result<List<TransactionEntity>>> getTransactions() async {
     try {
-      return (await _datasource.getTransactions(), null);
+      return Success(await _datasource.getTransactions());
     } catch (e) {
-      return (<TransactionEntity>[], UnknownFailure(message: e.toString()));
+      return Error(UnknownFailure(message: e.toString()));
     }
   }
 }
