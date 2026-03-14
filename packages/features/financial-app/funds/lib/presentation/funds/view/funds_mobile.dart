@@ -3,6 +3,7 @@ import 'package:feature_funds/presentation/funds/bloc/funds_event.dart';
 import 'package:feature_funds/presentation/funds/bloc/funds_state.dart';
 import 'package:feature_funds/presentation/funds/widgets/balance_header.dart';
 import 'package:feature_funds/presentation/funds/widgets/fund_card.dart';
+import 'package:feature_funds/presentation/funds/widgets/section_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -39,9 +40,7 @@ class FundsMobile extends StatelessWidget {
           }
           return RefreshIndicator(
             onRefresh: () async =>
-                context.read<FundsBloc>().add(
-                  const FundsEvent.loadRequested(),
-                ),
+                context.read<FundsBloc>().add(const FundsEvent.loadRequested()),
             child: CustomScrollView(
               slivers: [
                 const SliverAppBar(
@@ -56,7 +55,7 @@ class FundsMobile extends StatelessWidget {
                       BalanceHeader(balance: state.balance),
                       const Gap(24),
                       if (state.subscribedFunds.isNotEmpty) ...[
-                        _SectionTitle(
+                        SectionTitle(
                           title: 'Fondos suscritos',
                           count: state.subscribedFunds.length,
                         ),
@@ -73,7 +72,7 @@ class FundsMobile extends StatelessWidget {
                         ),
                         const Gap(16),
                       ],
-                      _SectionTitle(
+                      SectionTitle(
                         title: 'Fondos disponibles',
                         count: state.availableFunds.length,
                       ),
@@ -101,41 +100,6 @@ class FundsMobile extends StatelessWidget {
           );
         },
       ),
-    );
-  }
-}
-
-class _SectionTitle extends StatelessWidget {
-  const _SectionTitle({required this.title, required this.count});
-  final String title;
-  final int count;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Row(
-      children: [
-        Text(
-          title,
-          style: theme.textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        const Gap(8),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-          decoration: BoxDecoration(
-            color: theme.colorScheme.primaryContainer,
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Text(
-            '$count',
-            style: theme.textTheme.labelSmall?.copyWith(
-              color: theme.colorScheme.onPrimaryContainer,
-            ),
-          ),
-        ),
-      ],
     );
   }
 }
