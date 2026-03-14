@@ -48,12 +48,14 @@ class NavigationAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       centerTitle: true,
-      actions: actions ?? [
-        PerformanceToggleButton(),
-        const ThemeModeButton.icon(),
-        const LanguageSwitcherButton(),
-        const Gap(2),
-      ],
+      actions:
+          actions ??
+          [
+            PerformanceToggleButton(),
+            const ThemeModeButton.icon(),
+            const LanguageSwitcherButton(),
+            const Gap(2),
+          ],
     );
   }
 

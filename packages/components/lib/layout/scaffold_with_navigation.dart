@@ -74,7 +74,10 @@ class _ScaffoldWithNavigationRail extends StatelessWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     return Scaffold(
-      appBar: NavigationAppBar(scaffoldDrawerKey: scaffoldDrawerKey, actions: appBarActions),
+      appBar: NavigationAppBar(
+        scaffoldDrawerKey: scaffoldDrawerKey,
+        actions: appBarActions,
+      ),
       key: scaffoldDrawerKey,
       drawer: Drawer(
         child: Column(
@@ -149,7 +152,10 @@ class _ScaffoldWithDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: NavigationAppBar(scaffoldDrawerKey: scaffoldDrawerKey, actions: appBarActions),
+      appBar: NavigationAppBar(
+        scaffoldDrawerKey: scaffoldDrawerKey,
+        actions: appBarActions,
+      ),
       body: navigationShell,
       key: scaffoldDrawerKey,
       drawer: Drawer(
@@ -294,7 +300,10 @@ class _ScaffoldWithNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: NavigationAppBar(scaffoldDrawerKey: scaffoldDrawerKey, actions: appBarActions),
+      appBar: NavigationAppBar(
+        scaffoldDrawerKey: scaffoldDrawerKey,
+        actions: appBarActions,
+      ),
       key: scaffoldDrawerKey,
       body: navigationShell,
       drawer: Drawer(
