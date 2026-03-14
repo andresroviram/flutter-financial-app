@@ -4,8 +4,7 @@ extension FundsStateX on FundsState {
   bool get isLoading =>
       status == FundsStatus.initial || status == FundsStatus.loading;
 
-  bool get hasFailure =>
-      status == FundsStatus.failure && errorMessage != null;
+  bool get hasFailure => status == FundsStatus.failure && errorMessage != null;
 
   T resolve<T>({
     required T Function() loading,
