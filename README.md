@@ -79,17 +79,6 @@ Cada feature implementa Clean Architecture con tres capas:
 ```
 flutter_wigilabs_sr/            # Workspace raíz (Melos)
 ├── apps/
-│   ├── client-app/             # Explorador de países de Europa
-│   │   ├── lib/
-│   │   │   ├── main.dart
-│   │   │   ├── app.dart
-│   │   │   └── config/
-│   │   │       ├── database/    # Drift: AppDatabase (WishlistTable)
-│   │   │       ├── env/         # Flavors + Envied (dev/qa/prod)
-│   │   │       ├── injectable/  # DI con GetIt
-│   │   │       ├── routes/      # go_router
-│   │   │       └── theme/       # Temas claro/oscuro
-│   │   └── web/                 # Entrypoints y assets web
 │   └── financial-app/          # Gestión de Fondos BTG (FPV/FIC)
 │       ├── lib/
 │       │   ├── main.dart
@@ -113,13 +102,9 @@ flutter_wigilabs_sr/            # Workspace raíz (Melos)
 │   │       ├── network/         # Cliente Dio e interceptores
 │   │       ├── performance/     # Detección de janks
 │   │       └── utils/
-│   │           └── isolates/    # CountryIsolateUtils (compute)
+│   │           └── isolates/
 │   ├── components/              # Widgets reutilizables y temas
 │   └── features/
-│       ├── client-app/          # Features de client-app
-│       │   ├── home/            # Listado y detalle de países
-│       │   ├── wishlist/        # Lista de deseos (favoritos)
-│       │   └── settings/        # Idioma, tema y performance toggle
 │       └── financial-app/       # Features de financial-app
 │           └── funds/           # Fondos BTG: suscripción, cancelación, historial
 │               └── lib/
@@ -150,20 +135,16 @@ dart pub global activate melos
 melos bootstrap
 
 # 4. Crear los archivos de entorno por flavor (basados en el template)
-cp apps/client-app/.env.example apps/client-app/.env.dev
-cp apps/client-app/.env.example apps/client-app/.env.qa
-cp apps/client-app/.env.example apps/client-app/.env.prod
-
 cp apps/financial-app/.env.example apps/financial-app/.env.dev
 cp apps/financial-app/.env.example apps/financial-app/.env.qa
 cp apps/financial-app/.env.example apps/financial-app/.env.prod
 # Edita cada archivo con las URLs y API keys correspondientes
 
 # 5. Generar código (build_runner lee los 3 archivos .env.* a la vez)
-melos run build:all
+melos run build:financial-all
 
 # 6a. Ejecutar client-app con el flavor deseado
-cd apps/client-app
+cd apps/financial-app
 flutter run --dart-define=FLAVOR=dev    # DEV  – banner verde
 flutter run --dart-define=FLAVOR=qa     # QA   – banner naranja
 flutter run --dart-define=FLAVOR=prod   # PROD – sin banner
@@ -194,14 +175,13 @@ chmod +x scripts/setup_web.sh
 | Comando                            | Descripción                                           |
 |------------------------------------|-------------------------------------------------------|
 | `melos bootstrap`                  | Instala dependencias de todos los packages            |
-| `melos run build:all`              | Genera código en orden secuencial (core → features → apps) |
+| `melos run build:financial-all`    | Genera código en orden secuencial (core → features → apps) |
 | `melos run build:feature_funds`    | Genera código en feature_funds (Drift + injectable)   |
 | `melos run build:financial-app`    | Genera código en financial-app (injectable, envied)   |
-| `melos run build:web-worker`       | Recompila drift worker de client-app                  |
 | `melos run build:web-worker:financial` | Recompila drift worker de financial-app           |
 | `melos run build:watch`            | build_runner en modo watch                            |
-| `melos run format`                 | Verifica formato (excluye archivos generados)          |
-| `melos run format:fix`             | Aplica formato (excluye archivos generados)            |
+| `melos run format`                 | Verifica formato (excluye archivos generados)         |
+| `melos run format:fix`             | Aplica formato (excluye archivos generados)           |
 | `melos run analyze`                | Análisis estático en todos los packages               |
 | `melos run analyze:changed`        | Análisis solo de packages modificados vs main         |
 | `melos run test`                   | Ejecuta todos los tests                               |
@@ -209,9 +189,6 @@ chmod +x scripts/setup_web.sh
 | `melos run test:changed`           | Tests solo de packages modificados vs main            |
 | `melos run clean:generated`        | Elimina archivos .g.dart y .freezed.dart              |
 | `melos run ci`                     | Pipeline completo: analyze + format + test            |
-| `melos run run:mobile`             | Lanza client-app en iOS/Android                       |
-| `melos run run:web`                | Lanza client-app en Chrome (puerto 4000)              |
-| `melos run run:desktop`            | Lanza client-app en macOS Desktop                     |
 | `melos run run:financial:mobile`   | Lanza financial-app en iOS/Android                    |
 | `melos run run:financial:web`      | Lanza financial-app en Chrome (puerto 4002)           |
 | `melos run run:financial:desktop`  | Lanza financial-app en macOS Desktop                  |
@@ -230,10 +207,6 @@ Cada app tiene sus propios archivos de entorno:
 
 | Archivo | Leído por |
 |---------|----------|
-| `apps/client-app/.env.dev` | `EnvDev` (client-app) |
-| `apps/client-app/.env.qa` | `EnvQa` (client-app) |
-| `apps/client-app/.env.prod` | `EnvProd` (client-app) |
-
 | `apps/financial-app/.env.dev` | `EnvDev` (financial-app) |
 | `apps/financial-app/.env.qa` | `EnvQa` (financial-app) |
 | `apps/financial-app/.env.prod` | `EnvProd` (financial-app) |
@@ -288,20 +261,6 @@ Crear en **App Settings → Environment variables**:
 | `codecov` | `CODECOV_TOKEN` |
 
 ## Features
-
-### client-app – Explorador de países
-- 🌍 Explorador de países de Europa
-- 🔍 Búsqueda y filtrado de países
-- ❤️ Lista de deseos (wishlist) con persistencia local
-- 💾 Almacenamiento local con Drift (SQLite – web & mobile)
-- 🌐 Soporte multi-idioma (Español/Inglés)
-- 🎨 Tema claro/oscuro adaptativo
-- 📱 Diseño responsive (Mobile, Tablet, Web, Desktop)
-- ⚡ Caché de imágenes
-- 🔄 Manejo de estados con BLoC
-- 🌐 Peticiones HTTP con Dio e interceptores
-- ⚠️ Manejo robusto de excepciones y errores
-- 🚀 Optimización de performance (detección y prevención de janks con isolates)
 
 ### financial-app – Gestión de Fondos BTG
 - 💼 Visualización de fondos disponibles (FPV/FIC)

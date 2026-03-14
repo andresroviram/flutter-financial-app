@@ -5,13 +5,9 @@ environment:
   sdk: ^3.8.0
 
 workspace:
-  - apps/client-app
   - apps/financial-app
   - packages/core
   - packages/components
-  - packages/features/client-app/home
-  - packages/features/client-app/wishlist
-  - packages/features/client-app/settings
   - packages/features/financial-app/funds
 
 dev_dependencies:
@@ -58,10 +54,6 @@ melos:
       concurrency: 1
       description: Aplica correcciones automáticas de lint (incluye directives_ordering, etc.) en todos los packages.
 
-    build:all:
-      run: melos run build:core && melos run build:feature_home && melos run build:feature_wishlist && melos run build:feature_funds && melos run build:app && melos run build:financial-app && melos run build:web-worker && melos run build:web-worker:financial
-      description: Genera código en todos los packages en orden secuencial y recompila el web worker.
-
     build:financial-all:
       run: melos run build:core && melos run build:feature_funds && melos run build:financial-app && melos run build:web-worker:financial
       description: Genera código solo para financial-app y sus dependencias (sin client-app).
@@ -72,39 +64,17 @@ melos:
         scope: core
       description: Genera código en el package core (drift, injectable, freezed).
 
-    build:feature_home:
-      exec: dart run build_runner build --delete-conflicting-outputs
-      packageFilters:
-        scope: feature_home
-      description: Genera código en feature_home.
-
-    build:feature_wishlist:
-      exec: dart run build_runner build --delete-conflicting-outputs
-      packageFilters:
-        scope: feature_wishlist
-      description: Genera código en feature_wishlist (depende de feature_home).
-
     build:feature_funds:
       exec: dart run build_runner build --delete-conflicting-outputs
       packageFilters:
         scope: feature_funds
       description: Genera código en feature_funds (drift, injectable).
 
-    build:app:
-      exec: dart run build_runner build --delete-conflicting-outputs
-      packageFilters:
-        scope: flutter_wigilabs_sr
-      description: Genera código en la app principal.
-
     build:financial-app:
       exec: dart run build_runner build --delete-conflicting-outputs
       packageFilters:
         scope: financial_app
       description: Genera código en la financial app (injectable, envied).
-
-    build:web-worker:
-      run: cd apps/client-app && dart compile js -O1 -o web/drift_worker.dart.js web/drift_worker.dart
-      description: Recompila el web worker de Drift para client-app.
 
     build:web-worker:financial:
       run: cd apps/financial-app && dart compile js -O1 -o web/drift_worker.dart.js web/drift_worker.dart
@@ -149,18 +119,6 @@ melos:
         dirExists: test
         diff: origin/main
       description: Ejecuta tests solo de los packages que cambiaron.
-
-    run:mobile:
-      run: cd $MELOS_ROOT_PATH/apps/client-app && flutter run
-      description: Lanza la app en el simulador o dispositivo móvil.
-
-    run:web:
-      run: cd $MELOS_ROOT_PATH/apps/client-app && flutter run -d chrome --web-port 4000
-      description: Lanza la app en Chrome.
-
-    run:desktop:
-      run: cd $MELOS_ROOT_PATH/apps/client-app && flutter run -d macos
-      description: Lanza la app en macOS Desktop.
 
     run:financial:mobile:
       run: cd $MELOS_ROOT_PATH/apps/financial-app && flutter run
