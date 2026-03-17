@@ -95,7 +95,7 @@ flutter_wigilabs_sr/            # Workspace raíz (Melos)
 │   │   └── lib/
 │   │       ├── constants/       # Constantes globales
 │   │       ├── database/        # Drift: conexión web/mobile
-│   │       ├── entities/        # Entidades globales (CountryEntity…)
+│   │       ├── entities/        # Entidades globales
 │   │       ├── enum/            # Enums compartidos
 │   │       ├── env/             # Interfaz IEnvConfig
 │   │       ├── errors/          # Failures y manejo de errores
