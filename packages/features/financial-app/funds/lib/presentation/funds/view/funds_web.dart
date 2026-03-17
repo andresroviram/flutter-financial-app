@@ -16,6 +16,11 @@ class FundsWeb extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocBuilder<FundsBloc, FundsState>(
+        buildWhen: (prev, curr) =>
+            prev.status != curr.status ||
+            prev.funds != curr.funds ||
+            prev.balance != curr.balance ||
+            prev.errorMessage != curr.errorMessage,
         builder: (context, state) => state.resolve(
           loading: () => const Center(child: CircularProgressIndicator()),
           failure: (errorMessage) => Center(
