@@ -1,4 +1,4 @@
-import 'package:core/errors/error.dart';
+import 'package:core/errors/result.dart';
 import 'package:feature_funds/domain/entities/fund_entity.dart';
 import 'package:feature_funds/domain/entities/transaction_entity.dart';
 import 'package:feature_funds/domain/repository/i_funds_repository.dart';
@@ -8,21 +8,21 @@ import 'package:injectable/injectable.dart';
 class GetFundsUseCase {
   const GetFundsUseCase(this._repository);
   final IFundsRepository _repository;
-  Future<(List<FundEntity>, Failure?)> call() => _repository.getFunds();
+  Future<Result<List<FundEntity>>> call() => _repository.getFunds();
 }
 
 @injectable
 class GetBalanceUseCase {
   const GetBalanceUseCase(this._repository);
   final IFundsRepository _repository;
-  Future<(int, Failure?)> call() => _repository.getBalance();
+  Future<Result<int>> call() => _repository.getBalance();
 }
 
 @injectable
 class SubscribeFundUseCase {
   const SubscribeFundUseCase(this._repository);
   final IFundsRepository _repository;
-  Future<(void, Failure?)> call({
+  Future<Result<void>> call({
     required String fundId,
     required NotificationMethod notificationMethod,
   }) => _repository.subscribeFund(
@@ -35,14 +35,13 @@ class SubscribeFundUseCase {
 class CancelFundUseCase {
   const CancelFundUseCase(this._repository);
   final IFundsRepository _repository;
-  Future<(void, Failure?)> call(String fundId) =>
-      _repository.cancelFund(fundId);
+  Future<Result<void>> call(String fundId) => _repository.cancelFund(fundId);
 }
 
 @injectable
 class GetTransactionsUseCase {
   const GetTransactionsUseCase(this._repository);
   final IFundsRepository _repository;
-  Future<(List<TransactionEntity>, Failure?)> call() =>
+  Future<Result<List<TransactionEntity>>> call() =>
       _repository.getTransactions();
 }
