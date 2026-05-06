@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_wigilabs_sr/modules/wishlist/presentation/view/wishlist_view.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
-import '../../../home/presentation/country_detail/view/country_detail_view.dart';
 import '../bloc/wishlist_bloc.dart';
 import '../widgets/empty_wishlist.dart';
 import '../widgets/wishlist_card.dart';
