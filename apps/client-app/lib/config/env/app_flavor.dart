@@ -5,13 +5,11 @@ final AppFlavor kFlavor = AppFlavor.values.byName(
 );
 
 extension AppFlavorX on AppFlavor {
-
   String get label => switch (this) {
     AppFlavor.dev => 'DEV',
     AppFlavor.qa => 'QA',
     AppFlavor.prod => 'PROD',
   };
-
 
   bool get showBanner => this != AppFlavor.prod;
 
