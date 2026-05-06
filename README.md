@@ -48,6 +48,7 @@ La aplicación está desplegada automáticamente en GitHub Pages mediante GitHub
 
 - Clean Architecture
 - BLoC (flutter_bloc)
+- hydrated_bloc
 - go_router
 - GetIt / Injectable
 - freezed
