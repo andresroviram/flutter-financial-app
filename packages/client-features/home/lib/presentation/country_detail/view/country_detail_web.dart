@@ -123,7 +123,9 @@ class CountryDetailWeb extends StatelessWidget {
                                       width: 300,
                                       child: DetailSection(
                                         title: 'detail.borders'.tr(),
-                                        children: [ChipList(items: country.borders!)],
+                                        children: [
+                                          ChipList(items: country.borders!),
+                                        ],
                                       ),
                                     ),
                                 ],
