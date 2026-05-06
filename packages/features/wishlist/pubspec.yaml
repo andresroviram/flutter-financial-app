@@ -1,0 +1,57 @@
+name: feature_wishlist
+description: "Feature de lista de países favoritos (Wishlist)."
+publish_to: "none"
+resolution: workspace
+version: 0.0.1
+
+environment:
+  sdk: ^3.8.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  core:
+    path: ../../core
+  components:
+    path: ../../components
+  feature_home:
+    path: ../home
+
+  # State Management
+  bloc: ^9.2.0
+  flutter_bloc: ^9.1.1
+
+  # Utilities
+  equatable: ^2.0.8
+  freezed_annotation: ^3.1.0
+  recase: ^4.1.0
+
+  # UI
+  cached_network_image: ^3.4.1
+  gap: ^3.0.1
+  responsive_framework: ^1.5.1
+
+  # Navigation
+  go_router: ^17.1.0
+
+  # DI
+  injectable: ^2.7.1+4
+
+  # i18n
+  easy_localization: ^3.0.8
+
+  # Local Storage
+  drift: ^2.23.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  build_runner: ^2.10.5
+  freezed: ^3.1.0
+  injectable_generator: ^2.9.0
+  mocktail: ^1.0.4
+
+flutter:
+  uses-material-design: true

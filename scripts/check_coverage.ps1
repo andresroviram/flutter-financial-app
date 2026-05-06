@@ -1,11 +1,15 @@
 # Script para verificar cobertura de tests
-# Uso: .\check_coverage.ps1 [threshold]
+# Uso: .\scripts\check_coverage.ps1 [threshold]
 
 param(
     [decimal]$Threshold = 60.0
 )
 
 $ErrorActionPreference = "Stop"
+
+# Navegar a la app principal
+$ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+Set-Location (Join-Path $ScriptDir "..\apps\app")
 
 Write-Host "🧪 Ejecutando tests con cobertura..." -ForegroundColor Blue
 flutter test --coverage

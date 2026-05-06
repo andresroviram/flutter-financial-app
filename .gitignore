@@ -33,6 +33,7 @@ migrate_working_dir/
 /build/
 /build_web/
 /coverage/
+apps/app/build/
 
 # Generated files
 *.g.dart

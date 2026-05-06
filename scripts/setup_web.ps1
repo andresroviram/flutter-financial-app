@@ -1,6 +1,11 @@
 # Script para configurar archivos web necesarios para Drift
+# Ejecutar desde la raíz del workspace: .\scripts\setup_web.ps1
 
 $SQLITE3_VERSION = "2.4.6"
+
+# Navegar a la app principal
+$ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+Set-Location (Join-Path $ScriptDir "..\apps\app")
 
 Write-Host "Configurando Drift Web Support..." -ForegroundColor Cyan
 Write-Host ""

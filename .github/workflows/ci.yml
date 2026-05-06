@@ -2,18 +2,28 @@ name: CI
 
 on:
   push:
-    branches: ["**"]
+    branches: [main, develop, "**"]
   pull_request:
-    branches: ["**"]
+    branches: [main, develop]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
+  # ──────────────────────────────────────────────
+  #  Análisis estático completo (todos los packages)
+  # ──────────────────────────────────────────────
   analyze-and-test:
+    name: Analyze, Format & Test
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Necesario para --diff de Melos
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -21,34 +31,130 @@ jobs:
           channel: "stable"
           cache: true
 
-      - name: Install dependencies
-        run: flutter pub get
+      - name: Install Melos
+        run: dart pub global activate melos
 
-      - name: Create .env file
+      - name: Create .env file (apps/app)
         run: |
-          cat > .env << EOF
+          cat > apps/app/.env << EOF
           API_KEY=${{ secrets.API_KEY || '' }}
           BASE_URL=${{ secrets.BASE_URL || 'https://restcountries.com/v3.1' }}
           EOF
 
-      - name: Run code generation
-        run: dart run build_runner build --delete-conflicting-outputs
+      - name: Melos Bootstrap (instala todas las dependencias del workspace)
+        run: melos bootstrap
+
+      - name: Run code generation (all packages)
+        run: melos run build:all
 
       - name: Verify formatting
-        run: dart format --set-exit-if-changed .
+        run: melos run format
 
-      - name: Analyze code
-        run: flutter analyze
+      - name: Analyze all packages
+        run: melos run analyze
 
-      - name: Run tests
-        run: flutter test --coverage
+      - name: Run tests (all packages)
+        run: melos run test:coverage
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         with:
-          files: ./coverage/lcov.info
+          files: |
+            apps/app/coverage/lcov.info
+            packages/core/coverage/lcov.info
+            packages/features/home/coverage/lcov.info
+            packages/features/wishlist/coverage/lcov.info
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: false
+
+  # ──────────────────────────────────────────────
+  #  Build Web
+  # ──────────────────────────────────────────────
+  build-web:
+    name: Build Web
+    needs: analyze-and-test
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+          cache: true
+
+      - name: Install Melos
+        run: dart pub global activate melos
+
+      - name: Create .env file (apps/app)
+        run: |
+          cat > apps/app/.env << EOF
+          API_KEY=${{ secrets.API_KEY || '' }}
+          BASE_URL=${{ secrets.BASE_URL || 'https://restcountries.com/v3.1' }}
+          EOF
+
+      - name: Melos Bootstrap
+        run: melos bootstrap
+
+      - name: Code generation
+        run: melos run build:all
+
+      - name: Build Web
+        run: cd apps/app && flutter build web --release
+
+      - name: Upload web artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-build-${{ github.sha }}
+          path: apps/app/build/web/
+          retention-days: 7
+
+  # ──────────────────────────────────────────────
+  #  Build Android APK
+  # ──────────────────────────────────────────────
+  build-android:
+    name: Build Android APK
+    needs: analyze-and-test
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+          cache: true
+
+      - name: Install Melos
+        run: dart pub global activate melos
+
+      - name: Create .env file (apps/app)
+        run: |
+          cat > apps/app/.env << EOF
+          API_KEY=${{ secrets.API_KEY || '' }}
+          BASE_URL=${{ secrets.BASE_URL || 'https://restcountries.com/v3.1' }}
+          EOF
+
+      - name: Melos Bootstrap
+        run: melos bootstrap
+
+      - name: Code generation
+        run: melos run build:all
+
+      - name: Build Android APK
+        run: cd apps/app && flutter build apk --release
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-apk-${{ github.sha }}
+          path: apps/app/build/app/outputs/flutter-apk/app-release.apk
+          retention-days: 7
 
       - name: Check test coverage threshold
         run: |

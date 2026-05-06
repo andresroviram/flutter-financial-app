@@ -1,122 +1,128 @@
-name: flutter_wigilabs_sr
-description: "Prueba técnica – Explorador de países de Europa con BLoC, Drift y Dio."
+name: flutter_wigilabs_sr_workspace
 publish_to: "none"
-
-version: 1.0.0+1
 
 environment:
   sdk: ^3.8.0
 
-dependencies:
-  flutter:
-    sdk: flutter
-
-  # UI
-  adaptive_theme: ^3.7.2
-  responsive_framework: ^1.5.1
-  bot_toast: ^4.1.3
-  cupertino_icons: ^1.0.8
-  cached_network_image: ^3.4.1
-  shimmer: ^3.0.0
-  gap: ^3.0.1
-  recase: ^4.1.0
-
-  # Navigation
-  go_router: ^17.1.0
-
-  # State Management
-  bloc: ^9.2.0
-  flutter_bloc: ^9.1.1
-  hydrated_bloc: ^10.1.1
-
-  # Dependency Injection
-  get_it: ^9.2.0
-  injectable: ^2.7.1+4
-
-  # Utilities
-  equatable: ^2.0.8
-  freezed_annotation: ^3.1.0
-  easy_localization: ^3.0.8
-
-  # Serialization
-  json_annotation: ^4.9.0
-
-  # HTTP
-  dio: ^5.9.1
-  dio_http_formatter: ^3.3.1
-  dio_cache_interceptor: ^4.0.5
-
-  # Local Storage – Drift
-  drift: ^2.23.1
-  sqlite3_flutter_libs: ^0.5.24
-  sqlite3_web: ^0.1.1
-  web: ^1.1.0
-  path_provider: ^2.1.5
-  path: ^1.9.1
-
-  # Environment Variables
-  envied: ^1.3.3
+workspace:
+  - apps/app
+  - packages/core
+  - packages/components
+  - packages/features/home
+  - packages/features/wishlist
+  - packages/features/settings
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
+  melos: ^7.4.0
 
-  flutter_lints: ^6.0.0
-  shared_preferences: ^2.5.4
-  shared_preferences_platform_interface: ^2.4.1
-  flutter_launcher_icons: ^0.14.4
-  flutter_native_splash: ^2.4.7
+melos:
+  repository: https://github.com/elkisrovira/flutter_wigilabs_sr
 
-  # Code generation
-  build_runner: ^2.10.5
-  injectable_generator: ^2.9.0
-  build_web_compilers: ^4.0.11
-  freezed: ^3.1.0
-  drift_dev: ^2.23.1
-  json_serializable: ^6.11.0
-  envied_generator: ^1.3.3
+  command:
+    bootstrap:
+      hooks:
+        post: echo "✅ Bootstrap completado. Ejecuta 'melos run build:all' para generar código."
 
-  # Testing
-  mocktail: ^1.0.4
-  bloc_test: ^10.0.0
+    version:
+      workspaceChangelog: true
+      linkToCommits: true
+      commitMessage: "chore(release): version bump 🚀"
 
-# For information on the generic Dart part of this file, see the
-# following page: https://dart.dev/tools/pub/pubspec
+  scripts:
+    analyze:
+      exec: dart analyze .
+      concurrency: 4
+      description: Analiza todos los packages.
 
-# The following section is specific to Flutter packages.
-flutter:
-  # The following line ensures that the Material Icons font is
-  # included with your application, so that you can use the icons in
-  # the material Icons class.
-  uses-material-design: true
+    analyze:changed:
+      exec: dart analyze .
+      concurrency: 4
+      packageFilters:
+        diff: origin/main
+      description: Analiza solo los packages que cambiaron respecto a main.
 
-  assets:
-    - assets/icon/
-    - assets/img/
-    - assets/translations/
+    format:
+      exec: find . -name "*.dart" ! -name "*.g.dart" ! -name "*.freezed.dart" ! -name "injectable.module.dart" ! -path "*/build/*" ! -path "*/.dart_tool/*" | xargs dart format --set-exit-if-changed
+      concurrency: 4
+      description: Verifica el formato de todos los packages (excluye archivos generados).
 
-  # An image asset can refer to one or more resolution-specific "variants", see
-  # https://flutter.dev/to/resolution-aware-images
+    format:fix:
+      exec: find . -name "*.dart" ! -name "*.g.dart" ! -name "*.freezed.dart" ! -name "injectable.module.dart" ! -path "*/build/*" ! -path "*/.dart_tool/*" | xargs dart format
+      concurrency: 4
+      description: Aplica formato a todos los packages (excluye archivos generados).
 
-  # For details regarding adding assets from package dependencies, see
-  # https://flutter.dev/to/asset-from-package
+    build:all:
+      run: melos run build:core && melos run build:feature_home && melos run build:feature_wishlist && melos run build:app
+      description: Genera código en todos los packages en orden secuencial.
 
-  # To add custom fonts to your application, add a fonts section here,
-  # in this "flutter" section. Each entry in this list should have a
-  # "family" key with the font family name, and a "fonts" key with a
-  # list giving the asset and other descriptors for the font. For
-  # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
-  # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/to/font-from-package
+    build:core:
+      exec: dart run build_runner build --delete-conflicting-outputs
+      packageFilters:
+        scope: core
+      description: Genera código en el package core (drift, injectable, freezed).
+
+    build:feature_home:
+      exec: dart run build_runner build --delete-conflicting-outputs
+      packageFilters:
+        scope: feature_home
+      description: Genera código en feature_home.
+
+    build:feature_wishlist:
+      exec: dart run build_runner build --delete-conflicting-outputs
+      packageFilters:
+        scope: feature_wishlist
+      description: Genera código en feature_wishlist (depende de feature_home).
+
+    build:app:
+      exec: dart run build_runner build --delete-conflicting-outputs
+      packageFilters:
+        scope: flutter_wigilabs_sr
+      description: Genera código en la app principal.
+
+    build:watch:
+      exec: dart run build_runner watch --delete-conflicting-outputs
+      packageFilters:
+        dependsOn: build_runner
+      description: Inicia build_runner en modo watch en todos los packages.
+
+    clean:generated:
+      exec: find . -name "*.g.dart" -o -name "*.freezed.dart" -delete
+      description: Elimina todos los archivos generados.
+
+    test:
+      exec: flutter test
+      concurrency: 4
+      packageFilters:
+        dirExists: test
+      description: Ejecuta todos los tests.
+
+    test:coverage:
+      exec: flutter test --coverage
+      concurrency: 1
+      packageFilters:
+        dirExists: test
+      description: Ejecuta todos los tests con reporte de cobertura.
+
+    test:changed:
+      exec: flutter test
+      concurrency: 4
+      packageFilters:
+        dirExists: test
+        diff: origin/main
+      description: Ejecuta tests solo de los packages que cambiaron.
+
+    run:mobile:
+      run: cd $MELOS_ROOT_PATH/apps/app && flutter run
+      description: Lanza la app en el simulador o dispositivo móvil.
+
+    run:web:
+      run: cd $MELOS_ROOT_PATH/apps/app && flutter run -d chrome --web-port 4000
+      description: Lanza la app en Chrome.
+
+    run:desktop:
+      run: cd $MELOS_ROOT_PATH/apps/app && flutter run -d macos
+      description: Lanza la app en macOS Desktop.
+
+    ci:
+      run: melos run analyze && melos run format && melos run test
+      description: Pipeline completo de CI.
