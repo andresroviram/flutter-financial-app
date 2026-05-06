@@ -11,7 +11,10 @@
 		"title": "Lista de deseos",
 		"empty_title": "Tu lista de deseos está vacía",
 		"empty_subtitle": "Agrega países tocando el ❤ en la lista de países.",
-		"remove_tooltip": "Eliminar de lista de deseos"
+		"remove_tooltip": "Eliminar de lista de deseos",
+		"count_singular": "país",
+		"count_plural": "países",
+		"not_found": "No se encontró"
 	},
 	"detail": {
 		"general_info": "Información general",

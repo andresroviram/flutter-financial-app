@@ -11,7 +11,10 @@
 		"title": "Wishlist",
 		"empty_title": "Your wishlist is empty",
 		"empty_subtitle": "Add countries by tapping ❤ on the countries list.",
-		"remove_tooltip": "Remove from wishlist"
+		"remove_tooltip": "Remove from wishlist",
+		"count_singular": "country",
+		"count_plural": "countries",
+		"not_found": "Not found"
 	},
 	"detail": {
 		"general_info": "General info",

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -22,6 +23,7 @@ class _WishlistWebState extends State<WishlistWeb> {
     final theme = Theme.of(context);
 
     return BlocBuilder<WishlistBloc, WishlistState>(
+      bloc: context.read<WishlistBloc>(),
       builder: (context, state) {
         if (state.isLoading) {
           return const Center(child: CircularProgressIndicator());
@@ -50,7 +52,7 @@ class _WishlistWebState extends State<WishlistWeb> {
                 children: [
                   Expanded(
                     child: Text(
-                      'Lista de deseos',
+                      'wishlist.title'.tr(),
                       style: theme.textTheme.headlineSmall?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -60,7 +62,7 @@ class _WishlistWebState extends State<WishlistWeb> {
                   SizedBox(
                     width: 280,
                     child: SearchBar(
-                      hintText: 'Buscar país...',
+                      hintText: 'countries_list.search_hint'.tr(),
                       leading: const Icon(Icons.search),
                       padding: const WidgetStatePropertyAll(
                         EdgeInsets.symmetric(horizontal: 16),
@@ -74,7 +76,7 @@ class _WishlistWebState extends State<WishlistWeb> {
             Padding(
               padding: const EdgeInsets.fromLTRB(24, 8, 24, 0),
               child: Text(
-                '${state.wishlist.length} ${state.wishlist.length == 1 ? 'país' : 'países'}',
+                '${state.wishlist.length} ${state.wishlist.length == 1 ? 'wishlist.count_singular'.tr() : 'wishlist.count_plural'.tr()}',
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: theme.colorScheme.outline,
                 ),
@@ -90,7 +92,7 @@ class _WishlistWebState extends State<WishlistWeb> {
                           const Icon(Icons.search_off, size: 64),
                           const Gap(12),
                           Text(
-                            'No se encontró "$_search"',
+                            '${'wishlist.not_found'.tr()} "$_search"',
                             style: theme.textTheme.bodyLarge,
                           ),
                         ],
