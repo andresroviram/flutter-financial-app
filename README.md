@@ -142,8 +142,8 @@ Necesitas [Flutter](https://flutter.dev/docs/get-started/install) y [Melos](http
 
 ```bash
 # 1. Clonar el repositorio
-git clone https://github.com/andresroviram/flutter_wigilabs_sr.git
-cd flutter_wigilabs_sr
+git clone https://github.com/andresroviram/flutter-financial-app.git
+cd flutter-financial-app
 
 # 2. Instalar Melos (si no lo tienes)
 dart pub global activate melos
@@ -155,6 +155,7 @@ melos bootstrap
 cp apps/client-app/.env.example apps/client-app/.env.dev
 cp apps/client-app/.env.example apps/client-app/.env.qa
 cp apps/client-app/.env.example apps/client-app/.env.prod
+
 cp apps/financial-app/.env.example apps/financial-app/.env.dev
 cp apps/financial-app/.env.example apps/financial-app/.env.qa
 cp apps/financial-app/.env.example apps/financial-app/.env.prod
@@ -234,6 +235,7 @@ Cada app tiene sus propios archivos de entorno:
 | `apps/client-app/.env.dev` | `EnvDev` (client-app) |
 | `apps/client-app/.env.qa` | `EnvQa` (client-app) |
 | `apps/client-app/.env.prod` | `EnvProd` (client-app) |
+
 | `apps/financial-app/.env.dev` | `EnvDev` (financial-app) |
 | `apps/financial-app/.env.qa` | `EnvQa` (financial-app) |
 | `apps/financial-app/.env.prod` | `EnvProd` (financial-app) |
