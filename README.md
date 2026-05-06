@@ -92,7 +92,7 @@ flutter_wigilabs_sr/          # Workspace raíz (Melos)
 │   ├── core/                 # Capa compartida entre features
 │   │   └── lib/
 │   │       ├── domain/       # Entidades globales (CountryEntity…)
-│   │       ├── error/        # Failures y manejo de errores
+│   │       ├── errors/       # Failures y manejo de errores
 │   │       ├── network/      # Cliente Dio e interceptores
 │   │       ├── performance/  # Detección de janks
 │   │       └── utils/
@@ -114,7 +114,7 @@ Necesitas [Flutter](https://flutter.dev/docs/get-started/install) y [Melos](http
 
 ```bash
 # 1. Clonar el repositorio
-git clone https://github.com/elkisrovira/flutter_wigilabs_sr.git
+git clone https://github.com/andresroviram/flutter_wigilabs_sr.git
 cd flutter_wigilabs_sr
 
 # 2. Instalar Melos (si no lo tienes)
@@ -153,10 +153,10 @@ chmod +x scripts/setup_web.sh
 | Comando                    | Descripción                                           |
 |----------------------------|-------------------------------------------------------|
 | `melos bootstrap`          | Instala dependencias de todos los packages            |
-| `melos run build:all`      | Ejecuta build_runner en packages que lo requieren     |
+| `melos run build:all`      | Genera código en orden secuencial (core → features → app) |
 | `melos run build:watch`    | build_runner en modo watch                            |
-| `melos run format`         | Verifica formato en todos los packages                |
-| `melos run format:fix`     | Aplica formato en todos los packages                  |
+| `melos run format`         | Verifica formato (excluye archivos generados)          |
+| `melos run format:fix`     | Aplica formato (excluye archivos generados)            |
 | `melos run analyze`        | Análisis estático en todos los packages               |
 | `melos run analyze:changed`| Análisis solo de packages modificados vs main         |
 | `melos run test`           | Ejecuta todos los tests                               |
@@ -188,7 +188,7 @@ Se ejecuta automáticamente en cada push y pull request:
 
 **Workflow:** `.github/workflows/deploy-web.yml`
 
-**URL de producción:** [https://elkisrovira.github.io/flutter_wigilabs_sr/](https://elkisrovira.github.io/flutter_wigilabs_sr/)
+**URL de producción:** [https://andresroviram.github.io/flutter_wigilabs_sr/](https://andresroviram.github.io/flutter_wigilabs_sr/)
 
 Se ejecuta automáticamente al hacer push a `main` o `develop`:
 
