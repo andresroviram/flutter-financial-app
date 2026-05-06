@@ -7,7 +7,7 @@ import '../models/country_model.dart';
 
 abstract class ICountriesRemoteDatasource {
   Future<List<CountryModel>> getCountries();
-  Future<CountryModel> getCountryDetail(String translation);
+  Future<CountryModel> getCountryDetail(String name);
 }
 
 @Injectable(as: ICountriesRemoteDatasource)
@@ -27,10 +27,10 @@ class CountriesRemoteDatasource implements ICountriesRemoteDatasource {
   }
 
   @override
-  Future<CountryModel> getCountryDetail(String translation) async {
+  Future<CountryModel> getCountryDetail(String name) async {
     try {
       return (await dioClient.get(
-        '${AppConstants.translationEndpoint}$translation',
+        '${AppConstants.translationEndpoint}$name',
       )).withListConverter(callback: CountryModel.fromJson).first;
     } on Failure catch (_) {
       rethrow;

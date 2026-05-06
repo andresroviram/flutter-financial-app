@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_wigilabs_sr/components/shimmer/countries_grid_shimmer.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../../core/utils/snackbar_utils.dart';
+import '../../country_detail/view/country_detail_view.dart';
 import '../bloc/home_bloc.dart';
 import '../widgets/country_card.dart';
 import '../widgets/error_retry.dart';
@@ -101,6 +103,18 @@ class _HomeWebState extends State<HomeWeb> {
                           child: CountryCard(
                             country: country,
                             isInWishlist: isInWishlist,
+                            onTap: () async {
+                              await context.pushNamed(
+                                CountryDetailView.name,
+                                pathParameters: {'countryCode': country.cca2},
+                                extra: country,
+                              );
+                              if (context.mounted) {
+                                context.read<HomeBloc>().add(
+                                  const HomeEvent.loadWishlist(),
+                                );
+                              }
+                            },
                           ),
                         );
                       },

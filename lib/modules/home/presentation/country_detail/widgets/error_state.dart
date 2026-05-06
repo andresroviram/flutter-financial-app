@@ -4,9 +4,10 @@ import 'package:gap/gap.dart';
 import '../../../../../core/error/error.dart';
 
 class ErrorState extends StatelessWidget {
-  const ErrorState({super.key, required this.failure});
+  const ErrorState({super.key, required this.failure, required this.onRetry});
 
   final Failure failure;
+  final VoidCallback onRetry;
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +21,12 @@ class ErrorState extends StatelessWidget {
             failure is NetworkFailure
                 ? 'errors.no_internet'.tr()
                 : 'errors.load_detail'.tr(),
+          ),
+          const Gap(24),
+          ElevatedButton.icon(
+            onPressed: onRetry,
+            icon: const Icon(Icons.refresh),
+            label: const Text('Reintentar'),
           ),
         ],
       ),

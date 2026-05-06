@@ -26,7 +26,7 @@ abstract class RouterModule {
     routes: [
       if (!AppConstants.isWeb)
         GoRoute(
-          path: CountryDetailView.path,
+          path: CountryDetailView.pathMobile,
           name: CountryDetailView.name,
           builder: (context, state) {
             final country = state.extra as CountryEntity;

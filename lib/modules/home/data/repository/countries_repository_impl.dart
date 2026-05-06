@@ -41,9 +41,9 @@ class CountriesRepositoryImpl implements ICountriesRepository {
   }
 
   @override
-  Future<Result<CountryEntity>> getCountryDetail(String translation) async {
+  Future<Result<CountryEntity>> getCountryDetail(String name) async {
     try {
-      final model = await remoteDatasource.getCountryDetail(translation);
+      final model = await remoteDatasource.getCountryDetail(name);
       return Success(model.toEntity());
     } on Failure catch (failure) {
       return Error(failure);

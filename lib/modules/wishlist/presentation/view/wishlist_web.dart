@@ -116,8 +116,9 @@ class _WishlistWebState extends State<WishlistWeb> {
                             WishlistEvent.removeFromWishlist(country.cca2),
                           ),
                           onTap: () async {
-                            await context.push(
-                              CountryDetailView.path,
+                            await context.pushNamed(
+                              CountryDetailView.name,
+                              pathParameters: {'countryCode': country.cca2},
                               extra: country,
                             );
                             if (context.mounted) {

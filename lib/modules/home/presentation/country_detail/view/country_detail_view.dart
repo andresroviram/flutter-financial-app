@@ -14,29 +14,48 @@ class CountryDetailView extends StatelessWidget {
   const CountryDetailView({super.key, required this.country});
   final CountryEntity country;
 
-  static const String path = '/country_detail';
+  static const String pathMobile = '/country_detail';
+  static const String pathWeb = 'country/:countryCode';
   static const String name = 'country_detail';
 
-  static Widget create({required CountryEntity country}) => MultiBlocProvider(
-    providers: [
-      BlocProvider(
-        lazy: false,
-        create: (_) =>
-            CountryDetailBloc(
-              getCountryDetail: getIt<GetCountryDetailUseCase>(),
-              isInWishlist: getIt<IsInWishlistUseCase>(),
-              addToWishlist: getIt<AddToWishlistUseCase>(),
-              removeFromWishlist: getIt<RemoveFromWishlistUseCase>(),
-            )..add(
-              CountryDetailEvent.loadDetail(
-                translation: country.commonName,
-                previewCountry: country,
+  static Widget create({CountryEntity? country, String? countryCode}) {
+    assert(
+      country != null || countryCode != null,
+      'Either country or countryCode must be provided',
+    );
+
+    final effectiveCountry =
+        country ??
+        CountryEntity(
+          cca2: countryCode!,
+          commonName: countryCode,
+          officialName: countryCode,
+          region: '',
+          population: 0,
+          flagPng: '',
+        );
+
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          lazy: false,
+          create: (_) =>
+              CountryDetailBloc(
+                getCountryDetail: getIt<GetCountryDetailUseCase>(),
+                isInWishlist: getIt<IsInWishlistUseCase>(),
+                addToWishlist: getIt<AddToWishlistUseCase>(),
+                removeFromWishlist: getIt<RemoveFromWishlistUseCase>(),
+              )..add(
+                CountryDetailEvent.loadDetail(
+                  name: effectiveCountry.commonName,
+                  previewCountry: effectiveCountry,
+                ),
               ),
-            ),
-      ),
-    ],
-    child: CountryDetailView(country: country),
-  );
+        ),
+      ],
+      child: CountryDetailView(country: effectiveCountry),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

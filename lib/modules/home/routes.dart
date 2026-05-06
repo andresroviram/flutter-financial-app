@@ -18,13 +18,17 @@ StatefulShellBranch homeRoutes = StatefulShellBranch(
       routes: [
         if (AppConstants.isWeb)
           GoRoute(
-            path: CountryDetailView.path.substring(1),
+            path: CountryDetailView.pathWeb,
             name: CountryDetailView.name,
             pageBuilder: (context, state) {
-              final country = state.extra as CountryEntity;
+              final countryCode = state.pathParameters['countryCode']!;
+              final country = state.extra as CountryEntity?;
               return MaterialPage(
                 key: state.pageKey,
-                child: CountryDetailView.create(country: country),
+                child: CountryDetailView.create(
+                  country: country,
+                  countryCode: countryCode,
+                ),
               );
             },
           ),

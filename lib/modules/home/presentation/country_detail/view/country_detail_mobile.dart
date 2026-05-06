@@ -17,6 +17,8 @@ class CountryDetailMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return BlocBuilder<CountryDetailBloc, CountryDetailState>(
       builder: (context, state) {
         final country = state.country;
@@ -26,24 +28,44 @@ class CountryDetailMobile extends StatelessWidget {
               SliverAppBar(
                 expandedHeight: 240,
                 pinned: true,
+                leading: Container(
+                  margin: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: colorScheme.surface.withValues(alpha: 0.7),
+                    shape: BoxShape.circle,
+                  ),
+                  child: IconButton(
+                    icon: Icon(Icons.arrow_back, color: colorScheme.onSurface),
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
+                ),
                 actions: [
                   if (country != null)
-                    IconButton(
-                      tooltip: state.isInWishlist
-                          ? 'detail.wishlist_remove'.tr()
-                          : 'detail.wishlist_add'.tr(),
-                      icon: AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 200),
-                        child: Icon(
-                          state.isInWishlist
-                              ? Icons.favorite
-                              : Icons.favorite_border,
-                          key: ValueKey(state.isInWishlist),
-                          color: state.isInWishlist ? Colors.red : null,
-                        ),
+                    Container(
+                      margin: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: colorScheme.surface.withValues(alpha: 0.7),
+                        shape: BoxShape.circle,
                       ),
-                      onPressed: () => context.read<CountryDetailBloc>().add(
-                        CountryDetailEvent.toggleWishlist(country),
+                      child: IconButton(
+                        tooltip: state.isInWishlist
+                            ? 'detail.wishlist_remove'.tr()
+                            : 'detail.wishlist_add'.tr(),
+                        icon: AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 200),
+                          child: Icon(
+                            state.isInWishlist
+                                ? Icons.favorite
+                                : Icons.favorite_border,
+                            key: ValueKey(state.isInWishlist),
+                            color: state.isInWishlist
+                                ? Colors.red
+                                : colorScheme.onSurface,
+                          ),
+                        ),
+                        onPressed: () => context.read<CountryDetailBloc>().add(
+                          CountryDetailEvent.toggleWishlist(country),
+                        ),
                       ),
                     ),
                 ],
@@ -74,7 +96,17 @@ class CountryDetailMobile extends StatelessWidget {
                   child: Center(child: CircularProgressIndicator()),
                 )
               else if (state.failure != null)
-                SliverFillRemaining(child: ErrorState(failure: state.failure!))
+                SliverFillRemaining(
+                  child: ErrorState(
+                    failure: state.failure!,
+                    onRetry: () => context.read<CountryDetailBloc>().add(
+                      CountryDetailEvent.loadDetail(
+                        name: this.country.commonName,
+                        previewCountry: this.country,
+                      ),
+                    ),
+                  ),
+                )
               else if (country != null)
                 SliverPadding(
                   padding: const EdgeInsets.all(16),

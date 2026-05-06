@@ -38,7 +38,10 @@ class WishlistMobile extends StatelessWidget {
                   WishlistEvent.removeFromWishlist(country.cca2),
                 ),
                 onTap: () async {
-                  await context.push(CountryDetailView.path, extra: country);
+                  await context.push(
+                    CountryDetailView.pathMobile,
+                    extra: country,
+                  );
                   if (context.mounted) {
                     context.read<WishlistBloc>().add(
                       const WishlistEvent.loadWishlist(),

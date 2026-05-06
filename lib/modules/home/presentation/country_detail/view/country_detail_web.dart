@@ -27,7 +27,17 @@ class CountryDetailWeb extends StatelessWidget {
 
         if (state.failure != null) {
           return Scaffold(
-            body: Center(child: ErrorState(failure: state.failure!)),
+            body: Center(
+              child: ErrorState(
+                failure: state.failure!,
+                onRetry: () => context.read<CountryDetailBloc>().add(
+                  CountryDetailEvent.loadDetail(
+                    name: this.country.commonName,
+                    previewCountry: this.country,
+                  ),
+                ),
+              ),
+            ),
           );
         }
 

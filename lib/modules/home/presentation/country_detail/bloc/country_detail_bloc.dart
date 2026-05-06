@@ -42,7 +42,7 @@ class CountryDetailBloc extends Bloc<CountryDetailEvent, CountryDetailState> {
     );
 
     final results = await Future.wait([
-      _getCountryDetail(event.translation),
+      _getCountryDetail(event.name),
       _isInWishlist(event.previewCountry.cca2),
     ]);
 

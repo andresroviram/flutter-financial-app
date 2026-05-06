@@ -1,7 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../../components/shimmer/countries_grid_shimmer.dart';
+import '../../country_detail/view/country_detail_view.dart';
 import '../bloc/home_bloc.dart';
 import '../widgets/country_card.dart';
 import '../widgets/error_retry.dart';
@@ -64,6 +66,17 @@ class HomeMobile extends StatelessWidget {
                         child: CountryCard(
                           country: country,
                           isInWishlist: isInWishlist,
+                          onTap: () async {
+                            await context.push(
+                              CountryDetailView.pathMobile,
+                              extra: country,
+                            );
+                            if (context.mounted) {
+                              context.read<HomeBloc>().add(
+                                const HomeEvent.loadWishlist(),
+                              );
+                            }
+                          },
                         ),
                       );
                     }, childCount: state.countries.length),

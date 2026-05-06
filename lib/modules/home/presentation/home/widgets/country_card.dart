@@ -1,10 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_wigilabs_sr/modules/home/presentation/country_detail/view/country_detail_view.dart';
-import 'package:flutter_wigilabs_sr/modules/home/presentation/home/bloc/home_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:go_router/go_router.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../domain/entities/country_entity.dart';
 import '../../../../../core/utils/format_utils.dart';
@@ -16,10 +12,12 @@ class CountryCard extends StatelessWidget {
     super.key,
     required this.country,
     required this.isInWishlist,
+    required this.onTap,
   });
 
   final CountryEntity country;
   final bool isInWishlist;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -31,12 +29,7 @@ class CountryCard extends StatelessWidget {
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: InkWell(
-        onTap: () async {
-          await context.push(CountryDetailView.path, extra: country);
-          if (context.mounted) {
-            context.read<HomeBloc>().add(const HomeEvent.loadWishlist());
-          }
-        },
+        onTap: onTap,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

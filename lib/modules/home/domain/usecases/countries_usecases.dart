@@ -16,8 +16,8 @@ class GetCountryDetailUseCase {
   const GetCountryDetailUseCase(this._repository);
   final ICountriesRepository _repository;
 
-  Future<Result<CountryEntity>> call(String translation) =>
-      _repository.getCountryDetail(translation);
+  Future<Result<CountryEntity>> call(String name) =>
+      _repository.getCountryDetail(name);
 }
 
 @lazySingleton
