@@ -27,6 +27,7 @@ dependencies:
   # State Management
   bloc: ^9.2.0
   flutter_bloc: ^9.1.1
+  hydrated_bloc: ^10.1.1
 
   # Dependency Injection
   get_it: ^9.2.0

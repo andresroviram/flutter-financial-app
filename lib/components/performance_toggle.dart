@@ -1,20 +1,23 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 import '../config/injectable/injectable_dependency.dart';
 import '../core/performance/performance_settings.dart';
+import '../core/performance/performance_settings_state.dart';
 
 class PerformanceToggleButton extends StatelessWidget {
   PerformanceToggleButton({super.key});
 
-  final PerformanceSettings _settings = getIt<PerformanceSettings>();
+  final PerformanceSettingsCubit _cubit = getIt<PerformanceSettingsCubit>();
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<bool>(
-      valueListenable: _settings.useIsolate,
-      builder: (context, useIsolate, _) {
+    return BlocBuilder<PerformanceSettingsCubit, PerformanceSettingsState>(
+      bloc: _cubit,
+      builder: (context, state) {
+        final useIsolate = state.useIsolate;
         return Tooltip(
           message: useIsolate
               ? 'performance_toggle.active_tooltip'.tr()
@@ -36,7 +39,10 @@ class PerformanceToggleButton extends StatelessWidget {
                 'performance_toggle.label'.tr(),
                 style: Theme.of(context).textTheme.labelSmall,
               ),
-              Switch(value: useIsolate, onChanged: (_) => _settings.toggle()),
+              Switch(
+                value: useIsolate,
+                onChanged: (_) => _cubit.toggleIsolate(),
+              ),
             ],
           ),
         );

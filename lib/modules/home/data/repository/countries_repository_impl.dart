@@ -21,7 +21,7 @@ class CountriesRepositoryImpl implements ICountriesRepository {
 
   final ICountriesRemoteDatasource remoteDatasource;
   final IWishlistLocalDatasource localDatasource;
-  final PerformanceSettings performanceSettings;
+  final PerformanceSettingsCubit performanceSettings;
 
   @override
   Future<Result<List<CountryEntity>>> getCountries() async {
@@ -70,7 +70,7 @@ class CountriesRepositoryImpl implements ICountriesRepository {
   Future<Result<void>> addToWishlist(CountryEntity country) async {
     try {
       final CountryEntity processed;
-      if (performanceSettings.useIsolate.value) {
+      if (performanceSettings.state.useIsolate) {
         processed = await compute(
           CountryIsolateUtils.preprocessCountry,
           country,
