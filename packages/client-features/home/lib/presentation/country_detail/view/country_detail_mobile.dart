@@ -10,6 +10,7 @@ import 'package:feature_home/presentation/country_detail/widgets/error_state.dar
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 
 class CountryDetailMobile extends StatelessWidget {
   const CountryDetailMobile({super.key, required this.country});
@@ -40,7 +41,7 @@ class CountryDetailMobile extends StatelessWidget {
                         Icons.arrow_back,
                         color: colorScheme.onSurface,
                       ),
-                      onPressed: () => Navigator.of(context).pop(),
+                      onPressed: () => context.pop(),
                     ),
                   ),
                   actions: [

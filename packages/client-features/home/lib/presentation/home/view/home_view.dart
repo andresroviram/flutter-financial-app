@@ -36,6 +36,36 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   static const int _branchIndex = 0;
   int? _prevShellIndex;
+  GoRouter? _router;
+  String? _prevRoutePath;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      _router = GoRouter.of(context);
+      _prevRoutePath = _router!.routerDelegate.currentConfiguration.uri.path;
+      _router!.routerDelegate.addListener(_onRouteChanged);
+    });
+  }
+
+  @override
+  void dispose() {
+    _router?.routerDelegate.removeListener(_onRouteChanged);
+    super.dispose();
+  }
+
+  void _onRouteChanged() {
+    if (!mounted) return;
+    final currentPath = _router!.routerDelegate.currentConfiguration.uri.path;
+    if (_prevRoutePath != null &&
+        _prevRoutePath != HomeView.path &&
+        currentPath == HomeView.path) {
+      context.read<HomeBloc>().add(const HomeEvent.loadWishlist());
+    }
+    _prevRoutePath = currentPath;
+  }
 
   @override
   void didChangeDependencies() {
