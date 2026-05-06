@@ -86,7 +86,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     }
     emit(state.copyWith(wishlistCca2s: updatedSet));
 
-    // Persiste en background (compute dentro del repositorio)
     if (alreadyInWishlist) {
       await _removeFromWishlist(cca2);
     } else {

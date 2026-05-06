@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_wigilabs_sr/components/layout/scaffold_with_navigation.dart';
+import 'package:flutter_wigilabs_sr/core/constants/app_constants.dart';
 import 'package:flutter_wigilabs_sr/modules/home/presentation/country_detail/view/country_detail_view.dart';
 import 'package:flutter_wigilabs_sr/modules/home/presentation/home/view/home_view.dart';
 import 'package:flutter_wigilabs_sr/modules/home/routes.dart';
@@ -31,18 +32,15 @@ abstract class RouterModule {
           return CountryDetailView.create(country: country);
         },
       ),
-      GoRoute(
-        path: '/country/:countryCode',
-        name: CountryDetailView.nameWeb,
-        builder: (context, state) {
-          final countryCode = state.pathParameters['countryCode']!;
-          final country = state.extra as CountryEntity?;
-          return CountryDetailView.create(
-            country: country,
-            countryCode: countryCode,
-          );
-        },
-      ),
+      if (!AppConstants.isWeb)
+        GoRoute(
+          path: CountryDetailView.pathMobile,
+          name: CountryDetailView.nameMobile,
+          builder: (context, state) {
+            final country = state.extra as CountryEntity;
+            return CountryDetailView.create(country: country);
+          },
+        ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
           return SelectionArea(
