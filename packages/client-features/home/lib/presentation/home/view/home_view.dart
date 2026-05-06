@@ -1,6 +1,6 @@
 import 'package:core/get_it.dart';
 import 'package:core/utils/helpers.dart';
-import 'package:feature_home/domain/usecases/countries_usecases.dart';
+import 'package:feature_home/domain/usecases/home_usecases.dart';
 import 'package:feature_home/presentation/home/bloc/home_bloc.dart';
 import 'package:feature_home/presentation/home/view/home_mobile.dart';
 import 'package:feature_home/presentation/home/view/home_web.dart';
@@ -18,12 +18,9 @@ class HomeView extends StatefulWidget {
     providers: [
       BlocProvider(
         lazy: false,
-        create: (_) => HomeBloc(
-          getCountries: getIt<GetCountriesUseCase>(),
-          getWishlist: getIt<GetWishlistUseCase>(),
-          addToWishlist: getIt<AddToWishlistUseCase>(),
-          removeFromWishlist: getIt<RemoveFromWishlistUseCase>(),
-        )..add(const HomeEvent.loadCountries()),
+        create: (_) =>
+            HomeBloc(useCases: getIt<HomeUseCases>())
+              ..add(const HomeEvent.loadCountries()),
       ),
     ],
     child: const HomeView(),

@@ -3,6 +3,7 @@ import 'package:core/entities/country_entity.dart';
 import 'package:core/errors/error.dart';
 import 'package:core/errors/result.dart';
 import 'package:feature_home/domain/usecases/countries_usecases.dart';
+import 'package:feature_home/domain/usecases/country_detail_usecases.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'country_detail_bloc.freezed.dart';
@@ -10,18 +11,13 @@ part 'country_detail_event.dart';
 part 'country_detail_state.dart';
 
 class CountryDetailBloc extends Bloc<CountryDetailEvent, CountryDetailState> {
-  CountryDetailBloc({
-    required GetCountryDetailUseCase getCountryDetail,
-    required GetCountryByCodeUseCase getCountryByCode,
-    required IsInWishlistUseCase isInWishlist,
-    required AddToWishlistUseCase addToWishlist,
-    required RemoveFromWishlistUseCase removeFromWishlist,
-  }) : _getCountryDetail = getCountryDetail,
-       _getCountryByCode = getCountryByCode,
-       _isInWishlist = isInWishlist,
-       _addToWishlist = addToWishlist,
-       _removeFromWishlist = removeFromWishlist,
-       super(const CountryDetailState()) {
+  CountryDetailBloc({required CountryDetailUseCases useCases})
+    : _getCountryDetail = useCases.getCountryDetail,
+      _getCountryByCode = useCases.getCountryByCode,
+      _isInWishlist = useCases.isInWishlist,
+      _addToWishlist = useCases.addToWishlist,
+      _removeFromWishlist = useCases.removeFromWishlist,
+      super(const CountryDetailState()) {
     on<_LoadDetail>(_onLoadDetail);
     on<_LoadDetailByCode>(_onLoadDetailByCode);
     on<_ToggleWishlist>(_onToggleWishlist);

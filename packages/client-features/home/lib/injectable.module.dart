@@ -18,6 +18,9 @@ import 'package:feature_home/data/repository/countries_repository_impl.dart'
 import 'package:feature_home/domain/repository/i_countries_repository.dart'
     as _i303;
 import 'package:feature_home/domain/usecases/countries_usecases.dart' as _i740;
+import 'package:feature_home/domain/usecases/country_detail_usecases.dart'
+    as _i809;
+import 'package:feature_home/domain/usecases/home_usecases.dart' as _i883;
 import 'package:injectable/injectable.dart' as _i526;
 
 class FeatureHomePackageModule extends _i526.MicroPackageModule {
@@ -47,5 +50,19 @@ class FeatureHomePackageModule extends _i526.MicroPackageModule {
         _i740.RemoveFromWishlistUseCase(gh<_i303.ICountriesRepository>()));
     gh.lazySingleton<_i740.IsInWishlistUseCase>(
         () => _i740.IsInWishlistUseCase(gh<_i303.ICountriesRepository>()));
+    gh.lazySingleton<_i809.CountryDetailUseCases>(
+        () => _i809.CountryDetailUseCases(
+              getCountryDetail: gh<_i740.GetCountryDetailUseCase>(),
+              getCountryByCode: gh<_i740.GetCountryByCodeUseCase>(),
+              isInWishlist: gh<_i740.IsInWishlistUseCase>(),
+              addToWishlist: gh<_i740.AddToWishlistUseCase>(),
+              removeFromWishlist: gh<_i740.RemoveFromWishlistUseCase>(),
+            ));
+    gh.lazySingleton<_i883.HomeUseCases>(() => _i883.HomeUseCases(
+          getCountries: gh<_i740.GetCountriesUseCase>(),
+          getWishlist: gh<_i740.GetWishlistUseCase>(),
+          addToWishlist: gh<_i740.AddToWishlistUseCase>(),
+          removeFromWishlist: gh<_i740.RemoveFromWishlistUseCase>(),
+        ));
   }
 }
