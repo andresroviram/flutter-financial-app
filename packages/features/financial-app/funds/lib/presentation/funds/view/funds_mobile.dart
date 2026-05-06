@@ -1,6 +1,7 @@
 import 'package:feature_funds/presentation/funds/bloc/funds_bloc.dart';
 import 'package:feature_funds/presentation/funds/bloc/funds_event.dart';
 import 'package:feature_funds/presentation/funds/bloc/funds_state.dart';
+import 'package:feature_funds/presentation/funds/bloc/funds_state_x.dart';
 import 'package:feature_funds/presentation/funds/widgets/balance_header.dart';
 import 'package:feature_funds/presentation/funds/widgets/fund_card.dart';
 import 'package:feature_funds/presentation/funds/widgets/section_title.dart';
@@ -15,30 +16,26 @@ class FundsMobile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocBuilder<FundsBloc, FundsState>(
-        builder: (context, state) {
-          if (state.status == FundsStatus.loading) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (state.status == FundsStatus.failure) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(Icons.error_outline, size: 48),
-                  const Gap(16),
-                  Text(state.errorMessage ?? 'Error al cargar fondos'),
-                  const Gap(16),
-                  FilledButton(
-                    onPressed: () => context.read<FundsBloc>().add(
-                      const FundsEvent.loadRequested(),
-                    ),
-                    child: const Text('Reintentar'),
+        builder: (context, state) => state.resolve(
+          loading: () => const Center(child: CircularProgressIndicator()),
+          failure: (errorMessage) => Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.error_outline, size: 48),
+                const Gap(16),
+                Text(errorMessage),
+                const Gap(16),
+                FilledButton(
+                  onPressed: () => context.read<FundsBloc>().add(
+                    const FundsEvent.loadRequested(),
                   ),
-                ],
-              ),
-            );
-          }
-          return RefreshIndicator(
+                  child: const Text('Reintentar'),
+                ),
+              ],
+            ),
+          ),
+          data: (state) => RefreshIndicator(
             onRefresh: () async =>
                 context.read<FundsBloc>().add(const FundsEvent.loadRequested()),
             child: CustomScrollView(
@@ -97,8 +94,8 @@ class FundsMobile extends StatelessWidget {
                 ),
               ],
             ),
-          );
-        },
+          ),
+        ),
       ),
     );
   }
