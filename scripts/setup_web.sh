@@ -31,14 +31,8 @@ echo ""
 echo "2. Compilando drift_worker.dart.js..."
 echo "   (esto puede tardar ~30 segundos)"
 
-if dart run build_runner build --delete-conflicting-outputs -o web:build_web > /dev/null 2>&1; then
-    if [ -f "build_web/drift_worker.dart.js" ]; then
-        cp "build_web/drift_worker.dart.js" "web/drift_worker.dart.js"
-        echo "   ✓ drift_worker.dart.js compilado"
-    else
-        echo "   ✗ No se generó el archivo worker"
-        exit 1
-    fi
+if dart compile js -O1 -o web/drift_worker.dart.js web/drift_worker.dart; then
+    echo "   ✓ drift_worker.dart.js compilado"
 else
     echo "   ✗ Error al compilar"
     exit 1

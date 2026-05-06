@@ -59,6 +59,9 @@ app.*.map.json
 # Claude AI folder
 .claude/
 
+# Drift web worker compilado (artefacto de build, regenerar con setup_web.sh)
+**/web/drift_worker.dart.js
+
 # Local environment variables (gitignore todos excepto .env.example)
 .env
 .env.dev

@@ -30,7 +30,7 @@ GoRouter createRouter() {
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
-          return SelectionArea(
+          return SelectionContainer.disabled(
             child: ScaffoldWithNavigation(
               key: ValueKey(context.locale.toString()),
               navigationShell: navigationShell,
