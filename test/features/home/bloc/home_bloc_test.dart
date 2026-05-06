@@ -47,26 +47,26 @@ void main() {
   });
 
   HomeBloc buildBloc() => HomeBloc(
-        getCountries: mockGetCountries,
-        getWishlist: mockGetWishlist,
-        addToWishlist: mockAddToWishlist,
-        removeFromWishlist: mockRemoveFromWishlist,
-      );
+    getCountries: mockGetCountries,
+    getWishlist: mockGetWishlist,
+    addToWishlist: mockAddToWishlist,
+    removeFromWishlist: mockRemoveFromWishlist,
+  );
 
   group('HomeBloc', () {
     group('LoadCountries', () {
       blocTest<HomeBloc, HomeState>(
         'emite [loading, loaded] cuando la petición es exitosa',
         setUp: () {
-          when(() => mockGetCountries()).thenAnswer(
-            (_) async => Success(tCountries),
-          );
-          when(() => mockGetWishlist()).thenAnswer(
-            (_) async => const Success([]),
-          );
+          when(
+            () => mockGetCountries(any()),
+          ).thenAnswer((_) async => Success(tCountries));
+          when(
+            () => mockGetWishlist(),
+          ).thenAnswer((_) async => const Success([]));
         },
         build: buildBloc,
-        act: (bloc) => bloc.add(const HomeEvent.loadCountries()),
+        act: (bloc) => bloc.add(const HomeEvent.loadCountries('english')),
         expect: () => [
           const HomeState(isLoading: true),
           HomeState(
@@ -76,7 +76,7 @@ void main() {
           ),
         ],
         verify: (_) {
-          verify(() => mockGetCountries()).called(1);
+          verify(() => mockGetCountries(any())).called(1);
           verify(() => mockGetWishlist()).called(1);
         },
       );
@@ -84,36 +84,33 @@ void main() {
       blocTest<HomeBloc, HomeState>(
         'emite [loading, error] cuando la API falla con NetworkFailure',
         setUp: () {
-          when(() => mockGetCountries()).thenAnswer(
-            (_) async => const Error(NetworkFailure()),
-          );
-          when(() => mockGetWishlist()).thenAnswer(
-            (_) async => const Success([]),
-          );
+          when(
+            () => mockGetCountries(any()),
+          ).thenAnswer((_) async => const Error(NetworkFailure()));
+          when(
+            () => mockGetWishlist(),
+          ).thenAnswer((_) async => const Success([]));
         },
         build: buildBloc,
-        act: (bloc) => bloc.add(const HomeEvent.loadCountries()),
+        act: (bloc) => bloc.add(const HomeEvent.loadCountries('english')),
         expect: () => [
           const HomeState(isLoading: true),
-          const HomeState(
-            isLoading: false,
-            failure: NetworkFailure(),
-          ),
+          const HomeState(isLoading: false, failure: NetworkFailure()),
         ],
       );
 
       blocTest<HomeBloc, HomeState>(
         'carga correctamente la wishlist junto con los países',
         setUp: () {
-          when(() => mockGetCountries()).thenAnswer(
-            (_) async => Success(tCountries),
-          );
-          when(() => mockGetWishlist()).thenAnswer(
-            (_) async => Success([tCountry]),
-          );
+          when(
+            () => mockGetCountries(any()),
+          ).thenAnswer((_) async => Success(tCountries));
+          when(
+            () => mockGetWishlist(),
+          ).thenAnswer((_) async => Success([tCountry]));
         },
         build: buildBloc,
-        act: (bloc) => bloc.add(const HomeEvent.loadCountries()),
+        act: (bloc) => bloc.add(const HomeEvent.loadCountries('english')),
         expect: () => [
           const HomeState(isLoading: true),
           HomeState(
@@ -129,23 +126,16 @@ void main() {
       blocTest<HomeBloc, HomeState>(
         'agrega país a la wishlist con actualización optimista',
         setUp: () {
-          when(() => mockAddToWishlist(any())).thenAnswer(
-            (_) async => const Success(null),
-          );
+          when(
+            () => mockAddToWishlist(any()),
+          ).thenAnswer((_) async => const Success(null));
         },
         build: buildBloc,
-        seed: () => HomeState(
-          countries: tCountries,
-          wishlistCca2s: const <String>{},
-        ),
-        act: (bloc) => bloc.add(
-          HomeEvent.toggleWishlist(tCountry),
-        ),
+        seed: () =>
+            HomeState(countries: tCountries, wishlistCca2s: const <String>{}),
+        act: (bloc) => bloc.add(HomeEvent.toggleWishlist(tCountry)),
         expect: () => [
-          HomeState(
-            countries: tCountries,
-            wishlistCca2s: const {'ES'},
-          ),
+          HomeState(countries: tCountries, wishlistCca2s: const {'ES'}),
         ],
         verify: (_) => verify(() => mockAddToWishlist(tCountry)).called(1),
       );
@@ -153,23 +143,16 @@ void main() {
       blocTest<HomeBloc, HomeState>(
         'elimina país de la wishlist con actualización optimista',
         setUp: () {
-          when(() => mockRemoveFromWishlist(any())).thenAnswer(
-            (_) async => const Success(null),
-          );
+          when(
+            () => mockRemoveFromWishlist(any()),
+          ).thenAnswer((_) async => const Success(null));
         },
         build: buildBloc,
-        seed: () => HomeState(
-          countries: tCountries,
-          wishlistCca2s: const {'ES'},
-        ),
-        act: (bloc) => bloc.add(
-          HomeEvent.toggleWishlist(tCountry),
-        ),
+        seed: () =>
+            HomeState(countries: tCountries, wishlistCca2s: const {'ES'}),
+        act: (bloc) => bloc.add(HomeEvent.toggleWishlist(tCountry)),
         expect: () => [
-          HomeState(
-            countries: tCountries,
-            wishlistCca2s: const <String>{},
-          ),
+          HomeState(countries: tCountries, wishlistCca2s: const <String>{}),
         ],
         verify: (_) => verify(() => mockRemoveFromWishlist('ES')).called(1),
       );
@@ -179,13 +162,9 @@ void main() {
       blocTest<HomeBloc, HomeState>(
         'limpia el failure del estado',
         build: buildBloc,
-        seed: () => const HomeState(
-          failure: NetworkFailure(),
-        ),
+        seed: () => const HomeState(failure: NetworkFailure()),
         act: (bloc) => bloc.add(const HomeEvent.invalidate()),
-        expect: () => [
-          const HomeState(failure: null),
-        ],
+        expect: () => [const HomeState(failure: null)],
       );
     });
   });

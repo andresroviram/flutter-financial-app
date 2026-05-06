@@ -6,7 +6,7 @@ import '../../../../core/network/dio_response_converter.dart';
 import '../models/country_model.dart';
 
 abstract class ICountriesRemoteDatasource {
-  Future<List<CountryModel>> getEuropeanCountries();
+  Future<List<CountryModel>> getCountriesByLang(String lang);
   Future<CountryModel> getCountryDetail(String translation);
 }
 
@@ -16,10 +16,10 @@ class CountriesRemoteDatasource implements ICountriesRemoteDatasource {
   final DioClient dioClient;
 
   @override
-  Future<List<CountryModel>> getEuropeanCountries() async {
+  Future<List<CountryModel>> getCountriesByLang(String lang) async {
     try {
       return (await dioClient.get(
-        AppConstants.europeRegionEndpoint,
+        '${AppConstants.langEndpoint}$lang',
       ))
           .withListConverter(callback: CountryModel.fromJson);
     } on Failure catch (_) {

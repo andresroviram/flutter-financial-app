@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../../core/utils/locale_utils.dart';
 import 'package:gap/gap.dart';
 import '../bloc/home_bloc.dart';
 import '../widgets/country_card.dart';
@@ -26,8 +28,9 @@ class HomeWeb extends StatefulWidget {
 class _HomeWebState extends State<HomeWeb> {
   String _search = '';
 
-  void _onRefresh(BuildContext context) =>
-      context.read<HomeBloc>().add(const HomeEvent.loadCountries());
+  void _onRefresh(BuildContext context) => context.read<HomeBloc>().add(
+    HomeEvent.loadCountries(LocaleUtils.toLang(context.locale)),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -132,7 +135,7 @@ class _HomeWebHeader extends StatelessWidget {
         children: [
           Expanded(
             child: Text(
-              'Países de Europa',
+              'countries_list.title'.tr(),
               style: theme.textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
@@ -142,7 +145,7 @@ class _HomeWebHeader extends StatelessWidget {
           SizedBox(
             width: 280,
             child: SearchBar(
-              hintText: 'Buscar país...',
+              hintText: 'countries_list.search_hint'.tr(),
               leading: const Icon(Icons.search),
               padding: const WidgetStatePropertyAll(
                 EdgeInsets.symmetric(horizontal: 16),
@@ -152,7 +155,7 @@ class _HomeWebHeader extends StatelessWidget {
           ),
           const Gap(8),
           IconButton.outlined(
-            tooltip: 'Refrescar',
+            tooltip: 'countries_list.refresh'.tr(),
             icon: const Icon(Icons.refresh),
             onPressed: onRefresh,
           ),

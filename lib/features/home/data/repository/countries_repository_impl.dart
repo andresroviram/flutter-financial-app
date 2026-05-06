@@ -24,9 +24,9 @@ class CountriesRepositoryImpl implements ICountriesRepository {
   final PerformanceSettings performanceSettings;
 
   @override
-  Future<Result<List<CountryEntity>>> getEuropeanCountries() async {
+  Future<Result<List<CountryEntity>>> getCountriesByLang(String lang) async {
     try {
-      final models = await remoteDatasource.getEuropeanCountries();
+      final models = await remoteDatasource.getCountriesByLang(lang);
       final entities = await compute(
         CountryIsolateUtils.parseCountries,
         models,
@@ -35,7 +35,7 @@ class CountriesRepositoryImpl implements ICountriesRepository {
     } on Failure catch (failure) {
       return Error(failure);
     } catch (e) {
-      log('getEuropeanCountries error: $e');
+      log('getCountriesByLang error: $e');
       return Error(UnknownFailure(message: e.toString()));
     }
   }

@@ -2,7 +2,7 @@ import 'package:flutter_wigilabs_sr/core/result.dart';
 import '../entities/country_entity.dart';
 
 abstract class ICountriesRepository {
-  Future<Result<List<CountryEntity>>> getEuropeanCountries();
+  Future<Result<List<CountryEntity>>> getCountriesByLang(String lang);
 
   Future<Result<CountryEntity>> getCountryDetail(String translation);
 

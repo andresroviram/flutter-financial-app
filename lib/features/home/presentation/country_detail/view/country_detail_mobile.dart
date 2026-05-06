@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -29,8 +30,8 @@ class CountryDetailMobile extends StatelessWidget {
                   if (country != null)
                     IconButton(
                       tooltip: state.isInWishlist
-                          ? 'Quitar de lista de deseos'
-                          : 'Agregar a lista de deseos',
+                          ? 'detail.wishlist_remove'.tr()
+                          : 'detail.wishlist_add'.tr(),
                       icon: AnimatedSwitcher(
                         duration: const Duration(milliseconds: 200),
                         child: Icon(
@@ -41,9 +42,9 @@ class CountryDetailMobile extends StatelessWidget {
                           color: state.isInWishlist ? Colors.red : null,
                         ),
                       ),
-                      onPressed: () => context
-                          .read<CountryDetailBloc>()
-                          .add(CountryDetailEvent.toggleWishlist(country)),
+                      onPressed: () => context.read<CountryDetailBloc>().add(
+                        CountryDetailEvent.toggleWishlist(country),
+                      ),
                     ),
                 ],
                 flexibleSpace: FlexibleSpaceBar(
@@ -60,9 +61,9 @@ class CountryDetailMobile extends StatelessWidget {
                           imageUrl: country.flagPng,
                           fit: BoxFit.cover,
                           placeholder: (_, __) => Container(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .surfaceContainerHighest,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.surfaceContainerHighest,
                           ),
                         )
                       : null,
@@ -73,77 +74,68 @@ class CountryDetailMobile extends StatelessWidget {
                   child: Center(child: CircularProgressIndicator()),
                 )
               else if (state.failure != null)
-                SliverFillRemaining(
-                  child: ErrorState(failure: state.failure!),
-                )
+                SliverFillRemaining(child: ErrorState(failure: state.failure!))
               else if (country != null)
                 SliverPadding(
                   padding: const EdgeInsets.all(16),
                   sliver: SliverList(
                     delegate: SliverChildListDelegate([
                       DetailSection(
-                        title: 'Información general',
+                        title: 'detail.general_info'.tr(),
                         children: [
                           DetailRow(
-                            label: 'Nombre oficial',
+                            label: 'detail.official_name'.tr(),
                             value: country.officialName,
                           ),
                           if (country.capital != null)
                             DetailRow(
-                              label: 'Capital',
+                              label: 'detail.capital'.tr(),
                               value: country.capital!,
                             ),
                           DetailRow(
-                            label: 'Región',
-                            value: '${country.region}'
+                            label: 'detail.region'.tr(),
+                            value:
+                                '${country.region}'
                                 '${country.subregion != null ? ' · ${country.subregion}' : ''}',
                           ),
                           DetailRow(
-                            label: 'Población',
+                            label: 'detail.population'.tr(),
                             value: FormatUtils.formatNumber(country.population),
                           ),
                           if (country.area != null)
                             DetailRow(
-                              label: 'Área',
+                              label: 'detail.area'.tr(),
                               value:
-                                  '${FormatUtils.formatNumber(country.area!.toInt())} km²',
+                                  '${FormatUtils.formatNumber(country.area!.toInt())} ${'detail.area_unit'.tr()}',
                             ),
                         ],
                       ),
                       if (country.languages?.isNotEmpty ?? false) ...[
                         const Gap(16),
                         DetailSection(
-                          title: 'Idiomas',
-                          children: [
-                            ChipList(items: country.languages!),
-                          ],
+                          title: 'detail.languages'.tr(),
+                          children: [ChipList(items: country.languages!)],
                         ),
                       ],
                       if (country.currencies?.isNotEmpty ?? false) ...[
                         const Gap(16),
                         DetailSection(
-                          title: 'Monedas',
-                          children: [
-                            ChipList(items: country.currencies!),
-                          ],
+                          title: 'detail.currencies'.tr(),
+                          children: [ChipList(items: country.currencies!)],
                         ),
                       ],
                       if (country.timezones?.isNotEmpty ?? false) ...[
                         const Gap(16),
                         DetailSection(
-                          title: 'Zonas horarias',
-                          children: [
-                            ChipList(items: country.timezones!),
-                          ],
+                          title: 'detail.timezones'.tr(),
+                          children: [ChipList(items: country.timezones!)],
                         ),
                       ],
                       if (country.borders?.isNotEmpty ?? false) ...[
                         const Gap(16),
                         DetailSection(
-                          title: 'Países fronterizos',
-                          children: [
-                            ChipList(items: country.borders!),
-                          ],
+                          title: 'detail.borders'.tr(),
+                          children: [ChipList(items: country.borders!)],
                         ),
                       ],
                       const Gap(32),

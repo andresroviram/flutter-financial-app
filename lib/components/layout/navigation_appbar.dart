@@ -1,8 +1,8 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
+import '../../../components/language_switcher.dart';
 import '../../../components/performance_toggle.dart';
 import '../../../components/theme_button.dart';
 import 'navigation_title.dart';
@@ -50,33 +50,9 @@ class NavigationAppBar extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: true,
       actions: [
         PerformanceToggleButton(),
+
         const ThemeModeButton.icon(),
-        PopupMenuButton<int>(
-          icon: const Icon(Icons.account_circle_outlined),
-          tooltip: 'profile'.tr(),
-          offset: const Offset(0, 45),
-          padding: EdgeInsets.zero,
-          onSelected: (value) {
-            if (value == 0) {
-              // TODO: Implement logout functionality
-            }
-          },
-          itemBuilder: (_) => [
-            PopupMenuItem(
-              value: 0,
-              child: Row(
-                children: [
-                  const Icon(Icons.logout, size: 18),
-                  const SizedBox(width: 5),
-                  Text('logout'.tr()),
-                ],
-              ),
-              onTap: () {
-                // Sign out logic
-              },
-            ),
-          ],
-        ),
+        LanguageSwitcherButton(),
         const Gap(2),
       ],
     );

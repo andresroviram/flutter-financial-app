@@ -1,7 +1,9 @@
 {
 	"app_title": "Country Explorer",
+	"dashboard": "Panel",
 	"countries_list": {
 		"title": "Países de Europa",
+		"search_hint": "Buscar país...",
 		"wishlist_tooltip": "Lista de deseos",
 		"refresh": "Actualizar"
 	},
@@ -35,5 +37,15 @@
 	},
 	"switch_to_dark": "Cambiar a modo oscuro",
 	"switch_to_light": "Cambiar a modo claro",
-	"profile": "Perfil"
+	"profile": "Perfil",
+	"performance_toggle": {
+		"label": "Isolate",
+		"active_tooltip": "Isolate activo — sin janks",
+		"inactive_tooltip": "Sin isolate — janks visibles"
+	},
+	"nav": {
+		"home": "Inicio",
+		"wishlist": "Favoritos",
+		"settings": "Ajustes"
+	}
 }

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
@@ -16,8 +17,8 @@ class PerformanceToggleButton extends StatelessWidget {
       builder: (context, useIsolate, _) {
         return Tooltip(
           message: useIsolate
-              ? 'Isolate activo — sin janks'
-              : 'Sin isolate — janks visibles',
+              ? 'performance_toggle.active_tooltip'.tr()
+              : 'performance_toggle.inactive_tooltip'.tr(),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -31,7 +32,10 @@ class PerformanceToggleButton extends StatelessWidget {
                     : Theme.of(context).colorScheme.error,
               ),
               const Gap(4),
-              Text('Isolate', style: Theme.of(context).textTheme.labelSmall),
+              Text(
+                'performance_toggle.label'.tr(),
+                style: Theme.of(context).textTheme.labelSmall,
+              ),
               Switch(value: useIsolate, onChanged: (_) => _settings.toggle()),
             ],
           ),

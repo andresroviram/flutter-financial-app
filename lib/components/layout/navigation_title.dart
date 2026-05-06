@@ -1,8 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_wigilabs_sr/features/home/presentation/home/view/home_view.dart';
 import 'package:go_router/go_router.dart';
-
-import '../../../my_app.dart';
 
 class NavigationTitle extends StatelessWidget {
   const NavigationTitle({super.key});
@@ -16,7 +15,7 @@ class NavigationTitle extends StatelessWidget {
         child: GestureDetector(
           onTap: () => context.go(HomeView.path),
           child: Text(
-            MyApp.title,
+            'app_title'.tr(),
             style: theme.textTheme.bodyLarge?.copyWith(
               fontWeight: FontWeight.w700,
             ),

@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_wigilabs_sr/core/utils/helpers.dart';
+import 'package:flutter_wigilabs_sr/core/utils/locale_utils.dart';
 import 'package:flutter_wigilabs_sr/features/home/presentation/home/bloc/home_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:responsive_framework/responsive_framework.dart';
@@ -17,19 +19,19 @@ class HomeView extends StatefulWidget {
   static const String name = 'home';
 
   static Widget create() => MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            lazy: false,
-            create: (_) => HomeBloc(
-              getCountries: getIt<GetCountriesUseCase>(),
-              getWishlist: getIt<GetWishlistUseCase>(),
-              addToWishlist: getIt<AddToWishlistUseCase>(),
-              removeFromWishlist: getIt<RemoveFromWishlistUseCase>(),
-            )..add(const HomeEvent.loadCountries()),
-          ),
-        ],
-        child: const HomeView(),
-      );
+    providers: [
+      BlocProvider(
+        lazy: false,
+        create: (_) => HomeBloc(
+          getCountries: getIt<GetCountriesUseCase>(),
+          getWishlist: getIt<GetWishlistUseCase>(),
+          addToWishlist: getIt<AddToWishlistUseCase>(),
+          removeFromWishlist: getIt<RemoveFromWishlistUseCase>(),
+        ),
+      ),
+    ],
+    child: const HomeView(),
+  );
 
   @override
   State<HomeView> createState() => _HomeViewState();
@@ -38,6 +40,7 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   static const int _branchIndex = 0;
   int? _prevShellIndex;
+  Locale? _prevLocale;
 
   @override
   void didChangeDependencies() {
@@ -50,6 +53,14 @@ class _HomeViewState extends State<HomeView> {
       context.read<HomeBloc>().add(const HomeEvent.loadWishlist());
     }
     _prevShellIndex = currentIndex;
+
+    final currentLocale = context.locale;
+    if (_prevLocale != currentLocale) {
+      _prevLocale = currentLocale;
+      context.read<HomeBloc>().add(
+        HomeEvent.loadCountries(LocaleUtils.toLang(currentLocale)),
+      );
+    }
   }
 
   @override

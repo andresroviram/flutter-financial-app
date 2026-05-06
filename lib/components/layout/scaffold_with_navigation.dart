@@ -1,17 +1,14 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 import '../../../components/theme_button.dart';
 import '../../../core/enum/navigation_item.dart';
-import '../../../my_app.dart';
 import 'navigation_appbar.dart';
 
 class ScaffoldWithNavigation extends StatelessWidget {
-  const ScaffoldWithNavigation({
-    super.key,
-    required this.navigationShell,
-  });
+  const ScaffoldWithNavigation({super.key, required this.navigationShell});
 
   final StatefulNavigationShell navigationShell;
 
@@ -52,9 +49,10 @@ class _ScaffoldWithNavigationRail extends StatelessWidget {
               margin: EdgeInsets.zero,
               child: Center(
                 child: Text(
-                  MyApp.title,
-                  style: theme.textTheme.bodyMedium!
-                      .copyWith(fontWeight: FontWeight.w600),
+                  'app_title'.tr(),
+                  style: theme.textTheme.bodyMedium!.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ),
@@ -102,10 +100,7 @@ class _ScaffoldWithNavigationRail extends StatelessWidget {
 }
 
 class _ScaffoldWithDrawer extends StatelessWidget {
-  const _ScaffoldWithDrawer(
-    this.navigationShell,
-    this.scaffoldDrawerKey,
-  );
+  const _ScaffoldWithDrawer(this.navigationShell, this.scaffoldDrawerKey);
 
   final StatefulNavigationShell navigationShell;
   final GlobalKey<ScaffoldState>? scaffoldDrawerKey;
@@ -125,9 +120,10 @@ class _ScaffoldWithDrawer extends StatelessWidget {
               margin: EdgeInsets.zero,
               child: Center(
                 child: Text(
-                  MyApp.title,
-                  style: theme.textTheme.bodyMedium
-                      ?.copyWith(fontWeight: FontWeight.w600),
+                  'app_title'.tr(),
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ),
@@ -149,24 +145,23 @@ class _ScaffoldWithDrawer extends StatelessWidget {
 }
 
 class _NavigationRail extends StatelessWidget {
-  const _NavigationRail({
-    required this.navigationShell,
-    required this.expand,
-  });
+  const _NavigationRail({required this.navigationShell, required this.expand});
 
   final StatefulNavigationShell navigationShell;
   final bool expand;
 
   @override
   Widget build(BuildContext context) {
-    NavigationRailLabelType labelType =
-        expand ? NavigationRailLabelType.none : NavigationRailLabelType.all;
+    NavigationRailLabelType labelType = expand
+        ? NavigationRailLabelType.none
+        : NavigationRailLabelType.all;
     final theme = Theme.of(context);
     return NavigationRail(
       extended: expand,
       selectedIndex: navigationShell.currentIndex,
-      unselectedLabelTextStyle:
-          theme.textTheme.labelSmall?.copyWith(fontSize: 10),
+      unselectedLabelTextStyle: theme.textTheme.labelSmall?.copyWith(
+        fontSize: 10,
+      ),
       selectedLabelTextStyle: theme.textTheme.labelSmall?.copyWith(
         fontSize: 10,
         fontWeight: FontWeight.w600,
@@ -181,14 +176,12 @@ class _NavigationRail extends StatelessWidget {
         for (final item in NavigationItem.values)
           NavigationRailDestination(
             icon: Icon(item.iconData),
-            label: Text(item.label),
+            label: Text(item.label.tr()),
           ),
       ],
       labelType: labelType,
       indicatorShape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(8),
-        ),
+        borderRadius: BorderRadius.all(Radius.circular(8)),
       ),
     );
   }
@@ -214,22 +207,20 @@ class _NavigationDrawer extends StatelessWidget {
         );
       },
       indicatorShape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(8),
-        ),
+        borderRadius: BorderRadius.all(Radius.circular(8)),
       ),
       children: [
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 10),
           child: Text(
-            'Dashboard',
+            'dashboard'.tr(),
             style: Theme.of(context).textTheme.titleSmall,
           ),
         ),
         for (final item in NavigationItem.values)
           NavigationDrawerDestination(
             icon: Icon(item.iconData),
-            label: Text(item.label),
+            label: Text(item.label.tr()),
           ),
         // const Padding(
         //   padding: EdgeInsets.fromLTRB(28, 16, 28, 10),
@@ -296,7 +287,7 @@ class _ScaffoldWithNavigationBar extends StatelessWidget {
           for (final item in NavigationItem.values)
             NavigationDestination(
               icon: Icon(item.iconData),
-              label: item.label,
+              label: item.label.tr(),
             ),
         ],
       ),

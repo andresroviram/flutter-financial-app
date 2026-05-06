@@ -18,22 +18,24 @@ class MyApp extends StatelessWidget {
       light: AppTheme.light,
       dark: AppTheme.dark,
       initial: AdaptiveThemeMode.system,
-      builder: (theme, darkTheme) => ResponsiveBreakpoints.builder(
-        breakpoints: [
-          const Breakpoint(start: 0, end: 450, name: MOBILE),
-          const Breakpoint(start: 451, end: 960, name: TABLET),
-          const Breakpoint(start: 961, end: double.infinity, name: DESKTOP),
-        ],
-        child: MaterialApp.router(
-          title: MyApp.title,
-          debugShowCheckedModeBanner: false,
-          theme: theme,
-          darkTheme: darkTheme,
-          themeMode: ThemeMode.system,
-          routerConfig: getIt<GoRouter>(),
-          localizationsDelegates: context.localizationDelegates,
-          supportedLocales: context.supportedLocales,
-          locale: context.locale,
+      builder: (theme, darkTheme) => Builder(
+        builder: (ctx) => ResponsiveBreakpoints.builder(
+          breakpoints: [
+            const Breakpoint(start: 0, end: 450, name: MOBILE),
+            const Breakpoint(start: 451, end: 960, name: TABLET),
+            const Breakpoint(start: 961, end: double.infinity, name: DESKTOP),
+          ],
+          child: MaterialApp.router(
+            onGenerateTitle: (ctx) => 'app_title'.tr(),
+            debugShowCheckedModeBanner: false,
+            theme: theme,
+            darkTheme: darkTheme,
+            themeMode: ThemeMode.system,
+            routerConfig: getIt<GoRouter>(),
+            localizationsDelegates: ctx.localizationDelegates,
+            supportedLocales: ctx.supportedLocales,
+            locale: ctx.locale,
+          ),
         ),
       ),
     );

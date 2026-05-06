@@ -1,7 +1,9 @@
 {
 	"app_title": "Country Explorer",
+	"dashboard": "Dashboard",
 	"countries_list": {
 		"title": "European Countries",
+		"search_hint": "Search country...",
 		"wishlist_tooltip": "Wishlist",
 		"refresh": "Refresh"
 	},
@@ -35,5 +37,15 @@
 	},
 	"switch_to_dark": "Switch to dark mode",
 	"switch_to_light": "Switch to light mode",
-	"profile": "Profile"
+	"profile": "Profile",
+	"performance_toggle": {
+		"label": "Isolate",
+		"active_tooltip": "Isolate active — no janks",
+		"inactive_tooltip": "No isolate — janks visible"
+	},
+	"nav": {
+		"home": "Home",
+		"wishlist": "Wishlist",
+		"settings": "Settings"
+	}
 }

@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../../core/utils/locale_utils.dart';
 import '../bloc/home_bloc.dart';
 import '../widgets/country_card.dart';
 import '../widgets/error_retry.dart';
@@ -29,14 +31,17 @@ class HomeMobile extends StatelessWidget {
           if (state.countries.isEmpty && state.failure != null) {
             return ErrorRetry(
               failure: state.failure!,
-              onRetry: () =>
-                  context.read<HomeBloc>().add(const HomeEvent.loadCountries()),
+              onRetry: () => context.read<HomeBloc>().add(
+                HomeEvent.loadCountries(LocaleUtils.toLang(context.locale)),
+              ),
             );
           }
 
           return RefreshIndicator(
             onRefresh: () async {
-              context.read<HomeBloc>().add(const HomeEvent.loadCountries());
+              context.read<HomeBloc>().add(
+                HomeEvent.loadCountries(LocaleUtils.toLang(context.locale)),
+              );
             },
             child: CustomScrollView(
               slivers: [

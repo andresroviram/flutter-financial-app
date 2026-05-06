@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import '../../../../../core/error/error.dart';
@@ -17,8 +18,8 @@ class ErrorState extends StatelessWidget {
           const Gap(16),
           Text(
             failure is NetworkFailure
-                ? 'Sin conexión a internet'
-                : 'No se pudo cargar el detalle del país',
+                ? 'errors.no_internet'.tr()
+                : 'errors.load_detail'.tr(),
           ),
         ],
       ),
