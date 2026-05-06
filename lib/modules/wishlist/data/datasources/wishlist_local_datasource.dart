@@ -1,7 +1,7 @@
-import 'package:flutter_wigilabs_sr/core/database/tables/wishlist_table.dart';
+import 'package:flutter_wigilabs_sr/config/database/app_database.dart';
+import 'package:flutter_wigilabs_sr/config/database/tables/wishlist_table.dart';
 import 'package:flutter_wigilabs_sr/modules/home/domain/entities/country_entity.dart';
 import 'package:injectable/injectable.dart';
-import '../../../../core/database/app_database.dart';
 import '../../../../core/error/error.dart';
 
 abstract class IWishlistLocalDatasource {

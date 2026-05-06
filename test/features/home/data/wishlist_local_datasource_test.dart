@@ -1,11 +1,10 @@
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_wigilabs_sr/config/database/app_database.dart';
 
-import 'package:flutter_wigilabs_sr/core/database/app_database.dart';
 import 'package:flutter_wigilabs_sr/modules/home/data/datasources/wishlist_local_datasource.dart';
 import 'package:flutter_wigilabs_sr/modules/home/domain/entities/country_entity.dart';
 
-// ──────────────────────── Fixtures ────────────────────────
 
 const tSpain = CountryEntity(
   cca2: 'ES',
@@ -27,7 +26,6 @@ const tFrance = CountryEntity(
   flagPng: 'https://flagcdn.com/w320/fr.png',
 );
 
-// ──────────────────────── Tests ────────────────────────
 
 void main() {
   late AppDatabase database;

@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart' as drift;
-import 'package:flutter_wigilabs_sr/core/database/tables/wishlist_table.dart';
+import 'package:flutter_wigilabs_sr/config/database/app_database.dart';
+import 'package:flutter_wigilabs_sr/config/database/tables/wishlist_table.dart';
 import 'package:injectable/injectable.dart';
-import '../../../../core/database/app_database.dart';
 import '../../../../core/error/error.dart';
 import '../../domain/entities/country_entity.dart';
 
@@ -24,14 +24,17 @@ class WishlistLocalDatasource implements IWishlistLocalDatasource {
       return rows.map((r) => r.toEntity()).toList();
     } catch (e) {
       throw StorageException(
-          message: 'Error al obtener la lista de deseos: $e');
+        message: 'Error al obtener la lista de deseos: $e',
+      );
     }
   }
 
   @override
   Future<void> addToWishlist(CountryEntity country) async {
     try {
-      await database.into(database.wishlistTable).insertOnConflictUpdate(
+      await database
+          .into(database.wishlistTable)
+          .insertOnConflictUpdate(
             WishlistTableCompanion.insert(
               cca2: country.cca2,
               commonName: country.commonName,
@@ -54,9 +57,9 @@ class WishlistLocalDatasource implements IWishlistLocalDatasource {
   @override
   Future<void> removeFromWishlist(String cca2) async {
     try {
-      await (database.delete(database.wishlistTable)
-            ..where((tbl) => tbl.cca2.equals(cca2)))
-          .go();
+      await (database.delete(
+        database.wishlistTable,
+      )..where((tbl) => tbl.cca2.equals(cca2))).go();
     } catch (e) {
       throw StorageException(
         message: 'Error al eliminar el país de la lista de deseos: $e',
@@ -73,7 +76,8 @@ class WishlistLocalDatasource implements IWishlistLocalDatasource {
       return row != null;
     } catch (e) {
       throw StorageException(
-          message: 'Error al verificar la lista de deseos: $e');
+        message: 'Error al verificar la lista de deseos: $e',
+      );
     }
   }
 }
