@@ -7,9 +7,18 @@ import 'package:go_router/go_router.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 class ScaffoldWithNavigation extends StatelessWidget {
-  const ScaffoldWithNavigation({super.key, required this.navigationShell});
+  const ScaffoldWithNavigation({
+    super.key,
+    required this.navigationShell,
+    required this.logoPath,
+    this.logoDarkPath,
+    required this.navigationItems,
+  });
 
   final StatefulNavigationShell navigationShell;
+  final String logoPath;
+  final String? logoDarkPath;
+  final List<NavigationItem> navigationItems;
 
   @override
   Widget build(BuildContext context) {
@@ -17,9 +26,25 @@ class ScaffoldWithNavigation extends StatelessWidget {
     final GlobalKey<ScaffoldState> scaffoldDrawerKey =
         GlobalKey<ScaffoldState>();
     return switch (breakpoint.name) {
-      MOBILE => _ScaffoldWithNavigationBar(navigationShell, scaffoldDrawerKey),
-      TABLET => _ScaffoldWithDrawer(navigationShell, scaffoldDrawerKey),
-      (_) => _ScaffoldWithNavigationRail(navigationShell, scaffoldDrawerKey),
+      MOBILE => _ScaffoldWithNavigationBar(
+        navigationShell,
+        scaffoldDrawerKey,
+        logoPath: logoPath,
+        logoDarkPath: logoDarkPath,
+        navigationItems: navigationItems,
+      ),
+      TABLET => _ScaffoldWithDrawer(
+        navigationShell,
+        scaffoldDrawerKey,
+        logoPath: logoPath,
+        navigationItems: navigationItems,
+      ),
+      (_) => _ScaffoldWithNavigationRail(
+        navigationShell,
+        scaffoldDrawerKey,
+        logoPath: logoPath,
+        navigationItems: navigationItems,
+      ),
     };
   }
 }
@@ -27,11 +52,15 @@ class ScaffoldWithNavigation extends StatelessWidget {
 class _ScaffoldWithNavigationRail extends StatelessWidget {
   const _ScaffoldWithNavigationRail(
     this.navigationShell,
-    this.scaffoldDrawerKey,
-  );
+    this.scaffoldDrawerKey, {
+    required this.logoPath,
+    required this.navigationItems,
+  });
 
   final StatefulNavigationShell navigationShell;
   final GlobalKey<ScaffoldState>? scaffoldDrawerKey;
+  final String logoPath;
+  final List<NavigationItem> navigationItems;
 
   @override
   Widget build(BuildContext context) {
@@ -47,11 +76,7 @@ class _ScaffoldWithNavigationRail extends StatelessWidget {
               decoration: const BoxDecoration(border: Border()),
               margin: EdgeInsets.zero,
               child: Center(
-                child: Image.asset(
-                  'assets/img/logo.png',
-                  width: 200,
-                  fit: BoxFit.cover,
-                ),
+                child: Image.asset(logoPath, width: 200, fit: BoxFit.cover),
               ),
             ),
             // const SizedBox(height: 16),
@@ -59,6 +84,7 @@ class _ScaffoldWithNavigationRail extends StatelessWidget {
               child: _NavigationDrawer(
                 navigationShell: navigationShell,
                 expand: true,
+                navigationItems: navigationItems,
               ),
             ),
             const Padding(
@@ -77,6 +103,7 @@ class _ScaffoldWithNavigationRail extends StatelessWidget {
                 child: _NavigationRail(
                   navigationShell: navigationShell,
                   expand: false,
+                  navigationItems: navigationItems,
                 ),
               ),
               const Padding(
@@ -98,10 +125,17 @@ class _ScaffoldWithNavigationRail extends StatelessWidget {
 }
 
 class _ScaffoldWithDrawer extends StatelessWidget {
-  const _ScaffoldWithDrawer(this.navigationShell, this.scaffoldDrawerKey);
+  const _ScaffoldWithDrawer(
+    this.navigationShell,
+    this.scaffoldDrawerKey, {
+    required this.logoPath,
+    required this.navigationItems,
+  });
 
   final StatefulNavigationShell navigationShell;
   final GlobalKey<ScaffoldState>? scaffoldDrawerKey;
+  final String logoPath;
+  final List<NavigationItem> navigationItems;
 
   @override
   Widget build(BuildContext context) {
@@ -116,17 +150,14 @@ class _ScaffoldWithDrawer extends StatelessWidget {
               decoration: const BoxDecoration(border: Border()),
               margin: EdgeInsets.zero,
               child: Center(
-                child: Image.asset(
-                  'assets/img/logo.png',
-                  width: 200,
-                  fit: BoxFit.cover,
-                ),
+                child: Image.asset(logoPath, width: 200, fit: BoxFit.cover),
               ),
             ),
             Expanded(
               child: _NavigationRail(
                 navigationShell: navigationShell,
                 expand: true,
+                navigationItems: navigationItems,
               ),
             ),
             const Padding(
@@ -141,10 +172,15 @@ class _ScaffoldWithDrawer extends StatelessWidget {
 }
 
 class _NavigationRail extends StatelessWidget {
-  const _NavigationRail({required this.navigationShell, required this.expand});
+  const _NavigationRail({
+    required this.navigationShell,
+    required this.expand,
+    required this.navigationItems,
+  });
 
   final StatefulNavigationShell navigationShell;
   final bool expand;
+  final List<NavigationItem> navigationItems;
 
   @override
   Widget build(BuildContext context) {
@@ -169,7 +205,7 @@ class _NavigationRail extends StatelessWidget {
         );
       },
       destinations: [
-        for (final item in NavigationItem.values)
+        for (final item in navigationItems)
           NavigationRailDestination(
             icon: Icon(item.iconData),
             label: Text(item.label.tr()),
@@ -187,10 +223,12 @@ class _NavigationDrawer extends StatelessWidget {
   const _NavigationDrawer({
     required this.navigationShell,
     required this.expand,
+    required this.navigationItems,
   });
 
   final StatefulNavigationShell navigationShell;
   final bool expand;
+  final List<NavigationItem> navigationItems;
 
   @override
   Widget build(BuildContext context) {
@@ -213,7 +251,7 @@ class _NavigationDrawer extends StatelessWidget {
             style: Theme.of(context).textTheme.titleSmall,
           ),
         ),
-        for (final item in NavigationItem.values)
+        for (final item in navigationItems)
           NavigationDrawerDestination(
             icon: Icon(item.iconData),
             label: Text(item.label.tr()),
@@ -230,11 +268,17 @@ class _NavigationDrawer extends StatelessWidget {
 class _ScaffoldWithNavigationBar extends StatelessWidget {
   const _ScaffoldWithNavigationBar(
     this.navigationShell,
-    this.scaffoldDrawerKey,
-  );
+    this.scaffoldDrawerKey, {
+    required this.logoPath,
+    this.logoDarkPath,
+    required this.navigationItems,
+  });
 
   final StatefulNavigationShell navigationShell;
   final GlobalKey<ScaffoldState>? scaffoldDrawerKey;
+  final String logoPath;
+  final String? logoDarkPath;
+  final List<NavigationItem> navigationItems;
 
   @override
   Widget build(BuildContext context) {
@@ -251,8 +295,8 @@ class _ScaffoldWithNavigationBar extends StatelessWidget {
               child: Center(
                 child: Image.asset(
                   Theme.of(context).brightness == Brightness.light
-                      ? 'assets/img/logo_dark.png'
-                      : 'assets/img/logo.png',
+                      ? (logoDarkPath ?? logoPath)
+                      : logoPath,
                   width: 200,
                   fit: BoxFit.cover,
                 ),
@@ -262,6 +306,7 @@ class _ScaffoldWithNavigationBar extends StatelessWidget {
               child: _NavigationRail(
                 navigationShell: navigationShell,
                 expand: true,
+                navigationItems: navigationItems,
               ),
             ),
             const Padding(
@@ -280,7 +325,7 @@ class _ScaffoldWithNavigationBar extends StatelessWidget {
           );
         },
         destinations: [
-          for (final item in NavigationItem.values)
+          for (final item in navigationItems)
             NavigationDestination(
               icon: Icon(item.iconData),
               label: item.label.tr(),

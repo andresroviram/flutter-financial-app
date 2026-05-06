@@ -1,6 +1,7 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:components/layout/scaffold_with_navigation.dart';
 import 'package:core/entities/country_entity.dart';
+import 'package:core/enum/navigation_item.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:feature_home/presentation/country_detail/view/country_detail_view.dart';
 import 'package:feature_home/presentation/home/view/home_view.dart';
@@ -31,8 +32,15 @@ GoRouter createRouter() {
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
           return ScaffoldWithNavigation(
+            logoPath: 'assets/img/logo.png',
+            logoDarkPath: 'assets/img/logo_dark.png',
             key: ValueKey(context.locale.toString()),
             navigationShell: navigationShell,
+            navigationItems: const [
+              NavigationItem.home,
+              NavigationItem.wishlist,
+              NavigationItem.settings,
+            ],
           );
         },
         branches: [homeRoutes, wishlistRoutes, settingsRoutes],

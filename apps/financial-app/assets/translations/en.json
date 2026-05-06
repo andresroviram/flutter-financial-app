@@ -25,6 +25,7 @@
     "unexpected": "An unexpected error occurred",
     "retry": "Retry"
   },
+  "dashboard": "Dashboard",
   "switch_to_dark": "Switch to dark mode",
   "switch_to_light": "Switch to light mode",
   "performance_toggle": {
