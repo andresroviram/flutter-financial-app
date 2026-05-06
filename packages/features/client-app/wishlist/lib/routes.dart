@@ -1,7 +1,7 @@
 import 'package:core/constants/app_constants.dart';
 import 'package:core/entities/country_entity.dart';
 import 'package:feature_home/presentation/country_detail/view/country_detail_view.dart';
-import 'presentation/view/wishlist_view.dart';
+import 'package:feature_wishlist/presentation/view/wishlist_view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

@@ -1,14 +1,15 @@
 import 'package:core/get_it.dart';
-import '../../../domain/usecases/funds_usecases.dart';
-import '../bloc/transactions_bloc.dart';
-import '../bloc/transactions_event.dart';
-import '../bloc/transactions_state.dart';
-import '../widgets/transaction_tile.dart';
+import 'package:feature_funds/domain/usecases/funds_usecases.dart';
+import 'package:feature_funds/presentation/transactions/bloc/transactions_bloc.dart';
+import 'package:feature_funds/presentation/transactions/bloc/transactions_event.dart';
+import 'package:feature_funds/presentation/transactions/bloc/transactions_state.dart';
+import 'package:feature_funds/presentation/transactions/widgets/transaction_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 
-class TransactionsView extends StatelessWidget {
+class TransactionsView extends StatefulWidget {
   const TransactionsView({super.key});
 
   static const String path = '/transactions';
@@ -22,12 +23,45 @@ class TransactionsView extends StatelessWidget {
   );
 
   @override
+  State<TransactionsView> createState() => _TransactionsViewState();
+}
+
+class _TransactionsViewState extends State<TransactionsView> {
+  GoRouterDelegate? _delegate;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final newDelegate = GoRouter.of(context).routerDelegate;
+    if (_delegate != newDelegate) {
+      _delegate?.removeListener(_onRouteChanged);
+      _delegate = newDelegate;
+      newDelegate.addListener(_onRouteChanged);
+    }
+  }
+
+  void _onRouteChanged() {
+    if (!mounted) return;
+    final uri = _delegate?.currentConfiguration.uri.path;
+    if (uri == TransactionsView.path) {
+      context.read<TransactionsBloc>().add(const TransactionsLoadRequested());
+    }
+  }
+
+  @override
+  void dispose() {
+    _delegate?.removeListener(_onRouteChanged);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Historial de transacciones')),
       body: BlocBuilder<TransactionsBloc, TransactionsState>(
         builder: (context, state) {
-          if (state.status == TransactionsStatus.loading) {
+          if (state.status == TransactionsStatus.loading ||
+              state.status == TransactionsStatus.initial) {
             return const Center(child: CircularProgressIndicator());
           }
           if (state.status == TransactionsStatus.failure) {

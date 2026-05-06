@@ -1,9 +1,9 @@
 import 'package:core/get_it.dart';
 import 'package:core/utils/helpers.dart';
-import '../../../domain/usecases/home_usecases.dart';
-import '../bloc/home_bloc.dart';
-import 'home_mobile.dart';
-import 'home_web.dart';
+import 'package:feature_home/domain/usecases/home_usecases.dart';
+import 'package:feature_home/presentation/home/bloc/home_bloc.dart';
+import 'package:feature_home/presentation/home/view/home_mobile.dart';
+import 'package:feature_home/presentation/home/view/home_web.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';

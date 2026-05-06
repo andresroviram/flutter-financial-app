@@ -1,10 +1,10 @@
-import '../../../domain/entities/fund_entity.dart';
-import '../../../domain/entities/transaction_entity.dart';
-import '../bloc/funds_bloc.dart';
-import '../bloc/funds_event.dart';
-import '../bloc/funds_state.dart';
-import '../widgets/balance_header.dart';
-import '../widgets/fund_card.dart';
+import 'package:feature_funds/domain/entities/fund_entity.dart';
+import 'package:feature_funds/domain/entities/transaction_entity.dart';
+import 'package:feature_funds/presentation/funds/bloc/funds_bloc.dart';
+import 'package:feature_funds/presentation/funds/bloc/funds_event.dart';
+import 'package:feature_funds/presentation/funds/bloc/funds_state.dart';
+import 'package:feature_funds/presentation/funds/widgets/balance_header.dart';
+import 'package:feature_funds/presentation/funds/widgets/fund_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';

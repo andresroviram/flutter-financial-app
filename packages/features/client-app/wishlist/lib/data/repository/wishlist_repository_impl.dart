@@ -3,8 +3,8 @@ import 'dart:developer';
 import 'package:core/entities/country_entity.dart';
 import 'package:core/errors/error.dart';
 import 'package:core/errors/result.dart';
-import '../datasources/wishlist_local_datasource.dart';
-import '../../domain/repository/i_wishlist_repository.dart';
+import 'package:feature_wishlist/data/datasources/wishlist_local_datasource.dart';
+import 'package:feature_wishlist/domain/repository/i_wishlist_repository.dart';
 import 'package:injectable/injectable.dart';
 
 @Injectable(as: IWishlistRepository)

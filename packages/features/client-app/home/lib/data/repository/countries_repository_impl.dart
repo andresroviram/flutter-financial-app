@@ -5,10 +5,10 @@ import 'package:core/errors/error.dart';
 import 'package:core/errors/result.dart';
 import 'package:core/performance/performance_settings.dart';
 import 'package:core/utils/isolates/country_isolate_utils.dart';
-import '../datasources/countries_remote_datasource.dart';
-import '../datasources/wishlist_local_datasource.dart';
-import '../models/country_model.dart';
-import '../../domain/repository/i_countries_repository.dart';
+import 'package:feature_home/data/datasources/countries_remote_datasource.dart';
+import 'package:feature_home/data/datasources/wishlist_local_datasource.dart';
+import 'package:feature_home/data/models/country_model.dart';
+import 'package:feature_home/domain/repository/i_countries_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 

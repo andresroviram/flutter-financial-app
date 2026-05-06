@@ -1,10 +1,10 @@
 import 'package:core/get_it.dart';
-import '../../../domain/usecases/funds_usecases.dart';
-import '../bloc/funds_bloc.dart';
-import '../bloc/funds_event.dart';
-import '../bloc/funds_state.dart';
-import 'funds_mobile.dart';
-import 'funds_web.dart';
+import 'package:feature_funds/domain/usecases/funds_usecases.dart';
+import 'package:feature_funds/presentation/funds/bloc/funds_bloc.dart';
+import 'package:feature_funds/presentation/funds/bloc/funds_event.dart';
+import 'package:feature_funds/presentation/funds/bloc/funds_state.dart';
+import 'package:feature_funds/presentation/funds/view/funds_mobile.dart';
+import 'package:feature_funds/presentation/funds/view/funds_web.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_framework/responsive_framework.dart';

@@ -1,4 +1,4 @@
-import '../../../domain/entities/transaction_entity.dart';
+import 'package:feature_funds/domain/entities/transaction_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

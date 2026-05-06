@@ -1,10 +1,10 @@
 import 'package:core/entities/country_entity.dart';
 import 'package:core/get_it.dart';
 import 'package:core/utils/helpers.dart';
-import '../../../domain/usecases/country_detail_usecases.dart';
-import '../bloc/country_detail_bloc.dart';
-import 'country_detail_mobile.dart';
-import 'country_detail_web.dart';
+import 'package:feature_home/domain/usecases/country_detail_usecases.dart';
+import 'package:feature_home/presentation/country_detail/bloc/country_detail_bloc.dart';
+import 'package:feature_home/presentation/country_detail/view/country_detail_mobile.dart';
+import 'package:feature_home/presentation/country_detail/view/country_detail_web.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_framework/responsive_framework.dart';

@@ -1,7 +1,7 @@
 import 'package:core/errors/error.dart';
-import '../entities/fund_entity.dart';
-import '../entities/transaction_entity.dart';
-import '../repository/i_funds_repository.dart';
+import 'package:feature_funds/domain/entities/fund_entity.dart';
+import 'package:feature_funds/domain/entities/transaction_entity.dart';
+import 'package:feature_funds/domain/repository/i_funds_repository.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable

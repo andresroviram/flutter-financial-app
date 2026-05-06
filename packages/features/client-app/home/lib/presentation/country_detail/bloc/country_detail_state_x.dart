@@ -1,6 +1,6 @@
 import 'package:core/entities/country_entity.dart';
 import 'package:core/errors/error.dart';
-import 'country_detail_bloc.dart';
+import 'package:feature_home/presentation/country_detail/bloc/country_detail_bloc.dart';
 
 extension CountryDetailStateX on CountryDetailState {
   T resolve<T>({

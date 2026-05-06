@@ -1,6 +1,6 @@
 import 'package:core/entities/country_entity.dart';
 import 'package:core/errors/result.dart';
-import '../repository/i_countries_repository.dart';
+import 'package:feature_home/domain/repository/i_countries_repository.dart';
 import 'package:injectable/injectable.dart';
 
 @lazySingleton

@@ -1,10 +1,10 @@
 import 'package:components/shimmer/country_detail_shimmer_body.dart';
 import 'package:core/entities/country_entity.dart';
-import '../bloc/country_detail_bloc.dart';
-import '../bloc/country_detail_state_x.dart';
-import '../widgets/detail_web_body.dart';
-import '../widgets/detail_web_header.dart';
-import '../widgets/error_state.dart';
+import 'package:feature_home/presentation/country_detail/bloc/country_detail_bloc.dart';
+import 'package:feature_home/presentation/country_detail/bloc/country_detail_state_x.dart';
+import 'package:feature_home/presentation/country_detail/widgets/detail_web_body.dart';
+import 'package:feature_home/presentation/country_detail/widgets/detail_web_header.dart';
+import 'package:feature_home/presentation/country_detail/widgets/error_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

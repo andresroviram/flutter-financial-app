@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import '../../../domain/entities/fund_entity.dart';
+import 'package:feature_funds/domain/entities/fund_entity.dart';
 
 enum FundsStatus { initial, loading, success, failure, subscribing, canceling }
 

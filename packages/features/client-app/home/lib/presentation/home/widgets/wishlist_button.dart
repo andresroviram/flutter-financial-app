@@ -1,5 +1,5 @@
 import 'package:core/entities/country_entity.dart';
-import '../bloc/home_bloc.dart';
+import 'package:feature_home/presentation/home/bloc/home_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

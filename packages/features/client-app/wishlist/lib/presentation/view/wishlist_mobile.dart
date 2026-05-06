@@ -1,9 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:feature_home/presentation/country_detail/view/country_detail_view.dart';
-import '../bloc/wishlist_bloc.dart';
-import '../bloc/wishlist_state_x.dart';
-import '../widgets/empty_wishlist.dart';
-import '../widgets/wishlist_card.dart';
+import 'package:feature_wishlist/presentation/bloc/wishlist_bloc.dart';
+import 'package:feature_wishlist/presentation/bloc/wishlist_state_x.dart';
+import 'package:feature_wishlist/presentation/widgets/empty_wishlist.dart';
+import 'package:feature_wishlist/presentation/widgets/wishlist_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';

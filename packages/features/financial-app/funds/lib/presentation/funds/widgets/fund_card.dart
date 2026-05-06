@@ -1,6 +1,6 @@
-import '../../../domain/entities/fund_entity.dart';
-import '../../../domain/entities/transaction_entity.dart';
-import '../bloc/funds_state.dart';
+import 'package:feature_funds/domain/entities/fund_entity.dart';
+import 'package:feature_funds/domain/entities/transaction_entity.dart';
+import 'package:feature_funds/presentation/funds/bloc/funds_state.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';

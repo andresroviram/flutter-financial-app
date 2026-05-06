@@ -2,8 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:core/entities/country_entity.dart';
 import 'package:core/errors/error.dart';
 import 'package:core/errors/result.dart';
-import '../../domain/usecases/wishlist_grouped_usecases.dart';
-import '../../domain/usecases/wishlist_usecases.dart';
+import 'package:feature_wishlist/domain/usecases/wishlist_grouped_usecases.dart';
+import 'package:feature_wishlist/domain/usecases/wishlist_usecases.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'wishlist_bloc.freezed.dart';
