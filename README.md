@@ -91,14 +91,19 @@ flutter_wigilabs_sr/          # Workspace raíz (Melos)
 ├── packages/
 │   ├── core/                 # Capa compartida entre features
 │   │   └── lib/
-│   │       ├── domain/       # Entidades globales (CountryEntity…)
+│   │       ├── constants/    # Constantes globales
+│   │       ├── database/     # Drift: tablas, DAOs, conexión web/mobile
+│   │       │   ├── connection/
+│   │       │   └── tables/
+│   │       ├── entities/     # Entidades globales (CountryEntity…)
+│   │       ├── enum/         # Enums compartidos
+│   │       ├── env/          # Configuración de entorno (.env)
 │   │       ├── errors/       # Failures y manejo de errores
 │   │       ├── network/      # Cliente Dio e interceptores
 │   │       ├── performance/  # Detección de janks
 │   │       └── utils/
 │   │           └── isolates/ # CountryIsolateUtils (compute)
-│   ├── database/             # Drift: tablas, DAOs, conexión web/mobile
-│   ├── components/        # Widgets reutilizables y temas
+│   ├── components/           # Widgets reutilizables y temas
 │   └── features/
 │       ├── home/             # Listado y detalle de países
 │       ├── wishlist/         # Lista de deseos (favoritos)
