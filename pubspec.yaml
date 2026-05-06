@@ -122,6 +122,14 @@ melos:
         dirExists: test
       description: Ejecuta todos los tests.
 
+    test:financial:
+      exec: flutter test
+      concurrency: 4
+      packageFilters:
+        dirExists: test
+        scope: financial_app
+      description: Ejecuta tests solo de financial-app.
+
     test:coverage:
       exec: flutter test --coverage
       concurrency: 1
