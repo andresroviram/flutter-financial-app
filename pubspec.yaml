@@ -92,17 +92,22 @@ melos:
     test:
       exec: flutter test
       concurrency: 4
+      packageFilters:
+        dirExists: test
       description: Ejecuta todos los tests.
 
     test:coverage:
       exec: flutter test --coverage
       concurrency: 1
+      packageFilters:
+        dirExists: test
       description: Ejecuta todos los tests con reporte de cobertura.
 
     test:changed:
       exec: flutter test
       concurrency: 4
       packageFilters:
+        dirExists: test
         diff: origin/main
       description: Ejecuta tests solo de los packages que cambiaron.
 
