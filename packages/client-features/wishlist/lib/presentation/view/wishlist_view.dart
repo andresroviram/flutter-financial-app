@@ -37,6 +37,36 @@ class WishlistView extends StatefulWidget {
 class _WishlistViewState extends State<WishlistView> {
   static const int _branchIndex = 1;
   int? _prevShellIndex;
+  GoRouter? _router;
+  String? _prevRoutePath;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      _router = GoRouter.of(context);
+      _prevRoutePath = _router!.routerDelegate.currentConfiguration.uri.path;
+      _router!.routerDelegate.addListener(_onRouteChanged);
+    });
+  }
+
+  @override
+  void dispose() {
+    _router?.routerDelegate.removeListener(_onRouteChanged);
+    super.dispose();
+  }
+
+  void _onRouteChanged() {
+    if (!mounted) return;
+    final currentPath = _router!.routerDelegate.currentConfiguration.uri.path;
+    if (_prevRoutePath != null &&
+        _prevRoutePath != WishlistView.path &&
+        currentPath == WishlistView.path) {
+      context.read<WishlistBloc>().add(const WishlistEvent.loadWishlist());
+    }
+    _prevRoutePath = currentPath;
+  }
 
   @override
   void didChangeDependencies() {
