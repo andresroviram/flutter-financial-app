@@ -28,6 +28,7 @@
 #    ios_signing      → APP_STORE_CONNECT_PRIVATE_KEY, APP_STORE_CONNECT_API_KEY_ID, APP_STORE_CONNECT_ISSUER_ID
 #    github_pages     → GITHUB_TOKEN, GITHUB_REPO_FULL_NAME
 #    codecov          → CODECOV_TOKEN
+#    notify           → NOTIFY_EMAIL  (email de destino para notificaciones de build)
 # ────────────────────────────────────────────────────────────────────────────
 
 definitions:
@@ -163,6 +164,7 @@ workflows:
         - env_dev
         - android_signing
         - google_play
+        - notify
 
     scripts:
       - *install_melos
@@ -185,7 +187,7 @@ workflows:
     publishing:
       email:
         recipients:
-          - $CM_SUBMITTER_EMAIL
+          - $NOTIFY_EMAIL
         notify:
           success: true
           failure: true
@@ -217,6 +219,7 @@ workflows:
         - env_qa
         - android_signing
         - google_play
+        - notify
 
     scripts:
       - *install_melos
@@ -239,7 +242,7 @@ workflows:
     publishing:
       email:
         recipients:
-          - $CM_SUBMITTER_EMAIL
+          - $NOTIFY_EMAIL
         notify:
           success: true
           failure: true
@@ -275,6 +278,7 @@ workflows:
         - env_prod
         - android_signing
         - google_play
+        - notify
 
     scripts:
       - *install_melos
@@ -297,7 +301,7 @@ workflows:
     publishing:
       email:
         recipients:
-          - $CM_SUBMITTER_EMAIL
+          - $NOTIFY_EMAIL
         notify:
           success: true
           failure: true
@@ -329,6 +333,7 @@ workflows:
       groups:
         - env_dev
         - ios_signing
+        - notify
       vars:
         BUNDLE_ID: com.example.flutterWigilabsSr # ← actualiza con tu bundle ID real
       ios_signing:
@@ -357,7 +362,7 @@ workflows:
     publishing:
       email:
         recipients:
-          - $CM_SUBMITTER_EMAIL
+          - $NOTIFY_EMAIL
         notify:
           success: true
           failure: true
@@ -393,6 +398,7 @@ workflows:
       groups:
         - env_qa
         - ios_signing
+        - notify
       vars:
         BUNDLE_ID: com.example.flutterWigilabsSr # ← actualiza con tu bundle ID real
       ios_signing:
@@ -421,7 +427,7 @@ workflows:
     publishing:
       email:
         recipients:
-          - $CM_SUBMITTER_EMAIL
+          - $NOTIFY_EMAIL
         notify:
           success: true
           failure: true
@@ -461,6 +467,7 @@ workflows:
       groups:
         - env_prod
         - ios_signing
+        - notify
       vars:
         BUNDLE_ID: com.example.flutterWigilabsSr # ← actualiza con tu bundle ID real
         APP_STORE_APPLE_ID: "0000000000" # ← actualiza con tu Apple ID numérico
@@ -490,7 +497,7 @@ workflows:
     publishing:
       email:
         recipients:
-          - $CM_SUBMITTER_EMAIL
+          - $NOTIFY_EMAIL
         notify:
           success: true
           failure: true
