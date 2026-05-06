@@ -31,7 +31,7 @@ class CountryDetailWeb extends StatelessWidget {
                 child: SizedBox(
                   height: 80,
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 72, bottom: 12),
+                    padding: const EdgeInsets.only(left: 24, bottom: 12),
                     child: Align(
                       alignment: Alignment.bottomLeft,
                       child: Row(

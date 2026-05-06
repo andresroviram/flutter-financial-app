@@ -23,7 +23,7 @@ class HomeView extends StatefulWidget {
           getWishlist: getIt<GetWishlistUseCase>(),
           addToWishlist: getIt<AddToWishlistUseCase>(),
           removeFromWishlist: getIt<RemoveFromWishlistUseCase>(),
-        ),
+        )..add(const HomeEvent.loadCountries()),
       ),
     ],
     child: const HomeView(),
