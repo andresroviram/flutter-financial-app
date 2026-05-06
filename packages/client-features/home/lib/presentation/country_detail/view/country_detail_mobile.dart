@@ -3,7 +3,7 @@ import 'package:core/entities/country_entity.dart';
 import 'package:core/utils/format_utils.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:feature_home/presentation/country_detail/bloc/country_detail_bloc.dart';
-import 'package:feature_home/presentation/country_detail/bloc/country_detail_statex.dart';
+import 'package:feature_home/presentation/country_detail/bloc/country_detail_state_x.dart';
 import 'package:feature_home/presentation/country_detail/widgets/chip_list.dart';
 import 'package:feature_home/presentation/country_detail/widgets/detail_row.dart';
 import 'package:feature_home/presentation/country_detail/widgets/detail_section.dart';

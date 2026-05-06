@@ -6,6 +6,7 @@ abstract class HomeState with _$HomeState {
     @Default([]) List<CountryEntity> countries,
     @Default(<String>{}) Set<String> wishlistCca2s,
     @Default(false) bool isLoading,
+    @Default('') String searchQuery,
     Failure? failure,
   }) = _Initial;
 }

@@ -112,7 +112,7 @@ flutter_wigilabs_sr/            # Workspace raíz (Melos)
 │       └── settings/            # Idioma, tema y performance toggle
 ├── scripts/
 │   ├── setup_web.sh/.ps1        # Configura sqlite3.wasm y drift worker
-│   └── check_coverage.sh/.ps1  # Verifica umbral de cobertura
+│   └── check_coverage.sh/.ps1   # Verifica umbral de cobertura
 └── codemagic.yaml               # CI/CD para Codemagic
 ```
 

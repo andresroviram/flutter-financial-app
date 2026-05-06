@@ -18,6 +18,7 @@ class WishlistBloc extends Bloc<WishlistEvent, WishlistState> {
        super(const WishlistState()) {
     on<_LoadWishlist>(_onLoadWishlist);
     on<_RemoveFromWishlist>(_onRemoveFromWishlist);
+    on<_Search>(_onSearch);
     on<_Invalidate>(_onInvalidate);
   }
 
@@ -52,6 +53,10 @@ class WishlistBloc extends Bloc<WishlistEvent, WishlistState> {
         add(const WishlistEvent.loadWishlist());
       },
     );
+  }
+
+  void _onSearch(_Search event, Emitter<WishlistState> emit) {
+    emit(state.copyWith(searchQuery: event.query));
   }
 
   void _onInvalidate(_Invalidate event, Emitter<WishlistState> emit) {

@@ -23,6 +23,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<_LoadCountries>(_onLoadCountries);
     on<_LoadWishlist>(_onLoadWishlist);
     on<_ToggleWishlist>(_onToggleWishlist);
+    on<_Search>(_onSearch);
     on<_Invalidate>(_onInvalidate);
   }
 
@@ -91,6 +92,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     } else {
       await _addToWishlist(event.country);
     }
+  }
+
+  void _onSearch(_Search event, Emitter<HomeState> emit) {
+    emit(state.copyWith(searchQuery: event.query));
   }
 
   void _onInvalidate(_Invalidate event, Emitter<HomeState> emit) {

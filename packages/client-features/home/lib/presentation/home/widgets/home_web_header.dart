@@ -5,12 +5,10 @@ import 'package:gap/gap.dart';
 class HomeWebHeader extends StatelessWidget {
   const HomeWebHeader({
     super.key,
-    required this.search,
     required this.onSearchChanged,
     required this.onRefresh,
   });
 
-  final String search;
   final ValueChanged<String> onSearchChanged;
   final VoidCallback onRefresh;
 

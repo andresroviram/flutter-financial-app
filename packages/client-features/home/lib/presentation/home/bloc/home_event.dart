@@ -6,5 +6,6 @@ abstract class HomeEvent with _$HomeEvent {
   const factory HomeEvent.loadWishlist() = _LoadWishlist;
   const factory HomeEvent.toggleWishlist(CountryEntity country) =
       _ToggleWishlist;
+  const factory HomeEvent.search(String query) = _Search;
   const factory HomeEvent.invalidate() = _Invalidate;
 }
