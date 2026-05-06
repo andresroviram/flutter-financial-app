@@ -2,6 +2,12 @@
 
 Prueba técnica – Explorador de países de Europa con BLoC, Drift y Dio.
 
+## 🌐 Demo en vivo
+
+**Web App:** [https://andresroviram.github.io/flutter_wigilabs_sr/](https://andresroviram.github.io/flutter_wigilabs_sr/)
+
+La aplicación está desplegada automáticamente en GitHub Pages mediante GitHub Actions.
+
 ## Screenshots
 
 ### Mobile (Light Theme)
@@ -96,6 +102,86 @@ $ flutter run
 # Para web
 $ flutter run -d chrome
 ```
+
+## CI/CD & Despliegue
+
+El proyecto cuenta con workflows automatizados de CI/CD configurados con GitHub Actions:
+
+### 🔄 Continuous Integration (CI)
+
+**Workflow:** `.github/workflows/ci.yml`
+
+Se ejecuta automáticamente en cada push y pull request:
+
+- ✅ Instalación de dependencias
+- ✅ Generación de código (build_runner)
+- ✅ Verificación de formato de código
+- ✅ Análisis estático con flutter analyze
+- ✅ Ejecución de tests con cobertura
+- ✅ Reporte de cobertura a Codecov
+- ✅ Verificación de umbral de cobertura (60%)
+
+### 🚀 Despliegue Web
+
+**Workflow:** `.github/workflows/deploy-web.yml`
+
+**URL de producción:** [https://andresroviram.github.io/flutter_wigilabs_sr/](https://andresroviram.github.io/flutter_wigilabs_sr/)
+
+Se ejecuta automáticamente al hacer push a `main` o `develop`:
+
+- ✅ Build de la aplicación web con Flutter
+- ✅ Ejecución de tests
+- ✅ Despliegue automático a GitHub Pages
+- ✅ Configuración opcional para Firebase Hosting y Vercel
+
+### 📱 Despliegue Android
+
+**Workflow:** `.github/workflows/deploy-android.yml`
+
+Despliega a Google Play Store (Internal/Beta/Production) cuando se hace push a `main` o ramas `release/*`:
+
+- ✅ Build de APK/AAB firmado
+- ✅ Fastlane para automatización
+- ✅ Despliegue a diferentes tracks de Play Store
+
+### 🍎 Despliegue iOS
+
+**Workflow:** `.github/workflows/deploy-ios.yml`
+
+Despliega a TestFlight/App Store cuando se hace push a `main` o ramas `release/*`:
+
+- ✅ Build de IPA firmado
+- ✅ Fastlane para automatización
+- ✅ Gestión de certificados con match
+- ✅ Despliegue a TestFlight o App Store
+
+### 📋 Configuración de Secrets
+
+Para que los workflows funcionen correctamente, configura los siguientes secrets en GitHub:
+
+**General:**
+- `API_KEY` - (Opcional) API key si es requerida
+- `BASE_URL` - Base URL de la API (default: https://restcountries.com/v3.1)
+
+**Android:**
+- `ANDROID_KEYSTORE_BASE64` - Keystore codificado en base64
+- `KEYSTORE_PASSWORD` - Contraseña del keystore
+- `KEY_ALIAS` - Alias de la key
+- `KEY_PASSWORD` - Contraseña de la key
+- `PLAY_STORE_CONFIG_JSON` - Credenciales de servicio de Google Play
+
+**iOS:**
+- `MATCH_PASSWORD` - Contraseña para match (certificados)
+- `MATCH_GIT_BASIC_AUTHORIZATION` - Autorización para repositorio de certificados
+- `FASTLANE_USER` - Usuario de Apple Developer
+- `FASTLANE_PASSWORD` - Contraseña de Apple ID
+- `FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD` - Contraseña específica de app
+- `APP_STORE_CONNECT_API_KEY_ID` - ID de la API key de App Store Connect
+- `APP_STORE_CONNECT_API_ISSUER_ID` - Issuer ID de App Store Connect
+- `APP_STORE_CONNECT_API_KEY` - API Key de App Store Connect
+
+**Coverage:**
+- `CODECOV_TOKEN` - Token para reportar cobertura a Codecov
 
 ## Project Structure
 
