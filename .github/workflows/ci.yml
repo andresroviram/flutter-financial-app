@@ -34,11 +34,19 @@ jobs:
       - name: Install Melos
         run: dart pub global activate melos
 
-      - name: Create .env file (apps/client-app)
+      - name: Create .env files (dev / qa / prod)
         run: |
-          cat > apps/client-app/.env << EOF
-          API_KEY=${{ secrets.API_KEY || '' }}
-          BASE_URL=${{ secrets.BASE_URL || 'https://restcountries.com/v3.1' }}
+          cat > apps/client-app/.env.dev << EOF
+          API_KEY=${{ secrets.DEV_API_KEY }}
+          BASE_URL=${{ secrets.DEV_BASE_URL || 'https://restcountries.com/v3.1' }}
+          EOF
+          cat > apps/client-app/.env.qa << EOF
+          API_KEY=${{ secrets.QA_API_KEY }}
+          BASE_URL=${{ secrets.QA_BASE_URL || 'https://restcountries.com/v3.1' }}
+          EOF
+          cat > apps/client-app/.env.prod << EOF
+          API_KEY=${{ secrets.PROD_API_KEY }}
+          BASE_URL=${{ secrets.PROD_BASE_URL || 'https://restcountries.com/v3.1' }}
           EOF
 
       - name: Melos Bootstrap (instala todas las dependencias del workspace)
@@ -86,11 +94,19 @@ jobs:
       - name: Install Melos
         run: dart pub global activate melos
 
-      - name: Create .env file (apps/client-app)
+      - name: Create .env files (dev / qa / prod)
         run: |
-          cat > apps/client-app/.env << EOF
-          API_KEY=${{ secrets.API_KEY || '' }}
-          BASE_URL=${{ secrets.BASE_URL || 'https://restcountries.com/v3.1' }}
+          cat > apps/client-app/.env.dev << EOF
+          API_KEY=${{ secrets.DEV_API_KEY }}
+          BASE_URL=${{ secrets.DEV_BASE_URL || 'https://restcountries.com/v3.1' }}
+          EOF
+          cat > apps/client-app/.env.qa << EOF
+          API_KEY=${{ secrets.QA_API_KEY }}
+          BASE_URL=${{ secrets.QA_BASE_URL || 'https://restcountries.com/v3.1' }}
+          EOF
+          cat > apps/client-app/.env.prod << EOF
+          API_KEY=${{ secrets.PROD_API_KEY }}
+          BASE_URL=${{ secrets.PROD_BASE_URL || 'https://restcountries.com/v3.1' }}
           EOF
 
       - name: Melos Bootstrap
@@ -99,8 +115,19 @@ jobs:
       - name: Code generation
         run: melos run build:all
 
+      - name: Determine flavor
+        id: flavor
+        run: |
+          if [[ "${{ github.ref }}" == refs/heads/develop ]]; then
+            echo "flavor=dev" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.ref }}" == refs/heads/main ]]; then
+            echo "flavor=qa" >> $GITHUB_OUTPUT
+          else
+            echo "flavor=dev" >> $GITHUB_OUTPUT
+          fi
+
       - name: Build Web
-        run: cd apps/client-app && flutter build web --release
+        run: cd apps/client-app && flutter build web --release --dart-define=FLAVOR=${{ steps.flavor.outputs.flavor }}
 
       - name: Upload web artifact
         uses: actions/upload-artifact@v4
@@ -133,11 +160,19 @@ jobs:
       - name: Install Melos
         run: dart pub global activate melos
 
-      - name: Create .env file (apps/client-app)
+      - name: Create .env files (dev / qa / prod)
         run: |
-          cat > apps/client-app/.env << EOF
-          API_KEY=${{ secrets.API_KEY || '' }}
-          BASE_URL=${{ secrets.BASE_URL || 'https://restcountries.com/v3.1' }}
+          cat > apps/client-app/.env.dev << EOF
+          API_KEY=${{ secrets.DEV_API_KEY }}
+          BASE_URL=${{ secrets.DEV_BASE_URL || 'https://restcountries.com/v3.1' }}
+          EOF
+          cat > apps/client-app/.env.qa << EOF
+          API_KEY=${{ secrets.QA_API_KEY }}
+          BASE_URL=${{ secrets.QA_BASE_URL || 'https://restcountries.com/v3.1' }}
+          EOF
+          cat > apps/client-app/.env.prod << EOF
+          API_KEY=${{ secrets.PROD_API_KEY }}
+          BASE_URL=${{ secrets.PROD_BASE_URL || 'https://restcountries.com/v3.1' }}
           EOF
 
       - name: Melos Bootstrap
@@ -146,8 +181,19 @@ jobs:
       - name: Code generation
         run: melos run build:all
 
+      - name: Determine flavor
+        id: flavor
+        run: |
+          if [[ "${{ github.ref }}" == refs/heads/develop ]]; then
+            echo "flavor=dev" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.ref }}" == refs/heads/main ]]; then
+            echo "flavor=qa" >> $GITHUB_OUTPUT
+          else
+            echo "flavor=dev" >> $GITHUB_OUTPUT
+          fi
+
       - name: Build Android APK
-        run: cd apps/client-app && flutter build apk --release
+        run: cd apps/client-app && flutter build apk --release --dart-define=FLAVOR=${{ steps.flavor.outputs.flavor }}
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
