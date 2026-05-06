@@ -166,7 +166,7 @@ class _NavigationRail extends StatelessWidget {
       onDestinationSelected: (index) {
         navigationShell.goBranch(
           index,
-          initialLocation: index == navigationShell.currentIndex,
+          initialLocation: index != navigationShell.currentIndex,
         );
       },
       destinations: [
@@ -200,7 +200,7 @@ class _NavigationDrawer extends StatelessWidget {
       onDestinationSelected: (index) {
         navigationShell.goBranch(
           index,
-          initialLocation: index == navigationShell.currentIndex,
+          initialLocation: index != navigationShell.currentIndex,
         );
       },
       indicatorShape: const RoundedRectangleBorder(
@@ -277,7 +277,7 @@ class _ScaffoldWithNavigationBar extends StatelessWidget {
         onDestinationSelected: (index) {
           navigationShell.goBranch(
             index,
-            initialLocation: index == navigationShell.currentIndex,
+            initialLocation: index != navigationShell.currentIndex,
           );
         },
         destinations: [
