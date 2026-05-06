@@ -103,17 +103,12 @@ class _HomeWebState extends State<HomeWeb> {
                           child: CountryCard(
                             country: country,
                             isInWishlist: isInWishlist,
-                            onTap: () async {
-                              await context.pushNamed(
+                            onTap: () {
+                              context.goNamed(
                                 CountryDetailView.nameWeb,
                                 pathParameters: {'countryCode': country.cca2},
                                 extra: country,
                               );
-                              if (context.mounted) {
-                                context.read<HomeBloc>().add(
-                                  const HomeEvent.loadWishlist(),
-                                );
-                              }
                             },
                           ),
                         );
