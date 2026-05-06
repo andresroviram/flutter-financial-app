@@ -52,11 +52,8 @@ melos:
       description: Aplica formato a todos los packages.
 
     build:all:
-      exec: dart run build_runner build --delete-conflicting-outputs
-      concurrency: 1
-      packageFilters:
-        dependsOn: build_runner
-      description: Ejecuta build_runner en todos los packages en orden correcto.
+      run: melos run build:core && melos run build:feature_home && melos run build:feature_wishlist && melos run build:app
+      description: Genera código en todos los packages en orden secuencial.
 
     build:core:
       exec: dart run build_runner build --delete-conflicting-outputs
