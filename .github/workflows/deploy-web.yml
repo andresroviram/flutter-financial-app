@@ -41,7 +41,7 @@ jobs:
           EOF
 
       - name: Run code generation
-        run: cd apps/app && dart run build_runner build --delete-conflicting-outputs
+        run: melos run build:all
 
       - name: Setup web assets
         run: |

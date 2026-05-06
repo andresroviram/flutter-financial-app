@@ -44,8 +44,8 @@ jobs:
       - name: Melos Bootstrap (instala todas las dependencias del workspace)
         run: melos bootstrap
 
-      - name: Run code generation (apps/app)
-        run: cd apps/app && dart run build_runner build --delete-conflicting-outputs
+      - name: Run code generation (all packages)
+        run: melos run build:all
 
       - name: Verify formatting
         run: melos run format
@@ -97,7 +97,7 @@ jobs:
         run: melos bootstrap
 
       - name: Code generation
-        run: cd apps/app && dart run build_runner build --delete-conflicting-outputs
+        run: melos run build:all
 
       - name: Build Web
         run: cd apps/app && flutter build web --release
@@ -144,7 +144,7 @@ jobs:
         run: melos bootstrap
 
       - name: Code generation
-        run: cd apps/app && dart run build_runner build --delete-conflicting-outputs
+        run: melos run build:all
 
       - name: Build Android APK
         run: cd apps/app && flutter build apk --release
