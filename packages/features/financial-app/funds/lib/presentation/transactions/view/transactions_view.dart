@@ -6,6 +6,7 @@ import 'package:feature_funds/presentation/transactions/bloc/transactions_event.
 import 'package:feature_funds/presentation/transactions/bloc/transactions_state.dart';
 import 'package:feature_funds/presentation/transactions/bloc/transactions_state_x.dart';
 import 'package:feature_funds/presentation/transactions/widgets/transaction_tile.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -62,6 +63,22 @@ class _TransactionsViewState extends State<TransactionsView> {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final targetPlatform = Theme.of(context).platform;
+    final isLargeLayout = kIsWeb ||
+        switch (targetPlatform) {
+          TargetPlatform.macOS ||
+          TargetPlatform.windows ||
+          TargetPlatform.linux => true,
+          _ => false,
+        };
+    final listPadding = isLargeLayout
+        ? const EdgeInsets.fromLTRB(
+            24,
+            24,
+            24 + TransactionsView.verticalListRightPadding,
+            24,
+          )
+        : const EdgeInsets.all(16);
 
     return Scaffold(
       appBar: AppBar(
@@ -102,12 +119,7 @@ class _TransactionsViewState extends State<TransactionsView> {
               const TransactionsEvent.loadRequested(),
             ),
             child: ListView(
-              padding: const EdgeInsets.fromLTRB(
-                24,
-                24,
-                24 + TransactionsView.verticalListRightPadding,
-                24,
-              ),
+              padding: listPadding,
               children: [
                 Card(
                   clipBehavior: Clip.antiAlias,

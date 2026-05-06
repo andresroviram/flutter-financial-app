@@ -5,6 +5,8 @@ import 'package:feature_funds/presentation/transactions/bloc/transactions_event.
 import 'package:feature_funds/presentation/transactions/bloc/transactions_state.dart';
 import 'package:feature_funds/presentation/transactions/view/transactions_view.dart';
 import 'package:feature_funds/presentation/transactions/widgets/transaction_tile.dart';
+import 'package:financial_app/config/theme/app_theme.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -155,6 +157,36 @@ void main() {
       );
       expect(
         tester.widget<ListView>(find.byType(ListView)).padding,
+        const EdgeInsets.all(16),
+      );
+    });
+
+    testWidgets('usa gutter ancho en layouts web o desktop', (tester) async {
+      final bloc = MockTransactionsBloc();
+      whenListen(
+        bloc,
+        const Stream<TransactionsState>.empty(),
+        initialState: TransactionsState(
+          status: TransactionsStatus.success,
+          transactions: [tTransaction],
+        ),
+      );
+
+      await tester.pumpWidget(
+        makeTestWidget(
+          BlocProvider<TransactionsBloc>.value(
+            value: bloc,
+            child: Theme(
+              data: AppTheme.light.copyWith(platform: TargetPlatform.macOS),
+              child: const _TransactionsViewWrapper(),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(
+        tester.widget<ListView>(find.byType(ListView)).padding,
         const EdgeInsets.fromLTRB(
           24,
           24,
@@ -205,14 +237,26 @@ class _FakeTransactionsScaffold extends StatelessWidget {
     if (state.transactions.isEmpty) {
       return const Scaffold(body: Center(child: Text('Sin transacciones aún')));
     }
+    final targetPlatform = Theme.of(context).platform;
+    final isLargeLayout = kIsWeb ||
+        switch (targetPlatform) {
+          TargetPlatform.macOS ||
+          TargetPlatform.windows ||
+          TargetPlatform.linux => true,
+          _ => false,
+        };
+    final listPadding = isLargeLayout
+        ? const EdgeInsets.fromLTRB(
+            24,
+            24,
+            24 + TransactionsView.verticalListRightPadding,
+            24,
+          )
+        : const EdgeInsets.all(16);
+
     return Scaffold(
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(
-          24,
-          24,
-          24 + TransactionsView.verticalListRightPadding,
-          24,
-        ),
+        padding: listPadding,
         children: [
           Card(
             clipBehavior: Clip.antiAlias,
