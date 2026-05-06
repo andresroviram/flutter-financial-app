@@ -1,5 +1,6 @@
 import 'package:core/env/i_env_config.dart';
 import 'package:envied/envied.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_wigilabs_sr/config/env/app_flavor.dart';
 import 'package:injectable/injectable.dart';
 
@@ -31,9 +32,13 @@ final class EnvProd {
 
 @LazySingleton(as: IEnvConfig)
 final class Env implements IEnvConfig {
-  /// [flavor] es opcional: en producción usa [kFlavor] (compile-time constant);
-  /// en tests se puede inyectar cualquier flavor para ejercer todas las ramas.
-  Env({AppFlavor? flavor}) : _flavor = flavor ?? kFlavor;
+  /// Constructor de producción: usa [kFlavor] (compile-time constant).
+  /// Injectable usa siempre este constructor → nunca intenta resolver [AppFlavor].
+  Env() : _flavor = kFlavor;
+
+  /// Constructor exclusivo para tests: permite inyectar cualquier flavor.
+  @visibleForTesting
+  Env.withFlavor(AppFlavor flavor) : _flavor = flavor;
 
   final AppFlavor _flavor;
 

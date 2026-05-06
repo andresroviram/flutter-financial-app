@@ -9,35 +9,35 @@ void main() {
     });
 
     test('baseUrl delegates to EnvDev when flavor is dev', () {
-      final env = Env(flavor: AppFlavor.dev);
+      final env = Env.withFlavor(AppFlavor.dev);
       expect(env.baseUrl, EnvDev.baseUrl);
       expect(env.baseUrl, isNotEmpty);
     });
 
     test('apiKey delegates to EnvDev when flavor is dev', () {
-      final env = Env(flavor: AppFlavor.dev);
+      final env = Env.withFlavor(AppFlavor.dev);
       expect(env.apiKey, EnvDev.apiKey);
     });
 
     test('baseUrl delegates to EnvQa when flavor is qa', () {
-      final env = Env(flavor: AppFlavor.qa);
+      final env = Env.withFlavor(AppFlavor.qa);
       expect(env.baseUrl, EnvQa.baseUrl);
       expect(env.baseUrl, isNotEmpty);
     });
 
     test('apiKey delegates to EnvQa when flavor is qa', () {
-      final env = Env(flavor: AppFlavor.qa);
+      final env = Env.withFlavor(AppFlavor.qa);
       expect(env.apiKey, EnvQa.apiKey);
     });
 
     test('baseUrl delegates to EnvProd when flavor is prod', () {
-      final env = Env(flavor: AppFlavor.prod);
+      final env = Env.withFlavor(AppFlavor.prod);
       expect(env.baseUrl, EnvProd.baseUrl);
       expect(env.baseUrl, isNotEmpty);
     });
 
     test('apiKey delegates to EnvProd when flavor is prod', () {
-      final env = Env(flavor: AppFlavor.prod);
+      final env = Env.withFlavor(AppFlavor.prod);
       expect(env.apiKey, EnvProd.apiKey);
     });
 
