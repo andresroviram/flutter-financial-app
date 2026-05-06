@@ -24,7 +24,7 @@ class WishlistView extends StatefulWidget {
         create: (_) => WishlistBloc(
           getWishlist: getIt<GetWishlistUseCase>(),
           removeFromWishlist: getIt<RemoveFromWishlistUseCase>(),
-        )..add(const WishlistEvent.loadWishlist()),
+        ),
       ),
     ],
     child: const WishlistView(),

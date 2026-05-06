@@ -1,6 +1,5 @@
 import 'package:core/get_it.dart';
 import 'package:core/utils/helpers.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:feature_home/domain/usecases/countries_usecases.dart';
 import 'package:feature_home/presentation/home/bloc/home_bloc.dart';
 import 'package:feature_home/presentation/home/view/home_mobile.dart';
@@ -37,7 +36,6 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   static const int _branchIndex = 0;
   int? _prevShellIndex;
-  Locale? _prevLocale;
 
   @override
   void didChangeDependencies() {
@@ -50,12 +48,6 @@ class _HomeViewState extends State<HomeView> {
       context.read<HomeBloc>().add(const HomeEvent.loadWishlist());
     }
     _prevShellIndex = currentIndex;
-
-    final currentLocale = context.locale;
-    if (_prevLocale != currentLocale) {
-      _prevLocale = currentLocale;
-      context.read<HomeBloc>().add(const HomeEvent.loadCountries());
-    }
   }
 
   @override

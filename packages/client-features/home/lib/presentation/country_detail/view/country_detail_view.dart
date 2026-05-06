@@ -49,8 +49,6 @@ class CountryDetailView extends StatelessWidget {
               removeFromWishlist: getIt<RemoveFromWishlistUseCase>(),
             );
 
-            // Si tenemos el objeto country completo, usar loadDetail con el nombre
-            // Si solo tenemos el código, usar loadDetailByCode
             if (country != null) {
               bloc.add(
                 CountryDetailEvent.loadDetail(
