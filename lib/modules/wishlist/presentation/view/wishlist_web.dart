@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_wigilabs_sr/modules/wishlist/presentation/view/wishlist_view.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import '../../../home/presentation/country_detail/view/country_detail_view.dart';
@@ -117,7 +118,7 @@ class _WishlistWebState extends State<WishlistWeb> {
                           ),
                           onTap: () {
                             context.goNamed(
-                              CountryDetailView.nameWeb,
+                              WishlistView.pathCountryDetail,
                               pathParameters: {'countryCode': country.cca2},
                               extra: country,
                             );

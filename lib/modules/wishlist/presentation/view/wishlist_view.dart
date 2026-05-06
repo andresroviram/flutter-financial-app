@@ -16,6 +16,8 @@ class WishlistView extends StatefulWidget {
   static const String path = '/wishlist';
   static const String name = 'wishlist';
 
+  static const String pathCountryDetail = '/wishlist_country_detail';
+
   static Widget create() => MultiBlocProvider(
     providers: [
       BlocProvider(

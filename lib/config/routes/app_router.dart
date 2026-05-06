@@ -24,14 +24,6 @@ abstract class RouterModule {
     initialLocation: HomeView.path,
     observers: [BotToastNavigatorObserver()],
     routes: [
-      GoRoute(
-        path: CountryDetailView.pathMobile,
-        name: CountryDetailView.nameMobile,
-        builder: (context, state) {
-          final country = state.extra as CountryEntity;
-          return CountryDetailView.create(country: country);
-        },
-      ),
       if (!AppConstants.isWeb)
         GoRoute(
           path: CountryDetailView.pathMobile,
