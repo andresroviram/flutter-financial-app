@@ -84,20 +84,20 @@ class CountryModel {
 
 extension CountryModelMapper on CountryModel {
   CountryEntity toEntity() => CountryEntity(
-        cca2: cca2,
-        commonName: name.common,
-        officialName: name.official,
-        capital: capital?.isNotEmpty == true ? capital!.first : null,
-        region: region,
-        subregion: subregion,
-        population: population,
-        flagPng: flags.png ?? flags.svg ?? '',
-        flagAlt: flags.alt,
-        area: area,
-        languages: languages?.values.toList(),
-        timezones: timezones,
-        borders: borders,
-        currencies: currencies?.values.map((c) => c.name ?? 'Unknown').toList(),
-        latlng: latlng,
-      );
+    cca2: cca2,
+    commonName: name.common,
+    officialName: name.official,
+    capital: capital?.isNotEmpty == true ? capital!.first : null,
+    region: region,
+    subregion: subregion,
+    population: population,
+    flagPng: flags.png ?? flags.svg ?? '',
+    flagAlt: flags.alt,
+    area: area,
+    languages: languages?.values.toList(),
+    timezones: timezones,
+    borders: borders,
+    currencies: currencies?.values.map((c) => c.name ?? 'Unknown').toList(),
+    latlng: latlng,
+  );
 }

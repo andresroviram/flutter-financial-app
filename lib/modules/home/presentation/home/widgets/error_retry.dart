@@ -3,11 +3,7 @@ import 'package:gap/gap.dart';
 import '../../../../../core/error/error.dart';
 
 class ErrorRetry extends StatelessWidget {
-  const ErrorRetry({
-    super.key,
-    required this.failure,
-    required this.onRetry,
-  });
+  const ErrorRetry({super.key, required this.failure, required this.onRetry});
 
   final Failure failure;
   final VoidCallback onRetry;

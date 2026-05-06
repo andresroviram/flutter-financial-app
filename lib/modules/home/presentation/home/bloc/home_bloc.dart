@@ -15,11 +15,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     required GetWishlistUseCase getWishlist,
     required AddToWishlistUseCase addToWishlist,
     required RemoveFromWishlistUseCase removeFromWishlist,
-  })  : _getCountries = getCountries,
-        _getWishlist = getWishlist,
-        _addToWishlist = addToWishlist,
-        _removeFromWishlist = removeFromWishlist,
-        super(const _Initial()) {
+  }) : _getCountries = getCountries,
+       _getWishlist = getWishlist,
+       _addToWishlist = addToWishlist,
+       _removeFromWishlist = removeFromWishlist,
+       super(const _Initial()) {
     on<_LoadCountries>(_onLoadCountries);
     on<_LoadWishlist>(_onLoadWishlist);
     on<_ToggleWishlist>(_onToggleWishlist);

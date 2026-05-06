@@ -5,9 +5,7 @@ class AppNotification {
   static void showNotification(
     BuildContext context, {
     required String title,
-    Duration duration = const Duration(
-      seconds: 3,
-    ),
+    Duration duration = const Duration(seconds: 3),
     String? subtitle,
   }) {
     final theme = Theme.of(context);
@@ -29,9 +27,7 @@ class AppNotification {
   static void showNotificationError(
     BuildContext context, {
     required String title,
-    Duration duration = const Duration(
-      seconds: 3,
-    ),
+    Duration duration = const Duration(seconds: 3),
     String? subtitle,
   }) {
     final theme = Theme.of(context);
@@ -54,9 +50,7 @@ class AppNotification {
   static void showToast(
     BuildContext context, {
     required String text,
-    Duration? duration = const Duration(
-      seconds: 3,
-    ),
+    Duration? duration = const Duration(seconds: 3),
   }) {
     final theme = Theme.of(context);
     BotToast.showText(
@@ -76,9 +70,7 @@ class AppNotification {
   static void showToastError(
     BuildContext context, {
     required String text,
-    Duration? duration = const Duration(
-      seconds: 3,
-    ),
+    Duration? duration = const Duration(seconds: 3),
   }) {
     final theme = Theme.of(context);
     BotToast.showText(

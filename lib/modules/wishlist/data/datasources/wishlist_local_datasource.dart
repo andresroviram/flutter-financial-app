@@ -21,16 +21,17 @@ class WishlistLocalDatasource implements IWishlistLocalDatasource {
       return rows.map((r) => r.toEntity()).toList();
     } catch (e) {
       throw StorageException(
-          message: 'Error al obtener la lista de deseos: $e');
+        message: 'Error al obtener la lista de deseos: $e',
+      );
     }
   }
 
   @override
   Future<void> removeFromWishlist(String cca2) async {
     try {
-      await (database.delete(database.wishlistTable)
-            ..where((tbl) => tbl.cca2.equals(cca2)))
-          .go();
+      await (database.delete(
+        database.wishlistTable,
+      )..where((tbl) => tbl.cca2.equals(cca2))).go();
     } catch (e) {
       throw StorageException(
         message: 'Error al eliminar el país de la lista de deseos: $e',

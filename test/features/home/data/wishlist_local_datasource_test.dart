@@ -5,7 +5,6 @@ import 'package:flutter_wigilabs_sr/config/database/app_database.dart';
 import 'package:flutter_wigilabs_sr/modules/home/data/datasources/wishlist_local_datasource.dart';
 import 'package:flutter_wigilabs_sr/modules/home/domain/entities/country_entity.dart';
 
-
 const tSpain = CountryEntity(
   cca2: 'ES',
   commonName: 'Spain',
@@ -25,7 +24,6 @@ const tFrance = CountryEntity(
   population: 67000000,
   flagPng: 'https://flagcdn.com/w320/fr.png',
 );
-
 
 void main() {
   late AppDatabase database;
@@ -91,10 +89,7 @@ void main() {
       });
 
       test('no lanza excepción al eliminar un país que no existe', () async {
-        expect(
-          () => datasource.removeFromWishlist('XX'),
-          returnsNormally,
-        );
+        expect(() => datasource.removeFromWishlist('XX'), returnsNormally);
       });
     });
 
@@ -105,11 +100,13 @@ void main() {
         expect(result, isTrue);
       });
 
-      test('devuelve false cuando el país NO está en la lista de deseos',
-          () async {
-        final result = await datasource.isInWishlist('ES');
-        expect(result, isFalse);
-      });
+      test(
+        'devuelve false cuando el país NO está en la lista de deseos',
+        () async {
+          final result = await datasource.isInWishlist('ES');
+          expect(result, isFalse);
+        },
+      );
 
       test('devuelve false después de eliminar el país', () async {
         await datasource.addToWishlist(tSpain);

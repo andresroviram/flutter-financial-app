@@ -8,9 +8,7 @@ import '../datasources/wishlist_local_datasource.dart';
 
 @Injectable(as: IWishlistRepository)
 class WishlistRepositoryImpl implements IWishlistRepository {
-  const WishlistRepositoryImpl({
-    required this.localDatasource,
-  });
+  const WishlistRepositoryImpl({required this.localDatasource});
 
   final IWishlistLocalDatasource localDatasource;
 

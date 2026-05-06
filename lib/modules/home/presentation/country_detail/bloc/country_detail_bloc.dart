@@ -15,11 +15,11 @@ class CountryDetailBloc extends Bloc<CountryDetailEvent, CountryDetailState> {
     required IsInWishlistUseCase isInWishlist,
     required AddToWishlistUseCase addToWishlist,
     required RemoveFromWishlistUseCase removeFromWishlist,
-  })  : _getCountryDetail = getCountryDetail,
-        _isInWishlist = isInWishlist,
-        _addToWishlist = addToWishlist,
-        _removeFromWishlist = removeFromWishlist,
-        super(const CountryDetailState()) {
+  }) : _getCountryDetail = getCountryDetail,
+       _isInWishlist = isInWishlist,
+       _addToWishlist = addToWishlist,
+       _removeFromWishlist = removeFromWishlist,
+       super(const CountryDetailState()) {
     on<_LoadDetail>(_onLoadDetail);
     on<_ToggleWishlist>(_onToggleWishlist);
   }

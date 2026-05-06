@@ -29,9 +29,8 @@ class WishlistButton extends StatelessWidget {
             color: isInWishlist ? Colors.red : null,
           ),
         ),
-        onPressed: () => context
-            .read<HomeBloc>()
-            .add(HomeEvent.toggleWishlist(country)),
+        onPressed: () =>
+            context.read<HomeBloc>().add(HomeEvent.toggleWishlist(country)),
       ),
     );
   }

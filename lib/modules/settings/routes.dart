@@ -12,10 +12,8 @@ StatefulShellBranch settingsRoutes = StatefulShellBranch(
     GoRoute(
       path: SettingsView.path,
       name: SettingsView.name,
-      pageBuilder: (context, state) => NoTransitionPage(
-        key: state.pageKey,
-        child: SettingsView.create(),
-      ),
+      pageBuilder: (context, state) =>
+          NoTransitionPage(key: state.pageKey, child: SettingsView.create()),
     ),
   ],
 );

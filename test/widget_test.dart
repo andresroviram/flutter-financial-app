@@ -20,9 +20,9 @@ void main() {
 
     if (!GetIt.instance.isRegistered<GoRouter>()) {
       GetIt.instance.registerSingleton<GoRouter>(
-        GoRouter(routes: [
-          GoRoute(path: '/', builder: (_, __) => const SizedBox()),
-        ]),
+        GoRouter(
+          routes: [GoRoute(path: '/', builder: (_, __) => const SizedBox())],
+        ),
       );
     }
   });

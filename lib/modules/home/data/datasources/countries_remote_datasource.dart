@@ -20,8 +20,7 @@ class CountriesRemoteDatasource implements ICountriesRemoteDatasource {
     try {
       return (await dioClient.get(
         '${AppConstants.langEndpoint}$lang',
-      ))
-          .withListConverter(callback: CountryModel.fromJson);
+      )).withListConverter(callback: CountryModel.fromJson);
     } on Failure catch (_) {
       rethrow;
     }
@@ -32,9 +31,7 @@ class CountriesRemoteDatasource implements ICountriesRemoteDatasource {
     try {
       return (await dioClient.get(
         '${AppConstants.translationEndpoint}$translation',
-      ))
-          .withListConverter(callback: CountryModel.fromJson)
-          .first;
+      )).withListConverter(callback: CountryModel.fromJson).first;
     } on Failure catch (_) {
       rethrow;
     }

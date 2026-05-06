@@ -13,10 +13,8 @@ StatefulShellBranch homeRoutes = StatefulShellBranch(
     GoRoute(
       path: HomeView.path,
       name: HomeView.name,
-      pageBuilder: (context, state) => NoTransitionPage(
-        key: state.pageKey,
-        child: HomeView.create(),
-      ),
+      pageBuilder: (context, state) =>
+          NoTransitionPage(key: state.pageKey, child: HomeView.create()),
       routes: [
         if (AppConstants.isWeb)
           GoRoute(
@@ -25,10 +23,9 @@ StatefulShellBranch homeRoutes = StatefulShellBranch(
             pageBuilder: (context, state) {
               final country = state.extra as CountryEntity;
               return MaterialPage(
-                  key: state.pageKey,
-                  child: CountryDetailView.create(
-                    country: country,
-                  ));
+                key: state.pageKey,
+                child: CountryDetailView.create(country: country),
+              );
             },
           ),
       ],

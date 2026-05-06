@@ -64,12 +64,12 @@ extension ResultExtensions<T> on Result<T> {
   bool get isFailure => this is Error<T>;
 
   T? get valueOrNull => switch (this) {
-        Success(value: final v) => v,
-        _ => null,
-      };
+    Success(value: final v) => v,
+    _ => null,
+  };
 
   Failure? get errorOrNull => switch (this) {
-        Error(error: final e) => e,
-        _ => null,
-      };
+    Error(error: final e) => e,
+    _ => null,
+  };
 }

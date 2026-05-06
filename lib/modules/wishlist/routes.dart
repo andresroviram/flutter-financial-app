@@ -12,10 +12,8 @@ StatefulShellBranch wishlistRoutes = StatefulShellBranch(
     GoRoute(
       path: WishlistView.path,
       name: WishlistView.name,
-      pageBuilder: (context, state) => NoTransitionPage(
-        key: state.pageKey,
-        child: WishlistView.create(),
-      ),
+      pageBuilder: (context, state) =>
+          NoTransitionPage(key: state.pageKey, child: WishlistView.create()),
     ),
   ],
 );

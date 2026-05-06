@@ -38,12 +38,12 @@ class CountryEntity extends Equatable {
 
   @override
   List<Object?> get props => [
-        cca2,
-        commonName,
-        officialName,
-        capital,
-        region,
-        population,
-        flagPng,
-      ];
+    cca2,
+    commonName,
+    officialName,
+    capital,
+    region,
+    population,
+    flagPng,
+  ];
 }

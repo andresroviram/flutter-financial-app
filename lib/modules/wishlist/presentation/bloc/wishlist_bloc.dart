@@ -13,9 +13,9 @@ class WishlistBloc extends Bloc<WishlistEvent, WishlistState> {
   WishlistBloc({
     required GetWishlistUseCase getWishlist,
     required RemoveFromWishlistUseCase removeFromWishlist,
-  })  : _getWishlist = getWishlist,
-        _removeFromWishlist = removeFromWishlist,
-        super(const WishlistState()) {
+  }) : _getWishlist = getWishlist,
+       _removeFromWishlist = removeFromWishlist,
+       super(const WishlistState()) {
     on<_LoadWishlist>(_onLoadWishlist);
     on<_RemoveFromWishlist>(_onRemoveFromWishlist);
   }

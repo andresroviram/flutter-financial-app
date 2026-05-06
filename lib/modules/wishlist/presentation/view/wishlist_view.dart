@@ -17,17 +17,17 @@ class WishlistView extends StatefulWidget {
   static const String name = 'wishlist';
 
   static Widget create() => MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            lazy: false,
-            create: (_) => WishlistBloc(
-              getWishlist: getIt<GetWishlistUseCase>(),
-              removeFromWishlist: getIt<RemoveFromWishlistUseCase>(),
-            )..add(const WishlistEvent.loadWishlist()),
-          ),
-        ],
-        child: const WishlistView(),
-      );
+    providers: [
+      BlocProvider(
+        lazy: false,
+        create: (_) => WishlistBloc(
+          getWishlist: getIt<GetWishlistUseCase>(),
+          removeFromWishlist: getIt<RemoveFromWishlistUseCase>(),
+        )..add(const WishlistEvent.loadWishlist()),
+      ),
+    ],
+    child: const WishlistView(),
+  );
 
   @override
   State<WishlistView> createState() => _WishlistViewState();

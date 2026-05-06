@@ -43,18 +43,18 @@ void main() {
   });
 
   WishlistBloc buildBloc() => WishlistBloc(
-        getWishlist: mockGetWishlist,
-        removeFromWishlist: mockRemoveFromWishlist,
-      );
+    getWishlist: mockGetWishlist,
+    removeFromWishlist: mockRemoveFromWishlist,
+  );
 
   group('WishlistBloc', () {
     group('LoadWishlist', () {
       blocTest<WishlistBloc, WishlistState>(
         'emite [loading, loaded] con la lista de países cuando tiene éxito',
         setUp: () {
-          when(() => mockGetWishlist()).thenAnswer(
-            (_) async => const Success([tCountry1, tCountry2]),
-          );
+          when(
+            () => mockGetWishlist(),
+          ).thenAnswer((_) async => const Success([tCountry1, tCountry2]));
         },
         build: buildBloc,
         act: (bloc) => bloc.add(const WishlistEvent.loadWishlist()),
@@ -89,9 +89,9 @@ void main() {
       blocTest<WishlistBloc, WishlistState>(
         'emite lista vacía cuando la wishlist no tiene países',
         setUp: () {
-          when(() => mockGetWishlist()).thenAnswer(
-            (_) async => const Success([]),
-          );
+          when(
+            () => mockGetWishlist(),
+          ).thenAnswer((_) async => const Success([]));
         },
         build: buildBloc,
         act: (bloc) => bloc.add(const WishlistEvent.loadWishlist()),
@@ -106,9 +106,9 @@ void main() {
       blocTest<WishlistBloc, WishlistState>(
         'elimina el país de la lista con actualización optimista',
         setUp: () {
-          when(() => mockRemoveFromWishlist(any())).thenAnswer(
-            (_) async => const Success(null),
-          );
+          when(
+            () => mockRemoveFromWishlist(any()),
+          ).thenAnswer((_) async => const Success(null));
         },
         build: buildBloc,
         seed: () => const WishlistState(wishlist: [tCountry1, tCountry2]),
@@ -125,9 +125,9 @@ void main() {
           when(() => mockRemoveFromWishlist(any())).thenAnswer(
             (_) async => const Error(StorageFailure(message: 'DB error')),
           );
-          when(() => mockGetWishlist()).thenAnswer(
-            (_) async => const Success([tCountry1, tCountry2]),
-          );
+          when(
+            () => mockGetWishlist(),
+          ).thenAnswer((_) async => const Success([tCountry1, tCountry2]));
         },
         build: buildBloc,
         seed: () => const WishlistState(wishlist: [tCountry1, tCountry2]),
