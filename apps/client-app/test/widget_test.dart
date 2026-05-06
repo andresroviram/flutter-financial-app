@@ -61,9 +61,9 @@ void main() {
     expect(kFlavor.showBanner, isTrue);
 
     await tester.pumpWidget(
-      MaterialApp(
+      const MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: FlavorBannerWrapper(child: const SizedBox(key: Key('content'))),
+        home: FlavorBannerWrapper(child: SizedBox(key: Key('content'))),
       ),
     );
 
