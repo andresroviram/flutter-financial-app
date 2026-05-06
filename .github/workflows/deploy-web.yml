@@ -33,6 +33,13 @@ jobs:
       - name: Install Flutter dependencies
         run: flutter pub get
 
+      - name: Create .env file
+        run: |
+          cat > .env << EOF
+          API_KEY=${{ secrets.API_KEY || '' }}
+          BASE_URL=${{ secrets.BASE_URL || 'https://restcountries.com/v3.1' }}
+          EOF
+
       - name: Run code generation
         run: dart run build_runner build --delete-conflicting-outputs
 
