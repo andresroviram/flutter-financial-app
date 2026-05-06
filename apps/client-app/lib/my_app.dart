@@ -2,31 +2,11 @@ import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_wigilabs_sr/config/env/app_flavor.dart';
+import 'package:flutter_wigilabs_sr/config/env/flavor_banner_wrapper.dart';
 import 'package:flutter_wigilabs_sr/config/injectable/injectable_dependency.dart';
 import 'package:flutter_wigilabs_sr/config/theme/app_theme.dart';
 import 'package:go_router/go_router.dart';
 import 'package:responsive_framework/responsive_framework.dart';
-
-/// Envuelve [child] con un [Banner] diagonal cuando el flavor activo
-/// no es producción. Extraído para facilitar el testing unitario.
-@visibleForTesting
-class FlavorBannerWrapper extends StatelessWidget {
-  const FlavorBannerWrapper({super.key, required this.child});
-
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    if (!kFlavor.showBanner) return child;
-    return Banner(
-      message: kFlavor.label,
-      location: BannerLocation.topEnd,
-      color: Color(kFlavor.bannerColor),
-      child: child,
-    );
-  }
-}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

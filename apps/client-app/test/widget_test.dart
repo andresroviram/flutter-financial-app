@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_wigilabs_sr/config/env/app_flavor.dart';
+import 'package:flutter_wigilabs_sr/config/env/flavor_banner_wrapper.dart';
 import 'package:flutter_wigilabs_sr/my_app.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
