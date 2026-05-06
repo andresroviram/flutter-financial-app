@@ -29,19 +29,19 @@ La aplicación está desplegada automáticamente en GitHub Pages mediante GitHub
 ### Web (Light Theme)
 <br>
 <p align="center">
-<img src="screenshots/web/Screenshot_19-2-2026_16144_localhost.jpeg" width="45%">
-<img src="screenshots/web/Screenshot_19-2-2026_161453_localhost.jpeg" width="45%">
-<img src="screenshots/web/Screenshot_19-2-2026_161536_localhost.jpeg" width="45%">
-<img src="screenshots/web/Screenshot_19-2-2026_161557_localhost.jpeg" width="45%">
+<img src="screenshots/web/Screenshot_19-2-2026_182939_localhost.jpeg" width="45%">
+<img src="screenshots/web/Screenshot_19-2-2026_183136_localhost.jpeg" width="45%">
+<img src="screenshots/web/Screenshot_19-2-2026_183254_localhost.jpeg" width="45%">
+<img src="screenshots/web/Screenshot_19-2-2026_183346_localhost.jpeg" width="45%">
 </p>
 
 ### Web (Dark Theme)
 <br>
 <p align="center">
-<img src="screenshots/web/Screenshot_19-2-2026_161827_localhost.jpeg" width="45%">
-<img src="screenshots/web/Screenshot_19-2-2026_161927_localhost.jpeg" width="45%">
-<img src="screenshots/web/Screenshot_19-2-2026_161842_localhost.jpeg" width="45%">
-<img src="screenshots/web/Screenshot_19-2-2026_16187_localhost.jpeg" width="45%">
+<img src="screenshots/web/Screenshot_19-2-2026_183514_localhost.jpeg" width="45%">
+<img src="screenshots/web/Screenshot_19-2-2026_183538_localhost.jpeg" width="45%">
+<img src="screenshots/web/Screenshot_19-2-2026_18369_localhost.jpeg" width="45%">
+<img src="screenshots/web/Screenshot_19-2-2026_183626_localhost.jpeg" width="45%">
 </p>
 
 ## Using on this app
