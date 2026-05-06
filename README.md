@@ -94,7 +94,7 @@ flutter_wigilabs_sr/            # Workspace raíz (Melos)
 │   ├── core/                    # Capa compartida entre features
 │   │   └── lib/
 │   │       ├── constants/       # Constantes globales
-│   │       ├── database/        # Drift: conexión web/mobile + WishlistTable
+│   │       ├── database/        # Drift: conexión web/mobile
 │   │       ├── entities/        # Entidades globales (CountryEntity…)
 │   │       ├── enum/            # Enums compartidos
 │   │       ├── env/             # Interfaz IEnvConfig
