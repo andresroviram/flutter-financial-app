@@ -19,7 +19,7 @@ class CountriesRemoteDatasource implements ICountriesRemoteDatasource {
   Future<List<CountryModel>> getEuropeanCountries() async {
     try {
       return (await dioClient.get(
-        '${AppConstants.baseUrl}${AppConstants.europeRegionEndpoint}',
+        AppConstants.europeRegionEndpoint,
       ))
           .withListConverter(callback: CountryModel.fromJson);
     } on Failure catch (_) {
@@ -31,7 +31,7 @@ class CountriesRemoteDatasource implements ICountriesRemoteDatasource {
   Future<CountryModel> getCountryDetail(String translation) async {
     try {
       return (await dioClient.get(
-        '${AppConstants.baseUrl}${AppConstants.translationEndpoint}$translation',
+        '${AppConstants.translationEndpoint}$translation',
       ))
           .withListConverter(callback: CountryModel.fromJson)
           .first;

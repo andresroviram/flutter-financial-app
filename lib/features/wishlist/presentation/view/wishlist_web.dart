@@ -113,10 +113,17 @@ class _WishlistWebState extends State<WishlistWeb> {
                           onRemove: () => context.read<WishlistBloc>().add(
                             WishlistEvent.removeFromWishlist(country.cca2),
                           ),
-                          onTap: () => context.push(
-                            CountryDetailView.path,
-                            extra: country,
-                          ),
+                          onTap: () async {
+                            await context.push(
+                              CountryDetailView.path,
+                              extra: country,
+                            );
+                            if (context.mounted) {
+                              context.read<WishlistBloc>().add(
+                                const WishlistEvent.loadWishlist(),
+                              );
+                            }
+                          },
                         );
                       },
                     ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
+import '../../../components/performance_toggle.dart';
 import '../../../components/theme_button.dart';
 import 'navigation_title.dart';
 
@@ -16,15 +17,15 @@ class NavigationAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       forceMaterialTransparency: true,
       shape: LinearBorder.bottom(
-        side: BorderSide(
-          color: Theme.of(context).colorScheme.secondary,
-        ),
+        side: BorderSide(color: Theme.of(context).colorScheme.secondary),
       ),
       title: const NavigationTitle(),
       leadingWidth: responsive.isDesktop ? 81 : null,
       leading: Container(
         padding: EdgeInsets.symmetric(
-            horizontal: responsive.isDesktop ? 19 : 8, vertical: 8),
+          horizontal: responsive.isDesktop ? 19 : 8,
+          vertical: 8,
+        ),
         child: IconButton(
           color: Colors.black,
           onPressed: () {
@@ -42,15 +43,13 @@ class NavigationAppBar extends StatelessWidget implements PreferredSizeWidget {
             //   color: Theme.of(context).colorScheme.background,
             // ),
             alignment: Alignment.center,
-            child: Icon(
-              Icons.menu,
-              color: Theme.of(context).hintColor,
-            ),
+            child: Icon(Icons.menu, color: Theme.of(context).hintColor),
           ),
         ),
       ),
       centerTitle: true,
       actions: [
+        PerformanceToggleButton(),
         const ThemeModeButton.icon(),
         PopupMenuButton<int>(
           icon: const Icon(Icons.account_circle_outlined),
@@ -67,10 +66,7 @@ class NavigationAppBar extends StatelessWidget implements PreferredSizeWidget {
               value: 0,
               child: Row(
                 children: [
-                  const Icon(
-                    Icons.logout,
-                    size: 18,
-                  ),
+                  const Icon(Icons.logout, size: 18),
                   const SizedBox(width: 5),
                   Text('logout'.tr()),
                 ],

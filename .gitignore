@@ -56,3 +56,6 @@ app.*.map.json
 
 # Claude AI folder
 .claude/
+
+# Local environment variables
+.env

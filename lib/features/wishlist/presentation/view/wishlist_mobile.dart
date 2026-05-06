@@ -13,10 +13,7 @@ class WishlistMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Lista de deseos'),
-        centerTitle: false,
-      ),
+      appBar: AppBar(title: const Text('Lista de deseos'), centerTitle: false),
       body: BlocBuilder<WishlistBloc, WishlistState>(
         builder: (context, state) {
           if (state.isLoading) {
@@ -35,11 +32,17 @@ class WishlistMobile extends StatelessWidget {
               final country = state.wishlist[index];
               return WishlistCard(
                 country: country,
-                onRemove: () => context
-                    .read<WishlistBloc>()
-                    .add(WishlistEvent.removeFromWishlist(country.cca2)),
-                onTap: () =>
-                    context.push(CountryDetailView.path, extra: country),
+                onRemove: () => context.read<WishlistBloc>().add(
+                  WishlistEvent.removeFromWishlist(country.cca2),
+                ),
+                onTap: () async {
+                  await context.push(CountryDetailView.path, extra: country);
+                  if (context.mounted) {
+                    context.read<WishlistBloc>().add(
+                      const WishlistEvent.loadWishlist(),
+                    );
+                  }
+                },
               );
             },
           );

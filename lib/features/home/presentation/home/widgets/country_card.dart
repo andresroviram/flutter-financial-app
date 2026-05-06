@@ -5,6 +5,7 @@ import 'package:flutter_wigilabs_sr/features/home/presentation/country_detail/vi
 import 'package:flutter_wigilabs_sr/features/home/presentation/home/bloc/home_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shimmer/shimmer.dart';
 import '../../../domain/entities/country_entity.dart';
 import '../../../../../core/utils/format_utils.dart';
 import 'info_row.dart';
@@ -44,11 +45,12 @@ class CountryCard extends StatelessWidget {
               child: CachedNetworkImage(
                 imageUrl: country.flagPng,
                 fit: BoxFit.cover,
-                placeholder: (_, __) => Container(
-                  color: colorScheme.surfaceContainerHighest,
-                  child: const Center(child: CircularProgressIndicator()),
+                placeholder: (_, _) => Shimmer.fromColors(
+                  baseColor: colorScheme.surfaceContainerHighest,
+                  highlightColor: colorScheme.surface,
+                  child: Container(color: colorScheme.surfaceContainerHighest),
                 ),
-                errorWidget: (_, __, ___) => Container(
+                errorWidget: (_, _, _) => Container(
                   color: colorScheme.surfaceContainerHighest,
                   child: const Icon(Icons.flag_outlined, size: 40),
                 ),

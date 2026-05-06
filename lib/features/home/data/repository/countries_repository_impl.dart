@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_wigilabs_sr/core/result.dart';
 import 'package:injectable/injectable.dart';
 import '../../../../core/error/error.dart';
+import '../../../../core/performance/performance_settings.dart';
 import '../../domain/entities/country_entity.dart';
 import '../../domain/repository/i_countries_repository.dart';
 import '../datasources/countries_remote_datasource.dart';
@@ -15,17 +16,21 @@ class CountriesRepositoryImpl implements ICountriesRepository {
   const CountriesRepositoryImpl({
     required this.remoteDatasource,
     required this.localDatasource,
+    required this.performanceSettings,
   });
 
   final ICountriesRemoteDatasource remoteDatasource;
   final IWishlistLocalDatasource localDatasource;
+  final PerformanceSettings performanceSettings;
 
   @override
   Future<Result<List<CountryEntity>>> getEuropeanCountries() async {
     try {
       final models = await remoteDatasource.getEuropeanCountries();
-      final entities =
-          await compute(CountryIsolateUtils.parseCountries, models);
+      final entities = await compute(
+        CountryIsolateUtils.parseCountries,
+        models,
+      );
       return Success(entities);
     } on Failure catch (failure) {
       return Error(failure);
@@ -36,9 +41,7 @@ class CountriesRepositoryImpl implements ICountriesRepository {
   }
 
   @override
-  Future<Result<CountryEntity>> getCountryDetail(
-    String translation,
-  ) async {
+  Future<Result<CountryEntity>> getCountryDetail(String translation) async {
     try {
       final model = await remoteDatasource.getCountryDetail(translation);
       return Success(model.toEntity());
@@ -66,8 +69,15 @@ class CountriesRepositoryImpl implements ICountriesRepository {
   @override
   Future<Result<void>> addToWishlist(CountryEntity country) async {
     try {
-      final processed =
-          await compute(CountryIsolateUtils.preprocessCountry, country);
+      final CountryEntity processed;
+      if (performanceSettings.useIsolate.value) {
+        processed = await compute(
+          CountryIsolateUtils.preprocessCountry,
+          country,
+        );
+      } else {
+        processed = CountryIsolateUtils.preprocessCountry(country);
+      }
       await localDatasource.addToWishlist(processed);
       return const Success(null);
     } on StorageException catch (e) {

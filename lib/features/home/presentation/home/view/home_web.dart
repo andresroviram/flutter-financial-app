@@ -7,6 +7,15 @@ import '../widgets/error_retry.dart';
 import '../widgets/loading_grid.dart';
 import '../../../../../core/utils/snackbar_utils.dart';
 
+const _webGridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(
+  maxCrossAxisExtent: 280,
+  mainAxisSpacing: 16,
+  crossAxisSpacing: 16,
+  childAspectRatio: 0.75,
+);
+
+const _webGridPadding = EdgeInsets.fromLTRB(24, 0, 24, 24);
+
 class HomeWeb extends StatefulWidget {
   const HomeWeb({super.key});
 
@@ -17,10 +26,11 @@ class HomeWeb extends StatefulWidget {
 class _HomeWebState extends State<HomeWeb> {
   String _search = '';
 
+  void _onRefresh(BuildContext context) =>
+      context.read<HomeBloc>().add(const HomeEvent.loadCountries());
+
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return BlocConsumer<HomeBloc, HomeState>(
       bloc: context.read<HomeBloc>(),
       listener: (context, state) {
@@ -30,15 +40,10 @@ class _HomeWebState extends State<HomeWeb> {
         }
       },
       builder: (context, state) {
-        if (state.isLoading && state.countries.isEmpty) {
-          return const LoadingGrid();
-        }
-
         if (state.countries.isEmpty && state.failure != null) {
           return ErrorRetry(
             failure: state.failure!,
-            onRetry: () =>
-                context.read<HomeBloc>().add(const HomeEvent.loadCountries()),
+            onRetry: () => _onRefresh(context),
           );
         }
 
@@ -55,44 +60,20 @@ class _HomeWebState extends State<HomeWeb> {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(24, 20, 24, 0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      'Países de Europa',
-                      style: theme.textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  const Gap(16),
-                  SizedBox(
-                    width: 280,
-                    child: SearchBar(
-                      hintText: 'Buscar país...',
-                      leading: const Icon(Icons.search),
-                      padding: const WidgetStatePropertyAll(
-                        EdgeInsets.symmetric(horizontal: 16),
-                      ),
-                      onChanged: (value) => setState(() => _search = value),
-                    ),
-                  ),
-                  const Gap(8),
-                  IconButton.outlined(
-                    tooltip: 'Refrescar',
-                    icon: const Icon(Icons.refresh),
-                    onPressed: () => context.read<HomeBloc>().add(
-                      const HomeEvent.loadCountries(),
-                    ),
-                  ),
-                ],
-              ),
+            _HomeWebHeader(
+              search: _search,
+              onSearchChanged: (v) => setState(() => _search = v),
+              onRefresh: () => _onRefresh(context),
             ),
             const Gap(16),
             Expanded(
-              child: filtered.isEmpty
+              child: state.isLoading && state.countries.isEmpty
+                  ? const LoadingGrid(
+                      itemCount: 12,
+                      padding: _webGridPadding,
+                      gridDelegate: _webGridDelegate,
+                    )
+                  : filtered.isEmpty
                   ? Center(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -101,20 +82,14 @@ class _HomeWebState extends State<HomeWeb> {
                           const Gap(12),
                           Text(
                             'No se encontró "$_search"',
-                            style: theme.textTheme.bodyLarge,
+                            style: Theme.of(context).textTheme.bodyLarge,
                           ),
                         ],
                       ),
                     )
                   : GridView.builder(
-                      padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
-                      gridDelegate:
-                          const SliverGridDelegateWithMaxCrossAxisExtent(
-                            maxCrossAxisExtent: 280,
-                            mainAxisSpacing: 16,
-                            crossAxisSpacing: 16,
-                            childAspectRatio: 0.75,
-                          ),
+                      padding: _webGridPadding,
+                      gridDelegate: _webGridDelegate,
                       itemCount: filtered.length,
                       itemBuilder: (context, index) {
                         final country = filtered[index];
@@ -133,6 +108,56 @@ class _HomeWebState extends State<HomeWeb> {
           ],
         );
       },
+    );
+  }
+}
+
+class _HomeWebHeader extends StatelessWidget {
+  const _HomeWebHeader({
+    required this.search,
+    required this.onSearchChanged,
+    required this.onRefresh,
+  });
+
+  final String search;
+  final ValueChanged<String> onSearchChanged;
+  final VoidCallback onRefresh;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(24, 20, 24, 0),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(
+              'Países de Europa',
+              style: theme.textTheme.headlineSmall?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          const Gap(16),
+          SizedBox(
+            width: 280,
+            child: SearchBar(
+              hintText: 'Buscar país...',
+              leading: const Icon(Icons.search),
+              padding: const WidgetStatePropertyAll(
+                EdgeInsets.symmetric(horizontal: 16),
+              ),
+              onChanged: onSearchChanged,
+            ),
+          ),
+          const Gap(8),
+          IconButton.outlined(
+            tooltip: 'Refrescar',
+            icon: const Icon(Icons.refresh),
+            onPressed: onRefresh,
+          ),
+        ],
+      ),
     );
   }
 }

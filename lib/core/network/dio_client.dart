@@ -4,14 +4,16 @@ import 'package:dio_http_formatter/dio_http_formatter.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:injectable/injectable.dart';
 import '../error/error.dart';
+import '../../config/env/env.dart';
 
 @lazySingleton
 class DioClient {
   late final Dio _dio;
 
-  DioClient() {
+  DioClient(Env env) {
     _dio = Dio(
       BaseOptions(
+        baseUrl: env.baseUrl,
         connectTimeout: const Duration(seconds: 30),
         receiveTimeout: const Duration(seconds: 30),
         headers: {
