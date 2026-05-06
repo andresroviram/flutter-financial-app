@@ -1,5 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class BalanceHeader extends StatelessWidget {
   const BalanceHeader({super.key, required this.balance});
@@ -40,7 +40,7 @@ class BalanceHeader extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Saldo disponible',
+            'funds.balance'.tr(),
             style: theme.textTheme.labelLarge?.copyWith(
               color: theme.colorScheme.onPrimary.withValues(alpha: 0.8),
             ),

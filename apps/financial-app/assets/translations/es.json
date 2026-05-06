@@ -12,13 +12,27 @@
     "subscribe": "Suscribirse",
     "cancel": "Cancelar suscripción",
     "retry": "Reintentar",
-    "success": "Operación realizada con éxito"
+    "success": "Operación realizada con éxito",
+    "empty": "Sin fondos",
+    "subscribed_badge": "Suscrito",
+    "minimum_amount": "Monto mínimo: {}",
+    "error_loading": "Error al cargar fondos",
+    "dialog": {
+      "confirm_title": "Confirmar suscripción",
+      "fund_label": "Fondo: {}",
+      "notification_method": "Método de notificación:",
+      "email": "Email",
+      "sms": "SMS",
+      "cancel": "Cancelar",
+      "confirm": "Confirmar"
+    }
   },
   "transactions": {
     "title": "Historial de transacciones",
     "empty": "Sin transacciones aún",
     "subscribe": "Suscripción",
-    "cancel": "Cancelación"
+    "cancel": "Cancelación",
+    "error_loading": "Error al cargar transacciones"
   },
   "errors": {
     "no_balance": "No tiene saldo disponible para vincularse al fondo",

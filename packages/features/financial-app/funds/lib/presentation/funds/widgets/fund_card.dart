@@ -1,10 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:feature_funds/domain/entities/fund_entity.dart';
 import 'package:feature_funds/domain/entities/transaction_entity.dart';
 import 'package:feature_funds/presentation/funds/bloc/funds_state.dart';
 import 'package:feature_funds/presentation/funds/widgets/subscribe_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:intl/intl.dart';
 
 class FundCard extends StatelessWidget {
   const FundCard({
@@ -94,7 +94,7 @@ class FundCard extends StatelessWidget {
                         ),
                         const Gap(4),
                         Text(
-                          'Suscrito',
+                          'funds.subscribed_badge'.tr(),
                           style: theme.textTheme.labelSmall?.copyWith(
                             color: Colors.green,
                             fontWeight: FontWeight.bold,
@@ -116,7 +116,7 @@ class FundCard extends StatelessWidget {
             ),
             const Gap(6),
             Text(
-              'Monto mínimo: $formatted',
+              'funds.minimum_amount'.tr(args: [formatted]),
               style: theme.textTheme.bodySmall?.copyWith(
                 color: colorScheme.onSurfaceVariant,
               ),
@@ -128,7 +128,7 @@ class FundCard extends StatelessWidget {
                   ? OutlinedButton.icon(
                       onPressed: isLoading ? null : onCancel,
                       icon: const Icon(Icons.cancel_outlined, size: 16),
-                      label: const Text('Cancelar suscripción'),
+                      label: Text('funds.cancel'.tr()),
                       style: OutlinedButton.styleFrom(
                         foregroundColor: colorScheme.error,
                         side: BorderSide(color: colorScheme.error),
@@ -139,7 +139,7 @@ class FundCard extends StatelessWidget {
                           ? null
                           : () => _showSubscribeDialog(context),
                       icon: const Icon(Icons.add_circle_outline, size: 16),
-                      label: const Text('Suscribirse'),
+                      label: Text('funds.subscribe'.tr()),
                     ),
             ),
           ],

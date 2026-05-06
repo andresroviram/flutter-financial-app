@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:feature_funds/presentation/funds/bloc/funds_bloc.dart';
 import 'package:feature_funds/presentation/funds/bloc/funds_event.dart';
 import 'package:feature_funds/presentation/funds/bloc/funds_state.dart';
@@ -23,13 +24,17 @@ class FundsWeb extends StatelessWidget {
               children: [
                 const Icon(Icons.error_outline, size: 48),
                 const Gap(16),
-                Text(errorMessage),
+                Text(
+                  errorMessage.isEmpty
+                      ? 'funds.error_loading'.tr()
+                      : errorMessage,
+                ),
                 const Gap(16),
                 FilledButton(
                   onPressed: () => context.read<FundsBloc>().add(
                     const FundsEvent.loadRequested(),
                   ),
-                  child: const Text('Reintentar'),
+                  child: Text('funds.retry'.tr()),
                 ),
               ],
             ),
@@ -39,9 +44,12 @@ class FundsWeb extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Mis Fondos',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                Text(
+                  'funds.title'.tr(),
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const Gap(16),
                 BalanceHeader(balance: state.balance),
@@ -52,7 +60,7 @@ class FundsWeb extends StatelessWidget {
                     children: [
                       Expanded(
                         child: FundsColumn(
-                          title: 'Fondos disponibles',
+                          title: 'funds.available'.tr(),
                           funds: state.availableFunds,
                           status: state.status,
                           onSubscribe: (fundId, method) =>
@@ -68,7 +76,7 @@ class FundsWeb extends StatelessWidget {
                       const Gap(24),
                       Expanded(
                         child: FundsColumn(
-                          title: 'Fondos suscritos',
+                          title: 'funds.subscribed'.tr(),
                           funds: state.subscribedFunds,
                           status: state.status,
                           onSubscribe: (_, _) {},

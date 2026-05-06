@@ -36,15 +36,15 @@ fi
 if command -v lcov &> /dev/null; then
     echo -e "\n${BLUE}📈 Análisis de cobertura:${NC}"
     lcov --summary coverage/lcov.info
-    
+
     # Extraer porcentaje
     COVERAGE=$(lcov --summary coverage/lcov.info 2>&1 | grep "lines" | awk '{print $2}' | sed 's/%//')
     THRESHOLD=${1:-60.0}
-    
+
     echo -e "\n${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo -e "${BLUE}Cobertura actual:${NC} ${COVERAGE}%"
     echo -e "${BLUE}Umbral mínimo:${NC} ${THRESHOLD}%"
-    
+
     # Comparar con umbral
     if (( $(echo "$COVERAGE < $THRESHOLD" | bc -l) )); then
         echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
