@@ -35,7 +35,7 @@ class CountriesGridShimmer extends StatelessWidget {
         physics: const NeverScrollableScrollPhysics(),
         gridDelegate: gridDelegate,
         itemCount: itemCount,
-        itemBuilder: (_, __) => const _CountryCardSkeleton(),
+        itemBuilder: (_, _) => const _CountryCardSkeleton(),
       ),
     );
   }

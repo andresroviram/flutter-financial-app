@@ -34,7 +34,7 @@ class WishlistCard extends StatelessWidget {
                   width: 72,
                   height: 48,
                   fit: BoxFit.cover,
-                  errorWidget: (_, __, ___) => Container(
+                  errorWidget: (_, _, _) => Container(
                     width: 72,
                     height: 48,
                     color: theme.colorScheme.surfaceContainerHighest,

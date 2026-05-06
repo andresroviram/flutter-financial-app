@@ -60,7 +60,7 @@ class CountryDetailMobile extends StatelessWidget {
                       ? CachedNetworkImage(
                           imageUrl: country.flagPng,
                           fit: BoxFit.cover,
-                          placeholder: (_, __) => Container(
+                          placeholder: (_, _) => Container(
                             color: Theme.of(
                               context,
                             ).colorScheme.surfaceContainerHighest,
