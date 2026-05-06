@@ -10,9 +10,6 @@ Prueba técnica – Explorador de países de Europa con BLoC, Drift y Dio.
 <img src="screenshots/mobile/Screenshot_1771536327.png" width="30%">
 <img src="screenshots/mobile/Screenshot_1771536333.png" width="30%">
 <img src="screenshots/mobile/Screenshot_1771536358.png" width="30%">
-<img src="screenshots/mobile/Screenshot_1771536367.png" width="30%">
-<img src="screenshots/mobile/Screenshot_1771536376.png" width="30%">
-<img src="screenshots/mobile/Screenshot_1771536387.png" width="30%">
 </p>
 
 ### Web
