@@ -15,17 +15,17 @@ La aplicación está desplegada automáticamente en GitHub Pages mediante GitHub
 ### Mobile (Light Theme)
 <br>
 <p align="center">
-<img src="apps/client-app/screenshots/mobile/Screenshot_1771544371.png" width="30%">
-<img src="apps/client-app/screenshots/mobile/Screenshot_1771544373.png" width="30%">
-<img src="apps/client-app/screenshots/mobile/Screenshot_1771544394.png" width="30%">
+<img src="apps/financial-app/screenshots/financial-light-1.png" width="30%">
+<img src="apps/financial-app/screenshots/financial-light-2.png" width="30%">
+<img src="apps/financial-app/screenshots/financial-light-3.png" width="30%">
 </p>
 
 ### Mobile (Dark Theme)
 <br>
 <p align="center">
-<img src="apps/client-app/screenshots/mobile/Screenshot_1771544419.png" width="30%">
-<img src="apps/client-app/screenshots/mobile/Screenshot_1771544421.png" width="30%">
-<img src="apps/client-app/screenshots/mobile/Screenshot_1771544398.png" width="30%">
+<img src="apps/financial-app/screenshots/financial-dark-1.png" width="30%">
+<img src="apps/financial-app/screenshots/financial-dark-2.png" width="30%">
+<img src="apps/financial-app/screenshots/financial-dark-3.png" width="30%">
 </p>
 
 ### Web (Light Theme)

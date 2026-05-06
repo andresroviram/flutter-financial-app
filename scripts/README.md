@@ -12,6 +12,8 @@ Ejecuta tests con cobertura y verifica que cumplan un umbral mínimo.
 ```powershell
 .\scripts\check_coverage.ps1              # Umbral: 60%
 .\scripts\check_coverage.ps1 -Threshold 70 # Umbral personalizado
+.\scripts\check_coverage.ps1 -App financial-app # Ejecuta cobertura para financial-app
+.\scripts\check_coverage.ps1 -App all -Threshold 70 # Ejecuta ambas apps con umbral 70%
 ```
 
 **Linux/Mac:**
@@ -19,10 +21,13 @@ Ejecuta tests con cobertura y verifica que cumplan un umbral mínimo.
 chmod +x scripts/check_coverage.sh
 ./scripts/check_coverage.sh               # Umbral: 60%
 ./scripts/check_coverage.sh 70            # Umbral personalizado
+./scripts/check_coverage.sh financial-app # Ejecuta cobertura para financial-app
+./scripts/check_coverage.sh all 70        # Ejecuta ambas apps con umbral 70%
 ```
 
-**Funcionalidades:**
+**Funcionalidades de `check_coverage.sh`:**
 - ✅ Ejecuta `flutter test --coverage`
+- ✅ Soporta `client-app`, `financial-app` o ambas
 - ✅ Calcula el porcentaje de cobertura
 - ✅ Compara contra un umbral mínimo
 - ✅ Genera reporte HTML (si lcov está instalado)
@@ -59,6 +64,7 @@ chmod +x scripts/setup_web.sh
 
 ## 📝 Notas
 
-- Todos los scripts están diseñados para ejecutarse desde la **raíz del workspace** y navegan automáticamente a `apps/client-app`
+- Todos los scripts están diseñados para ejecutarse desde la **raíz del workspace**
+- `check_coverage.sh` usa `apps/client-app` por defecto, pero acepta `financial-app` o `all`
 - Los scripts Bash (.sh) requieren permisos de ejecución: `chmod +x scripts/*.sh`
 - Los scripts PowerShell (.ps1) pueden requerir ajustar la política de ejecución en Windows
