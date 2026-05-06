@@ -13,7 +13,7 @@ class DioClient {
   DioClient(Env env) {
     _dio = Dio(
       BaseOptions(
-        baseUrl: env.baseUrl,
+        baseUrl: env.baseUrl.endsWith('/') ? env.baseUrl : '${env.baseUrl}/',
         connectTimeout: const Duration(seconds: 30),
         receiveTimeout: const Duration(seconds: 30),
         headers: {
@@ -138,8 +138,10 @@ class DioClient {
             );
           case 409:
             return DuplicateFailure(
-              message:
-                  _extractMessage(e.response?.data, 'El recurso ya existe.'),
+              message: _extractMessage(
+                e.response?.data,
+                'El recurso ya existe.',
+              ),
             );
           case 500:
           case 501:
