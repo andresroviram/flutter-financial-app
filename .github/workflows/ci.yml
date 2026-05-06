@@ -53,7 +53,7 @@ jobs:
         run: melos bootstrap
 
       - name: Run code generation (all packages)
-        run: melos run build:all
+        run: melos run build:financial-all
 
       - name: Verify formatting
         run: melos run format
