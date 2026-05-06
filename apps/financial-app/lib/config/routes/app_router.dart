@@ -3,6 +3,7 @@ import 'package:components/layout/scaffold_with_navigation.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:feature_funds/presentation/funds/view/funds_view.dart';
 import 'package:feature_funds/routes.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -18,7 +19,7 @@ GoRouter _createRouter() {
   final rootKey = GlobalKey<NavigatorState>();
   return GoRouter(
     navigatorKey: rootKey,
-    debugLogDiagnostics: false,
+    debugLogDiagnostics: kDebugMode,
     initialLocation: FundsView.path,
     observers: [BotToastNavigatorObserver()],
     routes: [
