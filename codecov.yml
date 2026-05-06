@@ -1,7 +1,7 @@
 coverage:
   ignore:
     - "apps/client-app/lib/main.dart"
-    - "apps/client-app/lib/my_app.dart"
+    - "apps/client-app/lib/app.dart"
     # Archivos generados
     - "**/*.g.dart"
     - "**/*.freezed.dart"
