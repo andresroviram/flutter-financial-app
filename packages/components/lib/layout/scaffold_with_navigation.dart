@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
+const _drawerLogoWidth = 230.0;
+
 class ScaffoldWithNavigation extends StatelessWidget {
   const ScaffoldWithNavigation({
     super.key,
@@ -86,7 +88,11 @@ class _ScaffoldWithNavigationRail extends StatelessWidget {
               decoration: const BoxDecoration(border: Border()),
               margin: EdgeInsets.zero,
               child: Center(
-                child: Image.asset(logoPath, width: 200, fit: BoxFit.cover),
+                child: Image.asset(
+                  logoPath,
+                  width: _drawerLogoWidth,
+                  fit: BoxFit.contain,
+                ),
               ),
             ),
             // const SizedBox(height: 16),
@@ -165,7 +171,11 @@ class _ScaffoldWithDrawer extends StatelessWidget {
               decoration: const BoxDecoration(border: Border()),
               margin: EdgeInsets.zero,
               child: Center(
-                child: Image.asset(logoPath, width: 200, fit: BoxFit.cover),
+                child: Image.asset(
+                  logoPath,
+                  width: _drawerLogoWidth,
+                  fit: BoxFit.contain,
+                ),
               ),
             ),
             Expanded(
@@ -317,8 +327,8 @@ class _ScaffoldWithNavigationBar extends StatelessWidget {
                   Theme.of(context).brightness == Brightness.light
                       ? (logoDarkPath ?? logoPath)
                       : logoPath,
-                  width: 200,
-                  fit: BoxFit.cover,
+                  width: _drawerLogoWidth,
+                  fit: BoxFit.contain,
                 ),
               ),
             ),
