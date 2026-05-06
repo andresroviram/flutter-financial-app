@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_wigilabs_sr/my_app.dart';
+import 'package:flutter_wigilabs_sr/app.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,7 +14,8 @@ void main() {
     await EasyLocalization.ensureInitialized();
   });
 
-  setUp(() {
+  setUp(() async {
+    SharedPreferences.setMockInitialValues({});
     SharedPreferencesAsyncPlatform.instance =
         InMemorySharedPreferencesAsync.empty();
 
@@ -31,13 +32,13 @@ void main() {
     await GetIt.instance.reset();
   });
 
-  testWidgets('MyApp arranca sin errores', (WidgetTester tester) async {
+  testWidgets('App arranca sin errores', (WidgetTester tester) async {
     await tester.pumpWidget(
       EasyLocalization(
         supportedLocales: const [Locale('es'), Locale('en')],
         path: 'assets/translations',
         fallbackLocale: const Locale('es'),
-        child: const MyApp(),
+        child: const App(),
       ),
     );
     expect(find.byType(MaterialApp), findsOneWidget);

@@ -80,37 +80,40 @@ Cada feature implementa Clean Architecture con tres capas:
 ## Estructura del monorepo
 
 ```
-flutter_wigilabs_sr/          # Workspace raíz (Melos)
+flutter_wigilabs_sr/            # Workspace raíz (Melos)
 ├── apps/
-│   └── app/                  # Aplicación Flutter principal
+│   └── client-app/             # Aplicación Flutter principal
 │       ├── lib/
 │       │   ├── main.dart
 │       │   ├── my_app.dart
-│       │   └── config/       # Router, DI, temas
-│       └── web/              # Entrypoints y assets web
+│       │   └── config/
+│       │       ├── env/         # Flavors + Envied (dev/qa/prod)
+│       │       ├── injectable/  # DI con GetIt
+│       │       ├── routes/      # go_router
+│       │       └── theme/       # Temas claro/oscuro
+│       └── web/                 # Entrypoints y assets web
 ├── packages/
-│   ├── core/                 # Capa compartida entre features
+│   ├── core/                    # Capa compartida entre features
 │   │   └── lib/
-│   │       ├── constants/    # Constantes globales
-│   │       ├── database/     # Drift: tablas, DAOs, conexión web/mobile
-│   │       │   ├── connection/
-│   │       │   └── tables/
-│   │       ├── entities/     # Entidades globales (CountryEntity…)
-│   │       ├── enum/         # Enums compartidos
-│   │       ├── env/          # Configuración de entorno (.env)
-│   │       ├── errors/       # Failures y manejo de errores
-│   │       ├── network/      # Cliente Dio e interceptores
-│   │       ├── performance/  # Detección de janks
+│   │       ├── constants/       # Constantes globales
+│   │       ├── database/        # Drift: tablas, DAOs, conexión web/mobile
+│   │       ├── entities/        # Entidades globales (CountryEntity…)
+│   │       ├── enum/            # Enums compartidos
+│   │       ├── env/             # Interfaz IEnvConfig
+│   │       ├── errors/          # Failures y manejo de errores
+│   │       ├── network/         # Cliente Dio e interceptores
+│   │       ├── performance/     # Detección de janks
 │   │       └── utils/
-│   │           └── isolates/ # CountryIsolateUtils (compute)
-│   ├── components/           # Widgets reutilizables y temas
-│   └── features/
-│       ├── home/             # Listado y detalle de países
-│       ├── wishlist/         # Lista de deseos (favoritos)
-│       └── settings/         # Idioma, tema y performance toggle
-└── scripts/
-    ├── setup_web.sh/.ps1     # Configura sqlite3.wasm y drift worker
-    └── check_coverage.sh/.ps1 # Verifica umbral de cobertura
+│   │           └── isolates/    # CountryIsolateUtils (compute)
+│   ├── components/              # Widgets reutilizables y temas
+│   └── client-features/
+│       ├── home/                # Listado y detalle de países
+│       ├── wishlist/            # Lista de deseos (favoritos)
+│       └── settings/            # Idioma, tema y performance toggle
+├── scripts/
+│   ├── setup_web.sh/.ps1        # Configura sqlite3.wasm y drift worker
+│   └── check_coverage.sh/.ps1  # Verifica umbral de cobertura
+└── codemagic.yaml               # CI/CD para Codemagic
 ```
 
 ## Cómo ejecutar
@@ -128,17 +131,23 @@ dart pub global activate melos
 # 3. Bootstrap del workspace (instala dependencias de todos los packages)
 melos bootstrap
 
-# 4. Crear archivo .env en apps/app/
-#    BASE_URL=https://restcountries.com/v3.1
+# 4. Crear los archivos de entorno por flavor (basados en el template)
+cp apps/client-app/.env.example apps/client-app/.env.dev
+cp apps/client-app/.env.example apps/client-app/.env.qa
+cp apps/client-app/.env.example apps/client-app/.env.prod
+# Edita cada archivo con las URLs y API keys correspondientes
 
-# 5. Generar código (build_runner en todos los packages)
+# 5. Generar código (build_runner lee los 3 archivos .env.* a la vez)
 melos run build:all
 
-# 6. Ejecutar la app
-melos run run:mobile    # iOS/Android
-melos run run:web       # Chrome (puerto 4000)
-melos run run:desktop   # macOS
+# 6. Ejecutar la app con el flavor deseado (desde apps/client-app)
+cd apps/client-app
+flutter run --dart-define=FLAVOR=dev    # DEV  – banner verde
+flutter run --dart-define=FLAVOR=qa     # QA   – banner naranja
+flutter run --dart-define=FLAVOR=prod   # PROD – sin banner
 ```
+
+> **Nota:** El `--dart-define=FLAVOR` selecciona qué variables de entorno usa la app en runtime. `build_runner` genera código obfuscado para los 3 entornos simultáneamente; no es necesario regenerar al cambiar de flavor.
 
 ### Configuración web (Drift + SQLite)
 
@@ -173,79 +182,72 @@ chmod +x scripts/setup_web.sh
 | `melos run run:web`        | Lanza en Chrome (puerto 4000)                         |
 | `melos run run:desktop`    | Lanza en macOS Desktop                                |
 
+## Flavors
+
+La app soporta tres entornos configurados con `--dart-define=FLAVOR`:
+
+| Flavor | Rama | Banner | Uso |
+|--------|------|--------|-----|
+| `dev`  | `develop` | 🟢 Verde | Desarrollo local |
+| `qa`   | `main` | 🟠 Naranja | Quality Assurance |
+| `prod` | `release/*` | Sin banner | Producción |
+
+Cada flavor tiene su propio archivo de entorno:
+
+| Archivo | Leído por |
+|---------|----------|
+| `apps/client-app/.env.dev` | `EnvDev` |
+| `apps/client-app/.env.qa` | `EnvQa` |
+| `apps/client-app/.env.prod` | `EnvProd` |
+
+`build_runner` genera los 3 entornos obfuscados en `env.g.dart` de una sola vez. El `--dart-define=FLAVOR` selecciona cuál usar en runtime sin necesidad de regenerar código.
+
 ## CI/CD & Despliegue
 
-### 🔄 Continuous Integration (CI)
+El proyecto tiene dos sistemas de CI/CD en paralelo:
 
-**Workflow:** `.github/workflows/ci.yml`
+### 🔄 GitHub Actions (legacy)
 
-Se ejecuta automáticamente en cada push y pull request:
+Workflows en `.github/workflows/` para CI, web, Android e iOS con Fastlane.
 
-- ✅ Bootstrap con Melos
-- ✅ Generación de código (build_runner vía `melos run build:all`)
-- ✅ Verificación de formato (`melos run format`)
-- ✅ Análisis estático (`melos run analyze`)
-- ✅ Ejecución de tests con cobertura (`melos run test:coverage`)
-- ✅ Reporte de cobertura a Codecov
-- ✅ Verificación de umbral de cobertura (60%)
+### 🚀 Codemagic (`codemagic.yaml`)
 
-### 🚀 Despliegue Web
+Pipeline principal con soporte nativo de flavors. Estrategia de ramas → flavor:
 
-**Workflow:** `.github/workflows/deploy-web.yml`
+| Rama | Flavor | Android | iOS | Web |
+|------|--------|---------|-----|-----|
+| `develop` | DEV | Google Play internal | TestFlight interno | Artefacto |
+| `main` | QA | Google Play alpha | TestFlight externo | — |
+| `release/*`, `v*` | PROD | Google Play production | App Store | GitHub Pages |
 
-**URL de producción:** [https://andresroviram.github.io/flutter_wigilabs_sr/](https://andresroviram.github.io/flutter_wigilabs_sr/)
+#### Workflows disponibles
 
-Se ejecuta automáticamente al hacer push a `main` o `develop`:
+| Workflow | Descripción |
+|----------|-------------|
+| `ci` | Analyze, format & test en todas las ramas |
+| `android-dev` | AAB firmado → Google Play internal (develop) |
+| `android-qa` | AAB firmado → Google Play alpha (main) |
+| `android-prod` | AAB firmado → Google Play production (release/*) |
+| `ios-dev` | IPA firmado → TestFlight interno (develop) |
+| `ios-qa` | IPA firmado → TestFlight externo (main) |
+| `ios-prod` | IPA firmado → App Store (release/*) |
+| `web-dev` | Build web DEV (develop) |
+| `web-prod` | Build web + GitHub Pages (main / release/*) |
 
-- ✅ Build de la aplicación web con Flutter (desde `apps/app`)
-- ✅ Ejecución de tests
-- ✅ Despliegue automático a GitHub Pages
+#### Grupos de secretos en Codemagic
 
-### 📱 Despliegue Android
+Crear en **App Settings → Environment variables**:
 
-**Workflow:** `.github/workflows/deploy-android.yml`
-
-Despliega a Google Play Store cuando se hace push a `main` o ramas `release/*`:
-
-- ✅ Build de APK/AAB firmado
-- ✅ Fastlane para automatización
-- ✅ Despliegue a diferentes tracks de Play Store
-
-### 🍎 Despliegue iOS
-
-**Workflow:** `.github/workflows/deploy-ios.yml`
-
-Despliega a TestFlight/App Store cuando se hace push a `main` o ramas `release/*`:
-
-- ✅ Build de IPA firmado
-- ✅ Fastlane para automatización
-- ✅ Gestión de certificados con match
-- ✅ Despliegue a TestFlight o App Store
-
-### 📋 Secrets requeridos en GitHub
-
-**General:**
-- `BASE_URL` – Base URL de la API (default: `https://restcountries.com/v3.1`)
-
-**Android:**
-- `ANDROID_KEYSTORE_BASE64` – Keystore codificado en base64
-- `KEYSTORE_PASSWORD` – Contraseña del keystore
-- `KEY_ALIAS` – Alias de la key
-- `KEY_PASSWORD` – Contraseña de la key
-- `PLAY_STORE_CONFIG_JSON` – Credenciales de servicio de Google Play
-
-**iOS:**
-- `MATCH_PASSWORD` – Contraseña para match (certificados)
-- `MATCH_GIT_BASIC_AUTHORIZATION` – Autorización para repositorio de certificados
-- `FASTLANE_USER` – Usuario de Apple Developer
-- `FASTLANE_PASSWORD` – Contraseña de Apple ID
-- `FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD` – Contraseña específica de app
-- `APP_STORE_CONNECT_API_KEY_ID` – ID de la API key de App Store Connect
-- `APP_STORE_CONNECT_API_ISSUER_ID` – Issuer ID de App Store Connect
-- `APP_STORE_CONNECT_API_KEY` – API Key de App Store Connect
-
-**Coverage:**
-- `CODECOV_TOKEN` – Token para reportar cobertura a Codecov
+| Grupo | Variables |
+|-------|-----------|
+| `env_dev` | `DEV_BASE_URL`, `DEV_API_KEY` |
+| `env_qa` | `QA_BASE_URL`, `QA_API_KEY` |
+| `env_prod` | `PROD_BASE_URL`, `PROD_API_KEY` |
+| `android_signing` | `ANDROID_KEYSTORE_BASE64`, `KEYSTORE_PASSWORD`, `KEY_ALIAS`, `KEY_PASSWORD` |
+| `google_play` | `PLAY_STORE_SERVICE_ACCOUNT_JSON` |
+| `ios_signing` | `APP_STORE_CONNECT_PRIVATE_KEY`, `APP_STORE_CONNECT_API_KEY_ID`, `APP_STORE_CONNECT_ISSUER_ID` |
+| `github_pages` | `GITHUB_TOKEN`, `GITHUB_REPO_FULL_NAME` |
+| `codecov` | `CODECOV_TOKEN` |
 
 ## Features
 

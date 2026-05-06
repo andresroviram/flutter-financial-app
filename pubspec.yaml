@@ -5,12 +5,12 @@ environment:
   sdk: ^3.8.0
 
 workspace:
-  - apps/app
+  - apps/client-app
   - packages/core
   - packages/components
-  - packages/features/home
-  - packages/features/wishlist
-  - packages/features/settings
+  - packages/client-features/home
+  - packages/client-features/wishlist
+  - packages/client-features/settings
 
 dev_dependencies:
   melos: ^7.4.0
@@ -112,15 +112,15 @@ melos:
       description: Ejecuta tests solo de los packages que cambiaron.
 
     run:mobile:
-      run: cd $MELOS_ROOT_PATH/apps/app && flutter run
+      run: cd $MELOS_ROOT_PATH/apps/client-app && flutter run
       description: Lanza la app en el simulador o dispositivo móvil.
 
     run:web:
-      run: cd $MELOS_ROOT_PATH/apps/app && flutter run -d chrome --web-port 4000
+      run: cd $MELOS_ROOT_PATH/apps/client-app && flutter run -d chrome --web-port 4000
       description: Lanza la app en Chrome.
 
     run:desktop:
-      run: cd $MELOS_ROOT_PATH/apps/app && flutter run -d macos
+      run: cd $MELOS_ROOT_PATH/apps/client-app && flutter run -d macos
       description: Lanza la app en macOS Desktop.
 
     ci:

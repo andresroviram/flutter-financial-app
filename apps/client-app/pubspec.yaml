@@ -18,11 +18,11 @@ dependencies:
   components:
     path: ../../packages/components
   feature_home:
-    path: ../../packages/features/home
+    path: ../../packages/client-features/home
   feature_wishlist:
-    path: ../../packages/features/wishlist
+    path: ../../packages/client-features/wishlist
   feature_settings:
-    path: ../../packages/features/settings
+    path: ../../packages/client-features/settings
 
   # UI
   adaptive_theme: ^3.7.2

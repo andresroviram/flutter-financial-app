@@ -1,0 +1,598 @@
+# ────────────────────────────────────────────────────────────────────────────
+#  Codemagic CI/CD – flutter_wigilabs_sr
+#
+#  Flavors disponibles: dev | qa | prod
+#
+#  Estrategia de ramas → flavor:
+#    develop        → DEV  (Internal / TestFlight testers internos)
+#    main           → QA   (Alpha / TestFlight testers externos)
+#    release/*      → PROD (Production / App Store)
+#
+#  Workflows:
+#    ci              – Analyze, format & test  (todas las ramas, flavor dev)
+#    android-dev     – AAB firmado → Google Play internal         (develop)
+#    android-qa      – AAB firmado → Google Play alpha            (main)
+#    android-prod    – AAB firmado → Google Play production       (release/*)
+#    ios-dev         – IPA firmado → TestFlight interno           (develop)
+#    ios-qa          – IPA firmado → TestFlight externo           (main)
+#    ios-prod        – IPA firmado → App Store                    (release/*)
+#    web-dev         – Build web dev                              (develop)
+#    web-prod        – Build web + GitHub Pages                   (main / release/*)
+#
+#  Grupos de secretos a crear en Codemagic (App Settings → Environment variables):
+#    env_dev      → DEV_API_KEY, DEV_BASE_URL
+#    env_qa       → QA_API_KEY, QA_BASE_URL
+#    env_prod     → PROD_API_KEY, PROD_BASE_URL
+#    android_signing  → ANDROID_KEYSTORE_BASE64, KEYSTORE_PASSWORD, KEY_ALIAS, KEY_PASSWORD
+#    google_play      → PLAY_STORE_SERVICE_ACCOUNT_JSON
+#    ios_signing      → APP_STORE_CONNECT_PRIVATE_KEY, APP_STORE_CONNECT_API_KEY_ID, APP_STORE_CONNECT_ISSUER_ID
+#    github_pages     → GITHUB_TOKEN, GITHUB_REPO_FULL_NAME
+#    codecov          → CODECOV_TOKEN
+# ────────────────────────────────────────────────────────────────────────────
+
+definitions:
+  # ── Pasos comunes ────────────────────────────────────────────────────────
+  steps:
+    install_melos: &install_melos
+      name: Install Melos
+      script: dart pub global activate melos
+
+    bootstrap: &bootstrap
+      name: Melos Bootstrap
+      script: melos bootstrap
+
+    build_all: &build_all
+      name: Code generation (build_runner)
+      script: melos run build:all
+
+    run_tests: &run_tests
+      name: Run tests
+      script: melos run test
+
+    # ── Creación del .env por flavor ────────────────────────────────────────
+    # Cada snippet lee las variables del grupo de secretos correspondiente.
+    create_env_dev: &create_env_dev
+      name: Create .env (DEV)
+      script: |
+        cat > apps/client-app/.env << EOF
+        BASE_URL=${DEV_BASE_URL:-https://restcountries.com/v3.1}
+        API_KEY=${DEV_API_KEY:-}
+        EOF
+        echo "✓ .env DEV creado"
+
+    create_env_qa: &create_env_qa
+      name: Create .env (QA)
+      script: |
+        cat > apps/client-app/.env << EOF
+        BASE_URL=${QA_BASE_URL:-https://restcountries.com/v3.1}
+        API_KEY=${QA_API_KEY:-}
+        EOF
+        echo "✓ .env QA creado"
+
+    create_env_prod: &create_env_prod
+      name: Create .env (PROD)
+      script: |
+        cat > apps/client-app/.env << EOF
+        BASE_URL=${PROD_BASE_URL:-https://restcountries.com/v3.1}
+        API_KEY=${PROD_API_KEY:-}
+        EOF
+        echo "✓ .env PROD creado"
+
+    # ── Keystore Android ─────────────────────────────────────────────────────
+    decode_keystore: &decode_keystore
+      name: Decode Android keystore
+      script: |
+        echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode \
+          > apps/client-app/android/app/upload-keystore.jks
+
+    create_key_properties: &create_key_properties
+      name: Create key.properties
+      script: |
+        cat > apps/client-app/android/key.properties << EOF
+        storePassword=$KEYSTORE_PASSWORD
+        keyPassword=$KEY_PASSWORD
+        keyAlias=$KEY_ALIAS
+        storeFile=upload-keystore.jks
+        EOF
+
+workflows:
+  # ══════════════════════════════════════════════════════════════════════════
+  #  CI – Analyze, Format & Test  (flavor: DEV)
+  # ══════════════════════════════════════════════════════════════════════════
+  ci:
+    name: CI – Analyze, Format & Test [DEV]
+    max_build_duration: 30
+    instance_type: mac_mini_m2
+
+    triggering:
+      events:
+        - push
+        - pull_request
+      branch_patterns:
+        - pattern: "**"
+          include: true
+      cancel_previous_builds: true
+
+    environment:
+      flutter: stable
+      groups:
+        - env_dev
+        - codecov
+
+    scripts:
+      - *install_melos
+      - *create_env_dev
+      - *bootstrap
+      - *build_all
+      - name: Verify formatting
+        script: melos run format
+      - name: Analyze all packages
+        script: melos run analyze
+      - name: Run tests with coverage
+        script: melos run test:coverage
+      - name: Upload coverage to Codecov
+        script: |
+          curl -Os https://uploader.codecov.io/latest/macos/codecov
+          chmod +x codecov
+          ./codecov -t "$CODECOV_TOKEN" \
+            -f apps/client-app/coverage/lcov.info \
+            -f packages/core/coverage/lcov.info \
+            -f packages/client-features/home/coverage/lcov.info \
+            -f packages/client-features/wishlist/coverage/lcov.info || true
+
+  # ══════════════════════════════════════════════════════════════════════════
+  #  ANDROID – DEV  (develop → Google Play: internal)
+  # ══════════════════════════════════════════════════════════════════════════
+  android-dev:
+    name: Android DEV – Internal Track
+    max_build_duration: 45
+    instance_type: mac_mini_m2
+
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: develop
+          include: true
+      cancel_previous_builds: true
+
+    environment:
+      flutter: stable
+      java: 17
+      groups:
+        - env_dev
+        - android_signing
+        - google_play
+
+    scripts:
+      - *install_melos
+      - *create_env_dev
+      - *bootstrap
+      - *build_all
+      - *run_tests
+      - *decode_keystore
+      - *create_key_properties
+      - name: Build Android AAB (DEV)
+        script: |
+          cd apps/client-app
+          flutter build appbundle --release \
+            --dart-define=FLAVOR=dev \
+            --build-number="$BUILD_NUMBER"
+
+    artifacts:
+      - apps/client-app/build/app/outputs/bundle/release/app-release.aab
+
+    publishing:
+      email:
+        recipients:
+          - $CM_SUBMITTER_EMAIL
+        notify:
+          success: true
+          failure: true
+      google_play:
+        credentials: $PLAY_STORE_SERVICE_ACCOUNT_JSON
+        track: internal
+        submit_as_draft: true
+
+  # ══════════════════════════════════════════════════════════════════════════
+  #  ANDROID – QA  (main → Google Play: alpha)
+  # ══════════════════════════════════════════════════════════════════════════
+  android-qa:
+    name: Android QA – Alpha Track
+    max_build_duration: 45
+    instance_type: mac_mini_m2
+
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: main
+          include: true
+      cancel_previous_builds: true
+
+    environment:
+      flutter: stable
+      java: 17
+      groups:
+        - env_qa
+        - android_signing
+        - google_play
+
+    scripts:
+      - *install_melos
+      - *create_env_qa
+      - *bootstrap
+      - *build_all
+      - *run_tests
+      - *decode_keystore
+      - *create_key_properties
+      - name: Build Android AAB (QA)
+        script: |
+          cd apps/client-app
+          flutter build appbundle --release \
+            --dart-define=FLAVOR=qa \
+            --build-number="$BUILD_NUMBER"
+
+    artifacts:
+      - apps/client-app/build/app/outputs/bundle/release/app-release.aab
+
+    publishing:
+      email:
+        recipients:
+          - $CM_SUBMITTER_EMAIL
+        notify:
+          success: true
+          failure: true
+      google_play:
+        credentials: $PLAY_STORE_SERVICE_ACCOUNT_JSON
+        track: alpha
+        submit_as_draft: true
+
+  # ══════════════════════════════════════════════════════════════════════════
+  #  ANDROID – PROD  (release/* → Google Play: production)
+  # ══════════════════════════════════════════════════════════════════════════
+  android-prod:
+    name: Android PROD – Production Track
+    max_build_duration: 45
+    instance_type: mac_mini_m2
+
+    triggering:
+      events:
+        - push
+        - tag
+      branch_patterns:
+        - pattern: "release/*"
+          include: true
+      tag_patterns:
+        - pattern: "v*"
+          include: true
+      cancel_previous_builds: true
+
+    environment:
+      flutter: stable
+      java: 17
+      groups:
+        - env_prod
+        - android_signing
+        - google_play
+
+    scripts:
+      - *install_melos
+      - *create_env_prod
+      - *bootstrap
+      - *build_all
+      - *run_tests
+      - *decode_keystore
+      - *create_key_properties
+      - name: Build Android AAB (PROD)
+        script: |
+          cd apps/client-app
+          flutter build appbundle --release \
+            --dart-define=FLAVOR=prod \
+            --build-number="$BUILD_NUMBER"
+
+    artifacts:
+      - apps/client-app/build/app/outputs/bundle/release/app-release.aab
+
+    publishing:
+      email:
+        recipients:
+          - $CM_SUBMITTER_EMAIL
+        notify:
+          success: true
+          failure: true
+      google_play:
+        credentials: $PLAY_STORE_SERVICE_ACCOUNT_JSON
+        track: production
+        submit_as_draft: false
+
+  # ══════════════════════════════════════════════════════════════════════════
+  #  iOS – DEV  (develop → TestFlight: grupo interno)
+  # ══════════════════════════════════════════════════════════════════════════
+  ios-dev:
+    name: iOS DEV – TestFlight Internal
+    max_build_duration: 60
+    instance_type: mac_mini_m2
+
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: develop
+          include: true
+      cancel_previous_builds: true
+
+    environment:
+      flutter: stable
+      xcode: latest
+      cocoapods: default
+      groups:
+        - env_dev
+        - ios_signing
+      vars:
+        BUNDLE_ID: com.example.flutterWigilabsSr # ← actualiza con tu bundle ID real
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: $BUNDLE_ID
+
+    scripts:
+      - *install_melos
+      - *create_env_dev
+      - *bootstrap
+      - *build_all
+      - *run_tests
+      - name: Set build number
+        script: cd apps/client-app/ios && agvtool new-version -all "$BUILD_NUMBER"
+      - name: Build IPA (DEV)
+        script: |
+          cd apps/client-app
+          flutter build ipa --release \
+            --dart-define=FLAVOR=dev \
+            --export-options-plist=/Users/builder/export_options.plist
+
+    artifacts:
+      - apps/client-app/build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+
+    publishing:
+      email:
+        recipients:
+          - $CM_SUBMITTER_EMAIL
+        notify:
+          success: true
+          failure: true
+      app_store_connect:
+        api_key: $APP_STORE_CONNECT_PRIVATE_KEY
+        key_id: $APP_STORE_CONNECT_API_KEY_ID
+        issuer_id: $APP_STORE_CONNECT_ISSUER_ID
+        submit_to_testflight: true
+        beta_groups:
+          - Internal Testers
+        submit_to_app_store: false
+
+  # ══════════════════════════════════════════════════════════════════════════
+  #  iOS – QA  (main → TestFlight: grupo externo)
+  # ══════════════════════════════════════════════════════════════════════════
+  ios-qa:
+    name: iOS QA – TestFlight External
+    max_build_duration: 60
+    instance_type: mac_mini_m2
+
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: main
+          include: true
+      cancel_previous_builds: true
+
+    environment:
+      flutter: stable
+      xcode: latest
+      cocoapods: default
+      groups:
+        - env_qa
+        - ios_signing
+      vars:
+        BUNDLE_ID: com.example.flutterWigilabsSr # ← actualiza con tu bundle ID real
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: $BUNDLE_ID
+
+    scripts:
+      - *install_melos
+      - *create_env_qa
+      - *bootstrap
+      - *build_all
+      - *run_tests
+      - name: Set build number
+        script: cd apps/client-app/ios && agvtool new-version -all "$BUILD_NUMBER"
+      - name: Build IPA (QA)
+        script: |
+          cd apps/client-app
+          flutter build ipa --release \
+            --dart-define=FLAVOR=qa \
+            --export-options-plist=/Users/builder/export_options.plist
+
+    artifacts:
+      - apps/client-app/build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+
+    publishing:
+      email:
+        recipients:
+          - $CM_SUBMITTER_EMAIL
+        notify:
+          success: true
+          failure: true
+      app_store_connect:
+        api_key: $APP_STORE_CONNECT_PRIVATE_KEY
+        key_id: $APP_STORE_CONNECT_API_KEY_ID
+        issuer_id: $APP_STORE_CONNECT_ISSUER_ID
+        submit_to_testflight: true
+        beta_groups:
+          - External Testers
+        submit_to_app_store: false
+
+  # ══════════════════════════════════════════════════════════════════════════
+  #  iOS – PROD  (release/* → App Store)
+  # ══════════════════════════════════════════════════════════════════════════
+  ios-prod:
+    name: iOS PROD – App Store
+    max_build_duration: 60
+    instance_type: mac_mini_m2
+
+    triggering:
+      events:
+        - push
+        - tag
+      branch_patterns:
+        - pattern: "release/*"
+          include: true
+      tag_patterns:
+        - pattern: "v*"
+          include: true
+      cancel_previous_builds: true
+
+    environment:
+      flutter: stable
+      xcode: latest
+      cocoapods: default
+      groups:
+        - env_prod
+        - ios_signing
+      vars:
+        BUNDLE_ID: com.example.flutterWigilabsSr # ← actualiza con tu bundle ID real
+        APP_STORE_APPLE_ID: "0000000000" # ← actualiza con tu Apple ID numérico
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: $BUNDLE_ID
+
+    scripts:
+      - *install_melos
+      - *create_env_prod
+      - *bootstrap
+      - *build_all
+      - *run_tests
+      - name: Set build number
+        script: cd apps/client-app/ios && agvtool new-version -all "$BUILD_NUMBER"
+      - name: Build IPA (PROD)
+        script: |
+          cd apps/client-app
+          flutter build ipa --release \
+            --dart-define=FLAVOR=prod \
+            --export-options-plist=/Users/builder/export_options.plist
+
+    artifacts:
+      - apps/client-app/build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+
+    publishing:
+      email:
+        recipients:
+          - $CM_SUBMITTER_EMAIL
+        notify:
+          success: true
+          failure: true
+      app_store_connect:
+        api_key: $APP_STORE_CONNECT_PRIVATE_KEY
+        key_id: $APP_STORE_CONNECT_API_KEY_ID
+        issuer_id: $APP_STORE_CONNECT_ISSUER_ID
+        submit_to_testflight: false
+        submit_to_app_store: true
+
+  # ══════════════════════════════════════════════════════════════════════════
+  #  Web – DEV  (develop)
+  # ══════════════════════════════════════════════════════════════════════════
+  web-dev:
+    name: Web DEV – Build artifact
+    max_build_duration: 20
+    instance_type: mac_mini_m2
+
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: develop
+          include: true
+      cancel_previous_builds: true
+
+    environment:
+      flutter: stable
+      groups:
+        - env_dev
+
+    scripts:
+      - *install_melos
+      - *create_env_dev
+      - *bootstrap
+      - *build_all
+      - name: Setup web assets
+        script: |
+          chmod +x scripts/setup_web.sh
+          ./scripts/setup_web.sh
+      - *run_tests
+      - name: Build Web (DEV)
+        script: |
+          cd apps/client-app
+          flutter build web --release \
+            --dart-define=FLAVOR=dev \
+            --base-href /flutter_wigilabs_sr/
+
+    artifacts:
+      - apps/client-app/build/web/**
+
+  # ══════════════════════════════════════════════════════════════════════════
+  #  Web – PROD  (main / release/* → GitHub Pages)
+  # ══════════════════════════════════════════════════════════════════════════
+  web-prod:
+    name: Web PROD – GitHub Pages
+    max_build_duration: 20
+    instance_type: mac_mini_m2
+
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: main
+          include: true
+        - pattern: "release/*"
+          include: true
+      cancel_previous_builds: true
+
+    environment:
+      flutter: stable
+      groups:
+        - env_prod
+        - github_pages
+
+    scripts:
+      - *install_melos
+      - *create_env_prod
+      - *bootstrap
+      - *build_all
+      - name: Setup web assets
+        script: |
+          chmod +x scripts/setup_web.sh
+          ./scripts/setup_web.sh
+      - *run_tests
+      - name: Build Web (PROD)
+        script: |
+          cd apps/client-app
+          flutter build web --release \
+            --dart-define=FLAVOR=prod \
+            --base-href /flutter_wigilabs_sr/
+      - name: Deploy to GitHub Pages
+        script: |
+          cd apps/client-app/build/web
+          git init
+          git config user.email "codemagic@ci.bot"
+          git config user.name "Codemagic Bot"
+          git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPO_FULL_NAME}.git"
+          git checkout -b gh-pages
+          git add .
+          git commit -m "chore(web): deploy build $BUILD_NUMBER [skip ci]"
+          git push origin gh-pages --force
+
+    artifacts:
+      - apps/client-app/build/web/**

@@ -37,15 +37,36 @@ jobs:
       - name: Install Melos & Bootstrap
         run: dart pub global activate melos && melos bootstrap
 
-      - name: Create .env file
+      - name: Create .env files (dev / qa / prod)
         run: |
-          cat > apps/app/.env << EOF
-          API_KEY=${{ secrets.API_KEY || '' }}
-          BASE_URL=${{ secrets.BASE_URL || 'https://restcountries.com/v3.1' }}
+          cat > apps/client-app/.env.dev << EOF
+          API_KEY=${{ secrets.DEV_API_KEY }}
+          BASE_URL=${{ secrets.DEV_BASE_URL || 'https://restcountries.com/v3.1' }}
+          EOF
+          cat > apps/client-app/.env.qa << EOF
+          API_KEY=${{ secrets.QA_API_KEY }}
+          BASE_URL=${{ secrets.QA_BASE_URL || 'https://restcountries.com/v3.1' }}
+          EOF
+          cat > apps/client-app/.env.prod << EOF
+          API_KEY=${{ secrets.PROD_API_KEY }}
+          BASE_URL=${{ secrets.PROD_BASE_URL || 'https://restcountries.com/v3.1' }}
           EOF
 
       - name: Run code generation
         run: melos run build:all
+
+      - name: Determine flavor
+        id: flavor
+        run: |
+          if [[ "${{ github.ref }}" == refs/heads/develop ]]; then
+            echo "flavor=dev" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.ref }}" == refs/heads/main ]]; then
+            echo "flavor=qa" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.ref }}" == refs/heads/release/* || "${{ github.ref }}" == refs/tags/v* ]]; then
+            echo "flavor=prod" >> $GITHUB_OUTPUT
+          else
+            echo "flavor=dev" >> $GITHUB_OUTPUT
+          fi
 
       - name: Run tests
         run: melos run test
@@ -83,8 +104,10 @@ jobs:
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             echo "environment=${{ github.event.inputs.environment }}" >> $GITHUB_OUTPUT
-          elif [[ "${{ github.ref }}" == refs/heads/release/* ]]; then
+          elif [[ "${{ github.ref }}" == refs/heads/release/* || "${{ github.ref }}" == refs/tags/v* ]]; then
             echo "environment=production" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.ref }}" == refs/heads/main ]]; then
+            echo "environment=beta" >> $GITHUB_OUTPUT
           else
             echo "environment=beta" >> $GITHUB_OUTPUT
           fi
@@ -93,6 +116,7 @@ jobs:
         if: github.event_name != 'pull_request'
         env:
           BUILD_NUMBER: ${{ github.run_number }}
+          FLUTTER_FLAVOR: ${{ steps.flavor.outputs.flavor }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
           MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
           FASTLANE_USER: ${{ secrets.FASTLANE_USER }}
@@ -103,18 +127,18 @@ jobs:
           APP_STORE_CONNECT_API_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_ISSUER_ID }}
           APP_STORE_CONNECT_API_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
         run: |
-          cd apps/app/ios
+          cd apps/client-app/ios
           bundle exec fastlane ${{ steps.environment.outputs.environment }}
 
       - name: Build IPA for artifact
         if: github.event_name == 'pull_request'
         run: |
-          cd apps/app && flutter build ios --release --no-codesign
+          cd apps/client-app && flutter build ios --release --no-codesign --dart-define=FLAVOR=${{ steps.flavor.outputs.flavor }}
 
       - name: Upload IPA artifact
         if: github.event_name == 'pull_request'
         uses: actions/upload-artifact@v4
         with:
-          name: ios-app
+          name: ios-app-${{ steps.flavor.outputs.flavor }}
           path: build/ios/iphoneos/Runner.app
           retention-days: 7

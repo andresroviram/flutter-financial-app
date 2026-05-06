@@ -18,22 +18,16 @@ import 'package:feature_wishlist/domain/usecases/wishlist_usecases.dart'
 import 'package:injectable/injectable.dart' as _i526;
 
 class FeatureWishlistPackageModule extends _i526.MicroPackageModule {
-  // initializes the registration of main-scope dependencies inside of GetIt
+// initializes the registration of main-scope dependencies inside of GetIt
   @override
   _i687.FutureOr<void> init(_i526.GetItHelper gh) {
     gh.factory<_i315.IWishlistLocalDatasource>(
-      () => _i315.WishlistLocalDatasource(database: gh<_i696.AppDatabase>()),
-    );
-    gh.factory<_i167.IWishlistRepository>(
-      () => _i960.WishlistRepositoryImpl(
-        localDatasource: gh<_i315.IWishlistLocalDatasource>(),
-      ),
-    );
+        () => _i315.WishlistLocalDatasource(database: gh<_i696.AppDatabase>()));
+    gh.factory<_i167.IWishlistRepository>(() => _i960.WishlistRepositoryImpl(
+        localDatasource: gh<_i315.IWishlistLocalDatasource>()));
     gh.lazySingleton<_i767.GetWishlistUseCase>(
-      () => _i767.GetWishlistUseCase(gh<_i167.IWishlistRepository>()),
-    );
+        () => _i767.GetWishlistUseCase(gh<_i167.IWishlistRepository>()));
     gh.lazySingleton<_i767.RemoveFromWishlistUseCase>(
-      () => _i767.RemoveFromWishlistUseCase(gh<_i167.IWishlistRepository>()),
-    );
+        () => _i767.RemoveFromWishlistUseCase(gh<_i167.IWishlistRepository>()));
   }
 }

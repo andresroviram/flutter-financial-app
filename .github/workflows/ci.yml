@@ -34,11 +34,19 @@ jobs:
       - name: Install Melos
         run: dart pub global activate melos
 
-      - name: Create .env file (apps/app)
+      - name: Create .env files (dev / qa / prod)
         run: |
-          cat > apps/app/.env << EOF
-          API_KEY=${{ secrets.API_KEY || '' }}
-          BASE_URL=${{ secrets.BASE_URL || 'https://restcountries.com/v3.1' }}
+          cat > apps/client-app/.env.dev << EOF
+          API_KEY=${{ secrets.DEV_API_KEY }}
+          BASE_URL=${{ secrets.DEV_BASE_URL || 'https://restcountries.com/v3.1' }}
+          EOF
+          cat > apps/client-app/.env.qa << EOF
+          API_KEY=${{ secrets.QA_API_KEY }}
+          BASE_URL=${{ secrets.QA_BASE_URL || 'https://restcountries.com/v3.1' }}
+          EOF
+          cat > apps/client-app/.env.prod << EOF
+          API_KEY=${{ secrets.PROD_API_KEY }}
+          BASE_URL=${{ secrets.PROD_BASE_URL || 'https://restcountries.com/v3.1' }}
           EOF
 
       - name: Melos Bootstrap (instala todas las dependencias del workspace)
@@ -60,10 +68,10 @@ jobs:
         uses: codecov/codecov-action@v4
         with:
           files: |
-            apps/app/coverage/lcov.info
+            apps/client-app/coverage/lcov.info
             packages/core/coverage/lcov.info
-            packages/features/home/coverage/lcov.info
-            packages/features/wishlist/coverage/lcov.info
+            packages/client-features/home/coverage/lcov.info
+            packages/client-features/wishlist/coverage/lcov.info
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: false
 
@@ -86,11 +94,19 @@ jobs:
       - name: Install Melos
         run: dart pub global activate melos
 
-      - name: Create .env file (apps/app)
+      - name: Create .env files (dev / qa / prod)
         run: |
-          cat > apps/app/.env << EOF
-          API_KEY=${{ secrets.API_KEY || '' }}
-          BASE_URL=${{ secrets.BASE_URL || 'https://restcountries.com/v3.1' }}
+          cat > apps/client-app/.env.dev << EOF
+          API_KEY=${{ secrets.DEV_API_KEY }}
+          BASE_URL=${{ secrets.DEV_BASE_URL || 'https://restcountries.com/v3.1' }}
+          EOF
+          cat > apps/client-app/.env.qa << EOF
+          API_KEY=${{ secrets.QA_API_KEY }}
+          BASE_URL=${{ secrets.QA_BASE_URL || 'https://restcountries.com/v3.1' }}
+          EOF
+          cat > apps/client-app/.env.prod << EOF
+          API_KEY=${{ secrets.PROD_API_KEY }}
+          BASE_URL=${{ secrets.PROD_BASE_URL || 'https://restcountries.com/v3.1' }}
           EOF
 
       - name: Melos Bootstrap
@@ -99,14 +115,25 @@ jobs:
       - name: Code generation
         run: melos run build:all
 
+      - name: Determine flavor
+        id: flavor
+        run: |
+          if [[ "${{ github.ref }}" == refs/heads/develop ]]; then
+            echo "flavor=dev" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.ref }}" == refs/heads/main ]]; then
+            echo "flavor=qa" >> $GITHUB_OUTPUT
+          else
+            echo "flavor=dev" >> $GITHUB_OUTPUT
+          fi
+
       - name: Build Web
-        run: cd apps/app && flutter build web --release
+        run: cd apps/client-app && flutter build web --release --dart-define=FLAVOR=${{ steps.flavor.outputs.flavor }}
 
       - name: Upload web artifact
         uses: actions/upload-artifact@v4
         with:
           name: web-build-${{ github.sha }}
-          path: apps/app/build/web/
+          path: apps/client-app/build/web/
           retention-days: 7
 
   # ──────────────────────────────────────────────
@@ -133,11 +160,19 @@ jobs:
       - name: Install Melos
         run: dart pub global activate melos
 
-      - name: Create .env file (apps/app)
+      - name: Create .env files (dev / qa / prod)
         run: |
-          cat > apps/app/.env << EOF
-          API_KEY=${{ secrets.API_KEY || '' }}
-          BASE_URL=${{ secrets.BASE_URL || 'https://restcountries.com/v3.1' }}
+          cat > apps/client-app/.env.dev << EOF
+          API_KEY=${{ secrets.DEV_API_KEY }}
+          BASE_URL=${{ secrets.DEV_BASE_URL || 'https://restcountries.com/v3.1' }}
+          EOF
+          cat > apps/client-app/.env.qa << EOF
+          API_KEY=${{ secrets.QA_API_KEY }}
+          BASE_URL=${{ secrets.QA_BASE_URL || 'https://restcountries.com/v3.1' }}
+          EOF
+          cat > apps/client-app/.env.prod << EOF
+          API_KEY=${{ secrets.PROD_API_KEY }}
+          BASE_URL=${{ secrets.PROD_BASE_URL || 'https://restcountries.com/v3.1' }}
           EOF
 
       - name: Melos Bootstrap
@@ -146,14 +181,25 @@ jobs:
       - name: Code generation
         run: melos run build:all
 
+      - name: Determine flavor
+        id: flavor
+        run: |
+          if [[ "${{ github.ref }}" == refs/heads/develop ]]; then
+            echo "flavor=dev" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.ref }}" == refs/heads/main ]]; then
+            echo "flavor=qa" >> $GITHUB_OUTPUT
+          else
+            echo "flavor=dev" >> $GITHUB_OUTPUT
+          fi
+
       - name: Build Android APK
-        run: cd apps/app && flutter build apk --release
+        run: cd apps/client-app && flutter build apk --release --dart-define=FLAVOR=${{ steps.flavor.outputs.flavor }}
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: android-apk-${{ github.sha }}
-          path: apps/app/build/app/outputs/flutter-apk/app-release.apk
+          path: apps/client-app/build/app/outputs/flutter-apk/app-release.apk
           retention-days: 7
 
       - name: Check test coverage threshold
