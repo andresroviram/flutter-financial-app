@@ -47,18 +47,18 @@ jobs:
         run: |
           if [ -f coverage/lcov.info ]; then
             echo "Coverage report generated successfully"
-            
+
             # Install lcov for coverage analysis
             sudo apt-get update
             sudo apt-get install -y lcov
-            
+
             # Generate coverage summary
             COVERAGE=$(lcov --summary coverage/lcov.info 2>&1 | grep "lines" | awk '{print $2}' | sed 's/%//')
             echo "Current coverage: ${COVERAGE}%"
-            
+
             # Set minimum coverage threshold
             THRESHOLD=60.0
-            
+
             # Compare coverage with threshold
             if (( $(echo "$COVERAGE < $THRESHOLD" | bc -l) )); then
               echo "❌ Coverage ${COVERAGE}% is below threshold ${THRESHOLD}%"
