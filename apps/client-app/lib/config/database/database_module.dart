@@ -1,4 +1,4 @@
-import 'package:core/database/app_database.dart';
+import 'package:flutter_wigilabs_sr/config/database/app_database.dart';
 import 'package:injectable/injectable.dart';
 
 @module

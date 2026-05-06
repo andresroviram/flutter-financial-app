@@ -6,11 +6,13 @@ environment:
 
 workspace:
   - apps/client-app
+  - apps/financial-app
   - packages/core
   - packages/components
   - packages/client-features/home
   - packages/client-features/wishlist
   - packages/client-features/settings
+  - packages/financial-features/funds
 
 dev_dependencies:
   melos: ^7.4.0
@@ -52,7 +54,7 @@ melos:
       description: Aplica formato a todos los packages (excluye archivos generados).
 
     build:all:
-      run: melos run build:core && melos run build:feature_home && melos run build:feature_wishlist && melos run build:app && melos run build:web-worker
+      run: melos run build:core && melos run build:feature_home && melos run build:feature_wishlist && melos run build:feature_funds && melos run build:app && melos run build:financial-app && melos run build:web-worker
       description: Genera código en todos los packages en orden secuencial y recompila el web worker.
 
     build:core:
@@ -73,15 +75,31 @@ melos:
         scope: feature_wishlist
       description: Genera código en feature_wishlist (depende de feature_home).
 
+    build:feature_funds:
+      exec: dart run build_runner build --delete-conflicting-outputs
+      packageFilters:
+        scope: feature_funds
+      description: Genera código en feature_funds (drift, injectable).
+
     build:app:
       exec: dart run build_runner build --delete-conflicting-outputs
       packageFilters:
         scope: flutter_wigilabs_sr
       description: Genera código en la app principal.
 
+    build:financial-app:
+      exec: dart run build_runner build --delete-conflicting-outputs
+      packageFilters:
+        scope: financial_app
+      description: Genera código en la financial app (injectable, envied).
+
     build:web-worker:
       run: cd apps/client-app && dart compile js -O1 -o web/drift_worker.dart.js web/drift_worker.dart
-      description: Recompila el web worker de Drift (drift_worker.dart.js). Necesario después de build:app porque build_runner elimina el archivo al detectarlo como output conflictivo.
+      description: Recompila el web worker de Drift para client-app.
+
+    build:web-worker:financial:
+      run: cd apps/financial-app && dart compile js -O1 -o web/drift_worker.dart.js web/drift_worker.dart
+      description: Recompila el web worker de Drift para financial-app.
 
     build:watch:
       exec: dart run build_runner watch --delete-conflicting-outputs
@@ -126,6 +144,18 @@ melos:
     run:desktop:
       run: cd $MELOS_ROOT_PATH/apps/client-app && flutter run -d macos
       description: Lanza la app en macOS Desktop.
+
+    run:financial:mobile:
+      run: cd $MELOS_ROOT_PATH/apps/financial-app && flutter run
+      description: Lanza BTG Fondos en el simulador o dispositivo móvil.
+
+    run:financial:web:
+      run: cd $MELOS_ROOT_PATH/apps/financial-app && flutter run -d chrome --web-port 4002
+      description: Lanza BTG Fondos en Chrome (puerto 4002).
+
+    run:financial:desktop:
+      run: cd $MELOS_ROOT_PATH/apps/financial-app && flutter run -d macos
+      description: Lanza BTG Fondos en macOS Desktop.
 
     ci:
       run: melos run analyze && melos run format && melos run test
