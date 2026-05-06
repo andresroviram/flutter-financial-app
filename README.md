@@ -64,6 +64,11 @@ Este proyecto implementa Clean Architecture con la siguiente estructura de capas
 - **Domain Layer**: Use cases, entities, repository interfaces
 - **Data Layer**: Repository implementations, data sources (remote & local), models
 
+<br>
+<p align="center">
+<img src="screenshots/Clean Architecture Bloc - Flutter.jpg" width="80%">
+</p>
+
 ## How to use
 
 Para clonar y ejecutar esta aplicación, necesitarás tener [Git](https://git-scm.com/downloads) y [Flutter](https://flutter.dev/docs/get-started/install) instalados en tu computadora. Desde tu línea de comandos:
@@ -107,11 +112,6 @@ lib/
         ├── domain/
         └── presentation/
 ```
-
-<br>
-<p align="center">
-<img src="screenshots/Clean Architecture Bloc - Flutter.jpg" width="80%">
-</p>
 
 ## Features
 
