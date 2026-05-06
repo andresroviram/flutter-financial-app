@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:shimmer/shimmer.dart';
 
-/// Shimmer skeleton para el grid de países en la pantalla home
 class CountriesGridShimmer extends StatelessWidget {
   const CountriesGridShimmer({
     super.key,
@@ -27,16 +26,78 @@ class CountriesGridShimmer extends StatelessWidget {
     final base = Theme.of(context).colorScheme.surfaceContainerHighest;
     final highlight = Theme.of(context).colorScheme.surface;
 
-    return Shimmer.fromColors(
-      baseColor: base,
-      highlightColor: highlight,
-      child: GridView.builder(
-        padding: padding,
-        physics: const NeverScrollableScrollPhysics(),
-        gridDelegate: gridDelegate,
-        itemCount: itemCount,
-        itemBuilder: (_, _) => const _CountryCardSkeleton(),
-      ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final effectivePadding = padding;
+        final availableWidth =
+            constraints.maxWidth -
+            effectivePadding.left -
+            effectivePadding.right;
+
+        final maxExtent =
+            gridDelegate is SliverGridDelegateWithMaxCrossAxisExtent
+            ? (gridDelegate as SliverGridDelegateWithMaxCrossAxisExtent)
+                  .maxCrossAxisExtent
+            : null;
+        final fixedCount =
+            gridDelegate is SliverGridDelegateWithFixedCrossAxisCount
+            ? (gridDelegate as SliverGridDelegateWithFixedCrossAxisCount)
+                  .crossAxisCount
+            : null;
+
+        final double crossAxisSpacing;
+        final double mainAxisSpacing;
+        final double childAspectRatio;
+        if (gridDelegate is SliverGridDelegateWithMaxCrossAxisExtent) {
+          final d = gridDelegate as SliverGridDelegateWithMaxCrossAxisExtent;
+          crossAxisSpacing = d.crossAxisSpacing;
+          mainAxisSpacing = d.mainAxisSpacing;
+          childAspectRatio = d.childAspectRatio;
+        } else if (gridDelegate is SliverGridDelegateWithFixedCrossAxisCount) {
+          final d = gridDelegate as SliverGridDelegateWithFixedCrossAxisCount;
+          crossAxisSpacing = d.crossAxisSpacing;
+          mainAxisSpacing = d.mainAxisSpacing;
+          childAspectRatio = d.childAspectRatio;
+        } else {
+          crossAxisSpacing = 0;
+          mainAxisSpacing = 0;
+          childAspectRatio = 1;
+        }
+
+        final int crossCount;
+        if (maxExtent != null) {
+          crossCount = (availableWidth / maxExtent).ceil().clamp(1, 999);
+        } else {
+          crossCount = fixedCount ?? 2;
+        }
+
+        final itemWidth =
+            (availableWidth - crossAxisSpacing * (crossCount - 1)) / crossCount;
+        final itemHeight = itemWidth / childAspectRatio;
+
+        return Shimmer.fromColors(
+          baseColor: base,
+          highlightColor: highlight,
+          child: SingleChildScrollView(
+            physics: const NeverScrollableScrollPhysics(),
+            child: Padding(
+              padding: effectivePadding,
+              child: Wrap(
+                spacing: crossAxisSpacing,
+                runSpacing: mainAxisSpacing,
+                children: List.generate(
+                  itemCount,
+                  (_) => SizedBox(
+                    width: itemWidth,
+                    height: itemHeight,
+                    child: const _CountryCardSkeleton(),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
@@ -55,7 +116,6 @@ class _CountryCardSkeleton extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Bandera — AspectRatio 16:9
           AspectRatio(
             aspectRatio: 16 / 9,
             child: Container(color: color),
@@ -65,7 +125,6 @@ class _CountryCardSkeleton extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Título + botón wishlist
                 Row(
                   children: [
                     Expanded(
@@ -89,10 +148,8 @@ class _CountryCardSkeleton extends StatelessWidget {
                   ],
                 ),
                 const Gap(8),
-                // InfoRow capital
                 _ShimmerInfoRow(color: color),
                 const Gap(6),
-                // InfoRow población
                 _ShimmerInfoRow(color: color, width: 80),
               ],
             ),
