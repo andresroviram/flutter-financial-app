@@ -70,8 +70,10 @@ class _HomeViewState extends State<HomeView> {
       },
       child: Scaffold(
         body: BlocListener<HomeBloc, HomeState>(
+          listenWhen: (previous, current) =>
+              previous.failure != current.failure && current.failure != null,
           listener: (context, state) {
-            if (state.failure != null) {
+            if (context.mounted) {
               ShowFailure.instance.mapFailuresToNotification(
                 context,
                 failure: state.failure!,

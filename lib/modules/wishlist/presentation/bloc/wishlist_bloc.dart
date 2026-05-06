@@ -18,6 +18,7 @@ class WishlistBloc extends Bloc<WishlistEvent, WishlistState> {
        super(const WishlistState()) {
     on<_LoadWishlist>(_onLoadWishlist);
     on<_RemoveFromWishlist>(_onRemoveFromWishlist);
+    on<_Invalidate>(_onInvalidate);
   }
 
   final GetWishlistUseCase _getWishlist;
@@ -51,5 +52,9 @@ class WishlistBloc extends Bloc<WishlistEvent, WishlistState> {
         add(const WishlistEvent.loadWishlist());
       },
     );
+  }
+
+  void _onInvalidate(_Invalidate event, Emitter<WishlistState> emit) {
+    emit(state.copyWith(failure: null));
   }
 }

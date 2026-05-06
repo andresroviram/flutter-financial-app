@@ -56,8 +56,10 @@ class _WishlistViewState extends State<WishlistView> {
     final breakpoint = ResponsiveBreakpoints.of(context).breakpoint;
     return Scaffold(
       body: BlocListener<WishlistBloc, WishlistState>(
+        listenWhen: (previous, current) =>
+            previous.failure != current.failure && current.failure != null,
         listener: (context, state) {
-          if (state.failure != null) {
+          if (context.mounted) {
             ShowFailure.instance.mapFailuresToNotification(
               context,
               failure: state.failure!,

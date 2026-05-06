@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_wigilabs_sr/core/constants/app_constants.dart';
-import 'package:flutter_wigilabs_sr/modules/home/domain/entities/country_entity.dart';
-import 'package:flutter_wigilabs_sr/modules/home/presentation/country_detail/view/country_detail_view.dart';
 import 'package:flutter_wigilabs_sr/modules/home/presentation/home/view/home_view.dart';
 import 'package:go_router/go_router.dart';
 
@@ -15,24 +12,6 @@ StatefulShellBranch homeRoutes = StatefulShellBranch(
       name: HomeView.name,
       pageBuilder: (context, state) =>
           NoTransitionPage(key: state.pageKey, child: HomeView.create()),
-      routes: [
-        if (AppConstants.isWeb)
-          GoRoute(
-            path: CountryDetailView.pathWeb,
-            name: CountryDetailView.name,
-            pageBuilder: (context, state) {
-              final countryCode = state.pathParameters['countryCode']!;
-              final country = state.extra as CountryEntity?;
-              return MaterialPage(
-                key: state.pageKey,
-                child: CountryDetailView.create(
-                  country: country,
-                  countryCode: countryCode,
-                ),
-              );
-            },
-          ),
-      ],
     ),
   ],
 );

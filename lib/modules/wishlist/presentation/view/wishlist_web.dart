@@ -117,7 +117,7 @@ class _WishlistWebState extends State<WishlistWeb> {
                           ),
                           onTap: () async {
                             await context.pushNamed(
-                              CountryDetailView.name,
+                              CountryDetailView.nameWeb,
                               pathParameters: {'countryCode': country.cca2},
                               extra: country,
                             );

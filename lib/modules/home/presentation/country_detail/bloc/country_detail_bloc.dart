@@ -22,6 +22,7 @@ class CountryDetailBloc extends Bloc<CountryDetailEvent, CountryDetailState> {
        super(const CountryDetailState()) {
     on<_LoadDetail>(_onLoadDetail);
     on<_ToggleWishlist>(_onToggleWishlist);
+    on<_Invalidate>(_onInvalidate);
   }
 
   final GetCountryDetailUseCase _getCountryDetail;
@@ -80,5 +81,9 @@ class CountryDetailBloc extends Bloc<CountryDetailEvent, CountryDetailState> {
     } else {
       await _addToWishlist(event.country);
     }
+  }
+
+  void _onInvalidate(_Invalidate event, Emitter<CountryDetailState> emit) {
+    emit(state.copyWith(failure: null));
   }
 }

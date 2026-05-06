@@ -15,8 +15,10 @@ class CountryDetailView extends StatelessWidget {
   final CountryEntity country;
 
   static const String pathMobile = '/country_detail';
+  static const String nameMobile = 'country_detail_mobile';
+
   static const String pathWeb = 'country/:countryCode';
-  static const String name = 'country_detail';
+  static const String nameWeb = 'country_detail_web';
 
   static Widget create({CountryEntity? country, String? countryCode}) {
     assert(
@@ -62,8 +64,10 @@ class CountryDetailView extends StatelessWidget {
     final breakpoint = ResponsiveBreakpoints.of(context).breakpoint;
     return Scaffold(
       body: BlocListener<CountryDetailBloc, CountryDetailState>(
+        listenWhen: (previous, current) =>
+            previous.failure != current.failure && current.failure != null,
         listener: (context, state) {
-          if (state.failure != null) {
+          if (context.mounted) {
             ShowFailure.instance.mapFailuresToNotification(
               context,
               failure: state.failure!,
