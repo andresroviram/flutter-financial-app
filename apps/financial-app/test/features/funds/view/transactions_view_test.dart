@@ -156,10 +156,10 @@ void main() {
       expect(
         tester.widget<ListView>(find.byType(ListView)).padding,
         const EdgeInsets.fromLTRB(
-          0,
-          8,
-          TransactionsView.verticalListRightPadding,
-          8,
+          24,
+          24,
+          24 + TransactionsView.verticalListRightPadding,
+          24,
         ),
       );
     });
@@ -206,28 +206,37 @@ class _FakeTransactionsScaffold extends StatelessWidget {
       return const Scaffold(body: Center(child: Text('Sin transacciones aún')));
     }
     return Scaffold(
-      body: Card(
-        clipBehavior: Clip.antiAlias,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-          side: BorderSide(
-            color: Theme.of(
-              context,
-            ).colorScheme.outlineVariant.withValues(alpha: 0.45),
-          ),
+      body: ListView(
+        padding: const EdgeInsets.fromLTRB(
+          24,
+          24,
+          24 + TransactionsView.verticalListRightPadding,
+          24,
         ),
-        surfaceTintColor: Colors.transparent,
-        child: ListView.builder(
-          padding: const EdgeInsets.fromLTRB(
-            0,
-            8,
-            TransactionsView.verticalListRightPadding,
-            8,
+        children: [
+          Card(
+            clipBehavior: Clip.antiAlias,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+              side: BorderSide(
+                color: Theme.of(
+                  context,
+                ).colorScheme.outlineVariant.withValues(alpha: 0.45),
+              ),
+            ),
+            surfaceTintColor: Colors.transparent,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                for (var i = 0; i < state.transactions.length; i++) ...[
+                  TransactionTile(transaction: state.transactions[i]),
+                  if (i < state.transactions.length - 1)
+                    const Divider(height: 1, indent: 72),
+                ],
+              ],
+            ),
           ),
-          itemCount: state.transactions.length,
-          itemBuilder: (_, i) =>
-              TransactionTile(transaction: state.transactions[i]),
-        ),
+        ],
       ),
     );
   }

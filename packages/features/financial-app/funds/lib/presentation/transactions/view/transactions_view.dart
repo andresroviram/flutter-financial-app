@@ -101,30 +101,34 @@ class _TransactionsViewState extends State<TransactionsView> {
             onRefresh: () async => context.read<TransactionsBloc>().add(
               const TransactionsEvent.loadRequested(),
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(24),
-              child: Card(
-                clipBehavior: Clip.antiAlias,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                  side: BorderSide(
-                    color: colorScheme.outlineVariant.withValues(alpha: 0.45),
-                  ),
-                ),
-                child: ListView.separated(
-                  padding: const EdgeInsets.fromLTRB(
-                    0,
-                    8,
-                    TransactionsView.verticalListRightPadding,
-                    8,
-                  ),
-                  itemCount: transactions.length,
-                  separatorBuilder: (_, _) =>
-                      const Divider(height: 1, indent: 72),
-                  itemBuilder: (_, i) =>
-                      TransactionTile(transaction: transactions[i]),
-                ),
+            child: ListView(
+              padding: const EdgeInsets.fromLTRB(
+                24,
+                24,
+                24 + TransactionsView.verticalListRightPadding,
+                24,
               ),
+              children: [
+                Card(
+                  clipBehavior: Clip.antiAlias,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    side: BorderSide(
+                      color: colorScheme.outlineVariant.withValues(alpha: 0.45),
+                    ),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      for (var i = 0; i < transactions.length; i++) ...[
+                        TransactionTile(transaction: transactions[i]),
+                        if (i < transactions.length - 1)
+                          const Divider(height: 1, indent: 72),
+                      ],
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
         ),
