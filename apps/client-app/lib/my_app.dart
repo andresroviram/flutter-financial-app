@@ -2,7 +2,7 @@ import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_wigilabs_sr/config/env/flavor_banner_wrapper.dart';
+import 'package:flutter_wigilabs_sr/config/env/app_flavor.dart';
 import 'package:flutter_wigilabs_sr/config/injectable/injectable_dependency.dart';
 import 'package:flutter_wigilabs_sr/config/theme/app_theme.dart';
 import 'package:go_router/go_router.dart';
@@ -35,7 +35,13 @@ class MyApp extends StatelessWidget {
             locale: ctx.locale,
             builder: (context, child) {
               final inner = BotToastInit()(context, child);
-              return FlavorBannerWrapper(child: inner);
+              if (!kFlavor.showBanner) return inner;
+              return Banner(
+                message: kFlavor.label,
+                location: BannerLocation.topEnd,
+                color: Color(kFlavor.bannerColor),
+                child: inner,
+              );
             },
           ),
         ),
