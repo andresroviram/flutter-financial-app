@@ -20,11 +20,9 @@ GoRouter createRouter() {
     routes: [
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
-          return SelectionContainer.disabled(
-            child: ScaffoldWithNavigation(
-              key: ValueKey(context.locale.toString()),
-              navigationShell: navigationShell,
-            ),
+          return ScaffoldWithNavigation(
+            key: ValueKey(context.locale.toString()),
+            navigationShell: navigationShell,
           );
         },
         branches: [homeRoutes, wishlistRoutes, settingsRoutes],
