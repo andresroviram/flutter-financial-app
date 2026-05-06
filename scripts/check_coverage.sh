@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Script para verificar cobertura de tests
-# Uso: ./check_coverage.sh [threshold]
+# Uso: ./scripts/check_coverage.sh [threshold]
 
 set -e
 
@@ -11,6 +11,10 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
+
+# Navegar a la app principal
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR/../apps/app"
 
 echo -e "${BLUE}🧪 Ejecutando tests con cobertura...${NC}"
 flutter test --coverage

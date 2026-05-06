@@ -34,21 +34,21 @@ jobs:
           channel: "stable"
           cache: true
 
-      - name: Install Flutter dependencies
-        run: flutter pub get
+      - name: Install Melos & Bootstrap
+        run: dart pub global activate melos && melos bootstrap
 
       - name: Create .env file
         run: |
-          cat > .env << EOF
+          cat > apps/app/.env << EOF
           API_KEY=${{ secrets.API_KEY || '' }}
           BASE_URL=${{ secrets.BASE_URL || 'https://restcountries.com/v3.1' }}
           EOF
 
       - name: Run code generation
-        run: dart run build_runner build --delete-conflicting-outputs
+        run: cd apps/app && dart run build_runner build --delete-conflicting-outputs
 
       - name: Run tests
-        run: flutter test
+        run: melos run test
 
       - name: Setup Ruby
         if: github.event_name != 'pull_request'
@@ -103,13 +103,13 @@ jobs:
           APP_STORE_CONNECT_API_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_ISSUER_ID }}
           APP_STORE_CONNECT_API_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
         run: |
-          cd ios
+          cd apps/app/ios
           bundle exec fastlane ${{ steps.environment.outputs.environment }}
 
       - name: Build IPA for artifact
         if: github.event_name == 'pull_request'
         run: |
-          flutter build ios --release --no-codesign
+          cd apps/app && flutter build ios --release --no-codesign
 
       - name: Upload IPA artifact
         if: github.event_name == 'pull_request'

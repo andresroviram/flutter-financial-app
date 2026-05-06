@@ -2,6 +2,8 @@
 
 Prueba técnica – Explorador de países de Europa con BLoC, Drift y Dio.
 
+Arquitectura de **monorepo con Melos**, Clean Architecture por feature y soporte para Mobile, Web y Desktop.
+
 ## 🌐 Demo en vivo
 
 **Web App:** [https://andresroviram.github.io/flutter_wigilabs_sr/](https://andresroviram.github.io/flutter_wigilabs_sr/)
@@ -44,18 +46,17 @@ La aplicación está desplegada automáticamente en GitHub Pages mediante GitHub
 <img src="screenshots/web/Screenshot_19-2-2026_183626_localhost.jpeg" width="45%">
 </p>
 
-## Using on this app
+## Stack tecnológico
 
-- Clean Architecture
-- BLoC (flutter_bloc)
-- hydrated_bloc
+- Clean Architecture (por feature)
+- Melos (monorepo management)
+- BLoC (flutter_bloc) + hydrated_bloc
 - go_router
 - GetIt / Injectable
-- freezed
-- json_serializable
+- freezed + json_serializable
 - Dio (HTTP Client) + interceptores
 - Exception Handling (Custom Error Management)
-- Drift (SQLite Database)
+- Drift (SQLite – web & mobile)
 - Performance Optimization (Jank Detection & Prevention)
 - easy_localization
 - adaptive_theme
@@ -65,64 +66,109 @@ La aplicación está desplegada automáticamente en GitHub Pages mediante GitHub
 
 ## Clean Architecture
 
-Este proyecto implementa Clean Architecture con la siguiente estructura de capas:
+Cada feature implementa Clean Architecture con tres capas:
 
-- **Presentation Layer**: UI components, BLoC state management
-- **Domain Layer**: Use cases, entities, repository interfaces
-- **Data Layer**: Repository implementations, data sources (remote & local), models
+- **Presentation**: UI, BLoC (states/events/cubit)
+- **Domain**: Use cases, entities, repository interfaces
+- **Data**: Repository implementations, datasources (remote & local), models
 
 <br>
 <p align="center">
 <img src="screenshots/Clean Architecture Bloc - Flutter.jpg" width="80%">
 </p>
 
-## Project Structure
+## Estructura del monorepo
 
 ```
-lib/
-├── main.dart
-├── my_app.dart
-├── components/         # UI components reutilizables
-├── config/             # Configuración de la app
-├── core/               # Utilidades y core features
-└── modules/            # Módulos de características
-    └── [feature]/
-        ├── data/
-        ├── domain/
-        └── presentation/
+flutter_wigilabs_sr/          # Workspace raíz (Melos)
+├── apps/
+│   └── app/                  # Aplicación Flutter principal
+│       ├── lib/
+│       │   ├── main.dart
+│       │   ├── my_app.dart
+│       │   └── config/       # Router, DI, temas
+│       └── web/              # Entrypoints y assets web
+├── packages/
+│   ├── core/                 # Capa compartida entre features
+│   │   └── lib/
+│   │       ├── domain/       # Entidades globales (CountryEntity…)
+│   │       ├── error/        # Failures y manejo de errores
+│   │       ├── network/      # Cliente Dio e interceptores
+│   │       ├── performance/  # Detección de janks
+│   │       └── utils/
+│   │           └── isolates/ # CountryIsolateUtils (compute)
+│   ├── database/             # Drift: tablas, DAOs, conexión web/mobile
+│   ├── design_system/        # Widgets reutilizables y temas
+│   └── features/
+│       ├── home/             # Listado y detalle de países
+│       ├── wishlist/         # Lista de deseos (favoritos)
+│       └── settings/         # Idioma, tema y performance toggle
+└── scripts/
+    ├── setup_web.sh/.ps1     # Configura sqlite3.wasm y drift worker
+    └── check_coverage.sh/.ps1 # Verifica umbral de cobertura
 ```
 
-## How to use
+## Cómo ejecutar
 
-Para clonar y ejecutar esta aplicación, necesitarás tener [Git](https://git-scm.com/downloads) y [Flutter](https://flutter.dev/docs/get-started/install) instalados en tu computadora. Desde tu línea de comandos:
+Necesitas [Flutter](https://flutter.dev/docs/get-started/install) y [Melos](https://melos.invertase.dev) instalados.
 
 ```bash
-# Clonar este repositorio
-$ git clone https://github.com/yourusername/flutter_wigilabs_sr.git
+# 1. Clonar el repositorio
+git clone https://github.com/elkisrovira/flutter_wigilabs_sr.git
+cd flutter_wigilabs_sr
 
-# Ir al directorio del repositorio
-$ cd flutter_wigilabs_sr
+# 2. Instalar Melos (si no lo tienes)
+dart pub global activate melos
 
-# Instalar dependencias
-$ flutter pub get
+# 3. Bootstrap del workspace (instala dependencias de todos los packages)
+melos bootstrap
 
-# Crear archivo .env en la raíz del proyecto
-$ API_KEY=''
-$ BASE_URL='https://restcountries.com/v3.1'
+# 4. Crear archivo .env en apps/app/
+#    BASE_URL=https://restcountries.com/v3.1
 
-# Generar código
-$ dart run build_runner build --delete-conflicting-outputs
+# 5. Generar código (build_runner en todos los packages)
+melos run build:all
 
-# Ejecutar la aplicación
-$ flutter run
-
-# Para web
-$ flutter run -d chrome
+# 6. Ejecutar la app
+melos run run:mobile    # iOS/Android
+melos run run:web       # Chrome (puerto 4000)
+melos run run:desktop   # macOS
 ```
 
-## CI/CD & Despliegue
+### Configuración web (Drift + SQLite)
 
-El proyecto cuenta con workflows automatizados de CI/CD configurados con GitHub Actions:
+Antes de ejecutar en web por primera vez:
+
+```bash
+# Linux/macOS
+chmod +x scripts/setup_web.sh
+./scripts/setup_web.sh
+
+# Windows
+.\scripts\setup_web.ps1
+```
+
+## Scripts de Melos
+
+| Comando                    | Descripción                                           |
+|----------------------------|-------------------------------------------------------|
+| `melos bootstrap`          | Instala dependencias de todos los packages            |
+| `melos run build:all`      | Ejecuta build_runner en packages que lo requieren     |
+| `melos run build:watch`    | build_runner en modo watch                            |
+| `melos run format`         | Verifica formato en todos los packages                |
+| `melos run format:fix`     | Aplica formato en todos los packages                  |
+| `melos run analyze`        | Análisis estático en todos los packages               |
+| `melos run analyze:changed`| Análisis solo de packages modificados vs main         |
+| `melos run test`           | Ejecuta todos los tests                               |
+| `melos run test:coverage`  | Tests con reporte de cobertura                        |
+| `melos run test:changed`   | Tests solo de packages modificados vs main            |
+| `melos run clean:generated`| Elimina archivos .g.dart y .freezed.dart              |
+| `melos run ci`             | Pipeline completo: analyze + format + test            |
+| `melos run run:mobile`     | Lanza en iOS/Android                                  |
+| `melos run run:web`        | Lanza en Chrome (puerto 4000)                         |
+| `melos run run:desktop`    | Lanza en macOS Desktop                                |
+
+## CI/CD & Despliegue
 
 ### 🔄 Continuous Integration (CI)
 
@@ -130,11 +176,11 @@ El proyecto cuenta con workflows automatizados de CI/CD configurados con GitHub 
 
 Se ejecuta automáticamente en cada push y pull request:
 
-- ✅ Instalación de dependencias
-- ✅ Generación de código (build_runner)
-- ✅ Verificación de formato de código
-- ✅ Análisis estático con flutter analyze
-- ✅ Ejecución de tests con cobertura
+- ✅ Bootstrap con Melos
+- ✅ Generación de código (build_runner vía `melos run build:all`)
+- ✅ Verificación de formato (`melos run format`)
+- ✅ Análisis estático (`melos run analyze`)
+- ✅ Ejecución de tests con cobertura (`melos run test:coverage`)
 - ✅ Reporte de cobertura a Codecov
 - ✅ Verificación de umbral de cobertura (60%)
 
@@ -142,20 +188,19 @@ Se ejecuta automáticamente en cada push y pull request:
 
 **Workflow:** `.github/workflows/deploy-web.yml`
 
-**URL de producción:** [https://andresroviram.github.io/flutter_wigilabs_sr/](https://andresroviram.github.io/flutter_wigilabs_sr/)
+**URL de producción:** [https://elkisrovira.github.io/flutter_wigilabs_sr/](https://elkisrovira.github.io/flutter_wigilabs_sr/)
 
 Se ejecuta automáticamente al hacer push a `main` o `develop`:
 
-- ✅ Build de la aplicación web con Flutter
+- ✅ Build de la aplicación web con Flutter (desde `apps/app`)
 - ✅ Ejecución de tests
 - ✅ Despliegue automático a GitHub Pages
-- ✅ Configuración opcional para Firebase Hosting y Vercel
 
 ### 📱 Despliegue Android
 
 **Workflow:** `.github/workflows/deploy-android.yml`
 
-Despliega a Google Play Store (Internal/Beta/Production) cuando se hace push a `main` o ramas `release/*`:
+Despliega a Google Play Store cuando se hace push a `main` o ramas `release/*`:
 
 - ✅ Build de APK/AAB firmado
 - ✅ Fastlane para automatización
@@ -172,44 +217,42 @@ Despliega a TestFlight/App Store cuando se hace push a `main` o ramas `release/*
 - ✅ Gestión de certificados con match
 - ✅ Despliegue a TestFlight o App Store
 
-### 📋 Configuración de Secrets
-
-Para que los workflows funcionen correctamente, configura los siguientes secrets en GitHub:
+### 📋 Secrets requeridos en GitHub
 
 **General:**
-- `API_KEY` - (Opcional) API key si es requerida
-- `BASE_URL` - Base URL de la API (default: https://restcountries.com/v3.1)
+- `BASE_URL` – Base URL de la API (default: `https://restcountries.com/v3.1`)
 
 **Android:**
-- `ANDROID_KEYSTORE_BASE64` - Keystore codificado en base64
-- `KEYSTORE_PASSWORD` - Contraseña del keystore
-- `KEY_ALIAS` - Alias de la key
-- `KEY_PASSWORD` - Contraseña de la key
-- `PLAY_STORE_CONFIG_JSON` - Credenciales de servicio de Google Play
+- `ANDROID_KEYSTORE_BASE64` – Keystore codificado en base64
+- `KEYSTORE_PASSWORD` – Contraseña del keystore
+- `KEY_ALIAS` – Alias de la key
+- `KEY_PASSWORD` – Contraseña de la key
+- `PLAY_STORE_CONFIG_JSON` – Credenciales de servicio de Google Play
 
 **iOS:**
-- `MATCH_PASSWORD` - Contraseña para match (certificados)
-- `MATCH_GIT_BASIC_AUTHORIZATION` - Autorización para repositorio de certificados
-- `FASTLANE_USER` - Usuario de Apple Developer
-- `FASTLANE_PASSWORD` - Contraseña de Apple ID
-- `FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD` - Contraseña específica de app
-- `APP_STORE_CONNECT_API_KEY_ID` - ID de la API key de App Store Connect
-- `APP_STORE_CONNECT_API_ISSUER_ID` - Issuer ID de App Store Connect
-- `APP_STORE_CONNECT_API_KEY` - API Key de App Store Connect
+- `MATCH_PASSWORD` – Contraseña para match (certificados)
+- `MATCH_GIT_BASIC_AUTHORIZATION` – Autorización para repositorio de certificados
+- `FASTLANE_USER` – Usuario de Apple Developer
+- `FASTLANE_PASSWORD` – Contraseña de Apple ID
+- `FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD` – Contraseña específica de app
+- `APP_STORE_CONNECT_API_KEY_ID` – ID de la API key de App Store Connect
+- `APP_STORE_CONNECT_API_ISSUER_ID` – Issuer ID de App Store Connect
+- `APP_STORE_CONNECT_API_KEY` – API Key de App Store Connect
 
 **Coverage:**
-- `CODECOV_TOKEN` - Token para reportar cobertura a Codecov
+- `CODECOV_TOKEN` – Token para reportar cobertura a Codecov
 
 ## Features
 
 - 🌍 Explorador de países de Europa
 - 🔍 Búsqueda y filtrado de países
-- 💾 Almacenamiento local con Drift (SQLite)
+- ❤️ Lista de deseos (wishlist) con persistencia local
+- 💾 Almacenamiento local con Drift (SQLite – web & mobile)
 - 🌐 Soporte multi-idioma (Español/Inglés)
 - 🎨 Tema claro/oscuro adaptativo
-- 📱 Diseño responsive (Mobile, Tablet, Web)
+- 📱 Diseño responsive (Mobile, Tablet, Web, Desktop)
 - ⚡ Caché de imágenes
 - 🔄 Manejo de estados con BLoC
 - 🌐 Peticiones HTTP con Dio e interceptores
 - ⚠️ Manejo robusto de excepciones y errores
-- 🚀 Optimización de performance (detección y prevención de janks)
+- 🚀 Optimización de performance (detección y prevención de janks con isolates)
