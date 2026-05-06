@@ -32,11 +32,8 @@ final class EnvProd {
 
 @LazySingleton(as: IEnvConfig)
 final class Env implements IEnvConfig {
-  /// Constructor de producción: usa [kFlavor] (compile-time constant).
-  /// Injectable usa siempre este constructor → nunca intenta resolver [AppFlavor].
   Env() : _flavor = kFlavor;
 
-  /// Constructor exclusivo para tests: permite inyectar cualquier flavor.
   @visibleForTesting
   Env.withFlavor(AppFlavor flavor) : _flavor = flavor;
 

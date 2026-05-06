@@ -31,8 +31,8 @@ class CountryDetailWeb extends StatelessWidget {
               child: ErrorState(
                 failure: state.failure!,
                 onRetry: () => context.read<CountryDetailBloc>().add(
-                  CountryDetailEvent.loadDetail(
-                    name: this.country.commonName,
+                  CountryDetailEvent.loadDetailByCode(
+                    code: this.country.cca2,
                     previewCountry: this.country,
                   ),
                 ),
