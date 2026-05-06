@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
@@ -19,16 +20,16 @@ class EmptyWishlist extends StatelessWidget {
             ),
             const Gap(16),
             Text(
-              'Tu lista de deseos está vacía',
+              'wishlist.empty_title'.tr(),
               style: Theme.of(context).textTheme.titleMedium,
               textAlign: TextAlign.center,
             ),
             const Gap(8),
             Text(
-              'Agrega países tocando el ❤ en la lista de países.',
+              'wishlist.empty_subtitle'.tr(),
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Theme.of(context).colorScheme.outline,
-                  ),
+                color: Theme.of(context).colorScheme.outline,
+              ),
               textAlign: TextAlign.center,
             ),
           ],

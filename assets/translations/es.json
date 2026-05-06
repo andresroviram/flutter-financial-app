@@ -47,5 +47,9 @@
 		"home": "Inicio",
 		"wishlist": "Favoritos",
 		"settings": "Ajustes"
+	},
+	"settings": {
+		"title": "Configuración",
+		"content": "Vista de configuración"
 	}
 }

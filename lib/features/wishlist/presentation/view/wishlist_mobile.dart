@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_wigilabs_sr/features/home/presentation/country_detail/view/country_detail_view.dart';
@@ -13,7 +14,7 @@ class WishlistMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Lista de deseos'), centerTitle: false),
+      appBar: AppBar(title: Text('wishlist.title'.tr()), centerTitle: false),
       body: BlocBuilder<WishlistBloc, WishlistState>(
         builder: (context, state) {
           if (state.isLoading) {
@@ -27,7 +28,7 @@ class WishlistMobile extends StatelessWidget {
           return ListView.separated(
             padding: const EdgeInsets.all(16),
             itemCount: state.wishlist.length,
-            separatorBuilder: (_, __) => const Gap(8),
+            separatorBuilder: (_, _) => const Gap(8),
             itemBuilder: (context, index) {
               final country = state.wishlist[index];
               return WishlistCard(
