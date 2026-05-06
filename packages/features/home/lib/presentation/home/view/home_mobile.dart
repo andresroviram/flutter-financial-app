@@ -1,5 +1,5 @@
+import 'package:components/shimmer/countries_grid_shimmer.dart';
 import 'package:core/utils/snackbar_utils.dart';
-import 'package:design_system/shimmer/countries_grid_shimmer.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:feature_home/presentation/country_detail/view/country_detail_view.dart';
 import 'package:feature_home/presentation/home/bloc/home_bloc.dart';

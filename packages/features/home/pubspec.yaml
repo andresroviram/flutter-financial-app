@@ -13,8 +13,8 @@ dependencies:
 
   core:
     path: ../../core
-  design_system:
-    path: ../../design_system
+  components:
+    path: ../../components
 
   # State Management
   bloc: ^9.2.0

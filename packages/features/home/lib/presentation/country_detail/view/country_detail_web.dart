@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:components/shimmer/country_detail_shimmer.dart';
 import 'package:core/entities/country_entity.dart';
-import 'package:design_system/shimmer/country_detail_shimmer.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:feature_home/presentation/country_detail/bloc/country_detail_bloc.dart';
 import 'package:feature_home/presentation/country_detail/widgets/chip_list.dart';

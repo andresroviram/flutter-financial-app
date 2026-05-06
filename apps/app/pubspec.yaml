@@ -15,8 +15,8 @@ dependencies:
   # Workspace packages
   core:
     path: ../../packages/core
-  design_system:
-    path: ../../packages/design_system
+  components:
+    path: ../../packages/components
   feature_home:
     path: ../../packages/features/home
   feature_wishlist:

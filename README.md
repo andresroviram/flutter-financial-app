@@ -98,7 +98,7 @@ flutter_wigilabs_sr/          # Workspace raíz (Melos)
 │   │       └── utils/
 │   │           └── isolates/ # CountryIsolateUtils (compute)
 │   ├── database/             # Drift: tablas, DAOs, conexión web/mobile
-│   ├── design_system/        # Widgets reutilizables y temas
+│   ├── components/        # Widgets reutilizables y temas
 │   └── features/
 │       ├── home/             # Listado y detalle de países
 │       ├── wishlist/         # Lista de deseos (favoritos)

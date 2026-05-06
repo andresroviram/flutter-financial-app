@@ -1,4 +1,4 @@
-name: design_system
+name: components
 description: "Widgets y componentes UI compartidos entre features."
 publish_to: "none"
 resolution: workspace

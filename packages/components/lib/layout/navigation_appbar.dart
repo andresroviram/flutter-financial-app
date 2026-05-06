@@ -1,7 +1,7 @@
-import 'package:design_system/language_switcher.dart';
-import 'package:design_system/layout/navigation_title.dart';
-import 'package:design_system/performance_toggle.dart';
-import 'package:design_system/theme_button.dart';
+import 'package:components/language_switcher.dart';
+import 'package:components/layout/navigation_title.dart';
+import 'package:components/performance_toggle.dart';
+import 'package:components/theme_button.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:responsive_framework/responsive_framework.dart';

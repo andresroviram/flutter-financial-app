@@ -1,6 +1,6 @@
 import 'package:bot_toast/bot_toast.dart';
+import 'package:components/layout/scaffold_with_navigation.dart';
 import 'package:core/entities/country_entity.dart';
-import 'package:design_system/layout/scaffold_with_navigation.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:feature_home/presentation/country_detail/view/country_detail_view.dart';
 import 'package:feature_home/presentation/home/view/home_view.dart';

@@ -1,6 +1,6 @@
+import 'package:components/layout/navigation_appbar.dart';
+import 'package:components/theme_button.dart';
 import 'package:core/enum/navigation_item.dart';
-import 'package:design_system/layout/navigation_appbar.dart';
-import 'package:design_system/theme_button.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
