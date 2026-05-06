@@ -2,11 +2,33 @@ import 'package:components/layout/navigation_appbar.dart';
 import 'package:components/theme_button.dart';
 import 'package:core/enum/navigation_item.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:native_glass_navbar/native_glass_navbar.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 const _drawerLogoWidth = 230.0;
+
+String _resolveDrawerLogoPath(
+  BuildContext context, {
+  required String logoPath,
+  String? logoDarkPath,
+}) {
+  return Theme.of(context).brightness == Brightness.dark
+      ? (logoDarkPath ?? logoPath)
+      : logoPath;
+}
+
+String _sfSymbolForNavigationItem(NavigationItem item) {
+  return switch (item) {
+    NavigationItem.home => 'square.grid.2x2',
+    NavigationItem.wishlist => 'heart',
+    NavigationItem.settings => 'gearshape',
+    NavigationItem.funds => 'wallet.bifold',
+    NavigationItem.transactions => 'list.bullet.rectangle.portrait',
+  };
+}
 
 class ScaffoldWithNavigation extends StatelessWidget {
   const ScaffoldWithNavigation({
@@ -42,6 +64,7 @@ class ScaffoldWithNavigation extends StatelessWidget {
         navigationShell,
         scaffoldDrawerKey,
         logoPath: logoPath,
+        logoDarkPath: logoDarkPath,
         navigationItems: navigationItems,
         appBarActions: appBarActions,
       ),
@@ -49,6 +72,7 @@ class ScaffoldWithNavigation extends StatelessWidget {
         navigationShell,
         scaffoldDrawerKey,
         logoPath: logoPath,
+        logoDarkPath: logoDarkPath,
         navigationItems: navigationItems,
         appBarActions: appBarActions,
       ),
@@ -61,6 +85,7 @@ class _ScaffoldWithNavigationRail extends StatelessWidget {
     this.navigationShell,
     this.scaffoldDrawerKey, {
     required this.logoPath,
+    this.logoDarkPath,
     required this.navigationItems,
     this.appBarActions,
   });
@@ -68,6 +93,7 @@ class _ScaffoldWithNavigationRail extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
   final GlobalKey<ScaffoldState>? scaffoldDrawerKey;
   final String logoPath;
+  final String? logoDarkPath;
   final List<NavigationItem> navigationItems;
   final List<Widget>? appBarActions;
 
@@ -89,7 +115,11 @@ class _ScaffoldWithNavigationRail extends StatelessWidget {
               margin: EdgeInsets.zero,
               child: Center(
                 child: Image.asset(
-                  logoPath,
+                  _resolveDrawerLogoPath(
+                    context,
+                    logoPath: logoPath,
+                    logoDarkPath: logoDarkPath,
+                  ),
                   width: _drawerLogoWidth,
                   fit: BoxFit.contain,
                 ),
@@ -145,6 +175,7 @@ class _ScaffoldWithDrawer extends StatelessWidget {
     this.navigationShell,
     this.scaffoldDrawerKey, {
     required this.logoPath,
+    this.logoDarkPath,
     required this.navigationItems,
     this.appBarActions,
   });
@@ -152,6 +183,7 @@ class _ScaffoldWithDrawer extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
   final GlobalKey<ScaffoldState>? scaffoldDrawerKey;
   final String logoPath;
+  final String? logoDarkPath;
   final List<NavigationItem> navigationItems;
   final List<Widget>? appBarActions;
 
@@ -172,7 +204,11 @@ class _ScaffoldWithDrawer extends StatelessWidget {
               margin: EdgeInsets.zero,
               child: Center(
                 child: Image.asset(
-                  logoPath,
+                  _resolveDrawerLogoPath(
+                    context,
+                    logoPath: logoPath,
+                    logoDarkPath: logoDarkPath,
+                  ),
                   width: _drawerLogoWidth,
                   fit: BoxFit.contain,
                 ),
@@ -307,6 +343,45 @@ class _ScaffoldWithNavigationBar extends StatelessWidget {
   final List<NavigationItem> navigationItems;
   final List<Widget>? appBarActions;
 
+  void _onDestinationSelected(int index) {
+    navigationShell.goBranch(
+      index,
+      initialLocation: index != navigationShell.currentIndex,
+    );
+  }
+
+  Widget _buildMaterialNavigationBar() {
+    return NavigationBar(
+      selectedIndex: navigationShell.currentIndex,
+      onDestinationSelected: _onDestinationSelected,
+      destinations: [
+        for (final item in navigationItems)
+          NavigationDestination(
+            icon: Icon(item.iconData),
+            label: item.label.tr(),
+          ),
+      ],
+    );
+  }
+
+  Widget _buildBottomNavigationBar(BuildContext context) {
+    if (!kIsWeb && defaultTargetPlatform == TargetPlatform.iOS) {
+      return NativeGlassNavBar(
+        currentIndex: navigationShell.currentIndex,
+        onTap: _onDestinationSelected,
+        tabs: [
+          for (final item in navigationItems)
+            NativeGlassNavBarItem(
+              label: item.label.tr(),
+              symbol: _sfSymbolForNavigationItem(item),
+            ),
+        ],
+      );
+    }
+
+    return _buildMaterialNavigationBar();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -324,9 +399,11 @@ class _ScaffoldWithNavigationBar extends StatelessWidget {
               margin: EdgeInsets.zero,
               child: Center(
                 child: Image.asset(
-                  Theme.of(context).brightness == Brightness.light
-                      ? (logoDarkPath ?? logoPath)
-                      : logoPath,
+                  _resolveDrawerLogoPath(
+                    context,
+                    logoPath: logoPath,
+                    logoDarkPath: logoDarkPath,
+                  ),
                   width: _drawerLogoWidth,
                   fit: BoxFit.contain,
                 ),
@@ -346,22 +423,7 @@ class _ScaffoldWithNavigationBar extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: navigationShell.currentIndex,
-        onDestinationSelected: (index) {
-          navigationShell.goBranch(
-            index,
-            initialLocation: index != navigationShell.currentIndex,
-          );
-        },
-        destinations: [
-          for (final item in navigationItems)
-            NavigationDestination(
-              icon: Icon(item.iconData),
-              label: item.label.tr(),
-            ),
-        ],
-      ),
+      bottomNavigationBar: _buildBottomNavigationBar(context),
     );
   }
 }

@@ -4,7 +4,7 @@
 
 set -e
 
-SQLITE3_VERSION="2.4.6"
+SQLITE3_VERSION="3.1.7"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SQLITE3_URL="https://github.com/simolus3/sqlite3.dart/releases/download/sqlite3-$SQLITE3_VERSION/sqlite3.wasm"

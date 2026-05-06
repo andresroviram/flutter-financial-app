@@ -23,6 +23,7 @@ dependencies:
 
   # Navigation
   go_router: ^17.1.0
+  native_glass_navbar: ^1.0.2
 
   # State Management
   flutter_bloc: ^9.1.1
