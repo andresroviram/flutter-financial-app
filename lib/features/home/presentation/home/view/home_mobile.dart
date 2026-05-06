@@ -1,11 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../../components/shimmer/countries_grid_shimmer.dart';
 import '../../../../../core/utils/locale_utils.dart';
 import '../bloc/home_bloc.dart';
 import '../widgets/country_card.dart';
 import '../widgets/error_retry.dart';
-import '../widgets/loading_grid.dart';
 import '../../../../../core/utils/snackbar_utils.dart';
 
 class HomeMobile extends StatelessWidget {
@@ -25,7 +25,7 @@ class HomeMobile extends StatelessWidget {
         },
         builder: (context, state) {
           if (state.isLoading && state.countries.isEmpty) {
-            return const LoadingGrid();
+            return const CountriesGridShimmer();
           }
 
           if (state.countries.isEmpty && state.failure != null) {

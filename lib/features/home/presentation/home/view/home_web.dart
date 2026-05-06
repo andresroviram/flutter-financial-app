@@ -1,22 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../../core/utils/locale_utils.dart';
+import 'package:flutter_wigilabs_sr/components/shimmer/countries_grid_shimmer.dart';
 import 'package:gap/gap.dart';
+import '../../../../../core/utils/locale_utils.dart';
+import '../../../../../core/utils/snackbar_utils.dart';
 import '../bloc/home_bloc.dart';
 import '../widgets/country_card.dart';
 import '../widgets/error_retry.dart';
-import '../widgets/loading_grid.dart';
-import '../../../../../core/utils/snackbar_utils.dart';
-
-const _webGridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(
-  maxCrossAxisExtent: 280,
-  mainAxisSpacing: 16,
-  crossAxisSpacing: 16,
-  childAspectRatio: 0.75,
-);
-
-const _webGridPadding = EdgeInsets.fromLTRB(24, 0, 24, 24);
+import '../widgets/home_web_header.dart';
 
 class HomeWeb extends StatefulWidget {
   const HomeWeb({super.key});
@@ -27,6 +19,15 @@ class HomeWeb extends StatefulWidget {
 
 class _HomeWebState extends State<HomeWeb> {
   String _search = '';
+
+  final _webGridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(
+    maxCrossAxisExtent: 280,
+    mainAxisSpacing: 16,
+    crossAxisSpacing: 16,
+    childAspectRatio: 0.75,
+  );
+
+  final _webGridPadding = EdgeInsets.fromLTRB(24, 0, 24, 24);
 
   void _onRefresh(BuildContext context) => context.read<HomeBloc>().add(
     HomeEvent.loadCountries(LocaleUtils.toLang(context.locale)),
@@ -63,7 +64,7 @@ class _HomeWebState extends State<HomeWeb> {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _HomeWebHeader(
+            HomeWebHeader(
               search: _search,
               onSearchChanged: (v) => setState(() => _search = v),
               onRefresh: () => _onRefresh(context),
@@ -71,7 +72,7 @@ class _HomeWebState extends State<HomeWeb> {
             const Gap(16),
             Expanded(
               child: state.isLoading && state.countries.isEmpty
-                  ? const LoadingGrid(
+                  ? CountriesGridShimmer(
                       itemCount: 12,
                       padding: _webGridPadding,
                       gridDelegate: _webGridDelegate,
@@ -111,56 +112,6 @@ class _HomeWebState extends State<HomeWeb> {
           ],
         );
       },
-    );
-  }
-}
-
-class _HomeWebHeader extends StatelessWidget {
-  const _HomeWebHeader({
-    required this.search,
-    required this.onSearchChanged,
-    required this.onRefresh,
-  });
-
-  final String search;
-  final ValueChanged<String> onSearchChanged;
-  final VoidCallback onRefresh;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(24, 20, 24, 0),
-      child: Row(
-        children: [
-          Expanded(
-            child: Text(
-              'countries_list.title'.tr(),
-              style: theme.textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          const Gap(16),
-          SizedBox(
-            width: 280,
-            child: SearchBar(
-              hintText: 'countries_list.search_hint'.tr(),
-              leading: const Icon(Icons.search),
-              padding: const WidgetStatePropertyAll(
-                EdgeInsets.symmetric(horizontal: 16),
-              ),
-              onChanged: onSearchChanged,
-            ),
-          ),
-          const Gap(8),
-          IconButton.outlined(
-            tooltip: 'countries_list.refresh'.tr(),
-            icon: const Icon(Icons.refresh),
-            onPressed: onRefresh,
-          ),
-        ],
-      ),
     );
   }
 }

@@ -48,11 +48,10 @@ class _ScaffoldWithNavigationRail extends StatelessWidget {
               decoration: const BoxDecoration(border: Border()),
               margin: EdgeInsets.zero,
               child: Center(
-                child: Text(
-                  'app_title'.tr(),
-                  style: theme.textTheme.bodyMedium!.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
+                child: Image.asset(
+                  'assets/img/logo.png',
+                  width: 200,
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
@@ -107,7 +106,6 @@ class _ScaffoldWithDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Scaffold(
       appBar: NavigationAppBar(scaffoldDrawerKey: scaffoldDrawerKey),
       body: navigationShell,
@@ -119,11 +117,10 @@ class _ScaffoldWithDrawer extends StatelessWidget {
               decoration: const BoxDecoration(border: Border()),
               margin: EdgeInsets.zero,
               child: Center(
-                child: Text(
-                  'app_title'.tr(),
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
+                child: Image.asset(
+                  'assets/img/logo.png',
+                  width: 200,
+                  fit: BoxFit.cover,
                 ),
               ),
             ),

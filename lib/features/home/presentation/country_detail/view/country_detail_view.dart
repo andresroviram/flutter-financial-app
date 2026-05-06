@@ -56,7 +56,7 @@ class CountryDetailView extends StatelessWidget {
         },
         child: switch (breakpoint.name) {
           MOBILE => CountryDetailMobile(country: country),
-          (_) => CountryDetailWeb(),
+          (_) => CountryDetailWeb(country: country),
         },
       ),
     );
