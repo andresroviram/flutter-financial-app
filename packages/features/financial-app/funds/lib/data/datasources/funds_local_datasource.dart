@@ -60,10 +60,12 @@ class FundsLocalDatasource implements IFundsLocalDatasource {
                 ),
               )
               .toList(),
+          mode: InsertMode.insertOrIgnore,
         );
         batch.insert(
           database.balanceTable,
           BalanceTableCompanion.insert(id: const Value(1), amount: 500000),
+          mode: InsertMode.insertOrIgnore,
         );
       });
     }
