@@ -94,7 +94,6 @@ void main() {
         const Stream<TransactionsState>.empty(),
         initialState: const TransactionsState(
           status: TransactionsStatus.success,
-          transactions: [],
         ),
       );
 

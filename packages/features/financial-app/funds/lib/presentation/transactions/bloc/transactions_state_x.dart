@@ -3,7 +3,8 @@ import 'package:feature_funds/presentation/transactions/bloc/transactions_state.
 
 extension TransactionsStateX on TransactionsState {
   bool get isLoading =>
-      status == TransactionsStatus.initial || status == TransactionsStatus.loading;
+      status == TransactionsStatus.initial ||
+      status == TransactionsStatus.loading;
 
   bool get hasFailure =>
       status == TransactionsStatus.failure && errorMessage != null;

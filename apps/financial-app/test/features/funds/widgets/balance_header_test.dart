@@ -8,7 +8,9 @@ void main() {
 
   group('BalanceHeader', () {
     testWidgets('renderiza sin excepciones con saldo positivo', (tester) async {
-      await tester.pumpWidget(makeTestWidget(const BalanceHeader(balance: 500000)));
+      await tester.pumpWidget(
+        makeTestWidget(const BalanceHeader(balance: 500000)),
+      );
       await tester.pumpAndSettle();
 
       expect(find.byType(BalanceHeader), findsOneWidget);
@@ -24,7 +26,9 @@ void main() {
     });
 
     testWidgets('renderiza sin excepciones con saldo alto', (tester) async {
-      await tester.pumpWidget(makeTestWidget(const BalanceHeader(balance: 100000)));
+      await tester.pumpWidget(
+        makeTestWidget(const BalanceHeader(balance: 100000)),
+      );
       await tester.pumpAndSettle();
 
       expect(find.byType(BalanceHeader), findsOneWidget);

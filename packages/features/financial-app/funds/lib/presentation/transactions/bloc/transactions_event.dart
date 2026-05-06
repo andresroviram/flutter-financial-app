@@ -4,6 +4,5 @@ part 'transactions_event.freezed.dart';
 
 @freezed
 abstract class TransactionsEvent with _$TransactionsEvent {
-  const factory TransactionsEvent.loadRequested() =
-      TransactionsLoadRequested;
+  const factory TransactionsEvent.loadRequested() = TransactionsLoadRequested;
 }
