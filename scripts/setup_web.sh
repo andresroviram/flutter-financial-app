@@ -43,8 +43,13 @@ setup_app() {
     echo ""
 }
 
-setup_app "apps/client-app" "client-app"
-setup_app "apps/financial-app" "financial-app"
+# Si se pasa un argumento, solo configurar esa app; de lo contrario, configurar ambas
+if [[ -n "$1" ]]; then
+    setup_app "$1" "$(basename $1)"
+else
+    setup_app "apps/client-app" "client-app"
+    setup_app "apps/financial-app" "financial-app"
+fi
 
 echo "Ahora puedes ejecutar:"
 echo "  flutter run -d chrome"
