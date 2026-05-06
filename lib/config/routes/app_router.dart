@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:bot_toast/bot_toast.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_wigilabs_sr/components/layout/scaffold_with_navigation.dart';
 import 'package:flutter_wigilabs_sr/core/constants/app_constants.dart';
 import 'package:flutter_wigilabs_sr/features/home/presentation/country_detail/view/country_detail_view.dart';
@@ -35,7 +36,10 @@ abstract class RouterModule {
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
           return SelectionArea(
-            child: ScaffoldWithNavigation(navigationShell: navigationShell),
+            child: ScaffoldWithNavigation(
+              key: ValueKey(context.locale.toString()),
+              navigationShell: navigationShell,
+            ),
           );
         },
         branches: [homeRoutes, wishlistRoutes, settingsRoutes],

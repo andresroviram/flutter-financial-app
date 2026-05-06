@@ -14,6 +14,7 @@ class WishlistMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: ValueKey('wishlist_${context.locale.toString()}'),
       appBar: AppBar(title: Text('wishlist.title'.tr()), centerTitle: false),
       body: BlocBuilder<WishlistBloc, WishlistState>(
         builder: (context, state) {

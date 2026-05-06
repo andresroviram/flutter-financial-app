@@ -12,6 +12,7 @@ class SettingsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: ValueKey('settings_${context.locale.toString()}'),
       appBar: AppBar(title: Text('settings.title'.tr())),
       body: Center(child: Text('settings.content'.tr())),
     );

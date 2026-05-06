@@ -14,7 +14,11 @@ class HomeMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Países de Europa'), centerTitle: false),
+      key: ValueKey('home_${context.locale.toString()}'),
+      appBar: AppBar(
+        title: Text('countries_list.title'.tr()),
+        centerTitle: false,
+      ),
       body: BlocConsumer<HomeBloc, HomeState>(
         bloc: context.read<HomeBloc>(),
         listener: (context, state) {
