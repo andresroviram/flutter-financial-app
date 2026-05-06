@@ -1,4 +1,4 @@
-name: flutter_wigilabs_sr_workspace
+name: flutter_financial_app_workspace
 publish_to: "none"
 
 environment:
@@ -18,7 +18,7 @@ dev_dependencies:
   melos: ^7.4.0
 
 melos:
-  repository: https://github.com/elkisrovira/flutter_wigilabs_sr
+  repository: https://github.com/andresroviram/flutter-financial-app
 
   command:
     bootstrap:

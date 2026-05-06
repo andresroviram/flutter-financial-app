@@ -2,6 +2,7 @@ import 'package:drift/drift.dart';
 import 'package:feature_funds/domain/entities/fund_entity.dart';
 import 'package:feature_funds/domain/entities/transaction_entity.dart';
 import 'package:financial_app/config/database/funds_database.dart';
+import 'package:injectable/injectable.dart';
 
 abstract interface class IFundsLocalDatasource {
   Future<List<FundEntity>> getFunds();
@@ -37,6 +38,7 @@ const _initialFunds = [
   ),
 ];
 
+@LazySingleton(as: IFundsLocalDatasource)
 class FundsLocalDatasource implements IFundsLocalDatasource {
   const FundsLocalDatasource({required this.database});
 

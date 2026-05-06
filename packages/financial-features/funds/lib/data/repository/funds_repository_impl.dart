@@ -3,7 +3,9 @@ import 'package:feature_funds/data/datasources/funds_local_datasource.dart';
 import 'package:feature_funds/domain/entities/fund_entity.dart';
 import 'package:feature_funds/domain/entities/transaction_entity.dart';
 import 'package:feature_funds/domain/repository/i_funds_repository.dart';
+import 'package:injectable/injectable.dart';
 
+@LazySingleton(as: IFundsRepository)
 class FundsRepositoryImpl implements IFundsRepository {
   const FundsRepositoryImpl(this._datasource);
   final IFundsLocalDatasource _datasource;
