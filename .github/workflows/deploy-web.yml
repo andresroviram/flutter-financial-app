@@ -52,7 +52,7 @@ jobs:
         run: flutter test
 
       - name: Build web
-        run: flutter build web --release --base-href /flutter_interview_ssr/
+        run: flutter build web --release --base-href /flutter_wigilabs_sr/
 
       - name: Upload web artifact
         uses: actions/upload-artifact@v4
