@@ -35,7 +35,7 @@ jobs:
 
       - name: Create .env file
         run: |
-          cat > apps/app/.env << EOF
+          cat > apps/client-app/.env << EOF
           API_KEY=${{ secrets.API_KEY || '' }}
           BASE_URL=${{ secrets.BASE_URL || 'https://restcountries.com/v3.1' }}
           EOF
@@ -52,13 +52,13 @@ jobs:
         run: melos run test
 
       - name: Build web
-        run: cd apps/app && flutter build web --release --base-href /flutter_wigilabs_sr/
+        run: cd apps/client-app && flutter build web --release --base-href /flutter_wigilabs_sr/
 
       - name: Upload web artifact
         uses: actions/upload-artifact@v4
         with:
           name: web-build
-          path: apps/app/build/web/
+          path: apps/client-app/build/web/
           retention-days: 7
 
       # Deploy to GitHub Pages using official action
@@ -70,7 +70,7 @@ jobs:
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./apps/app/build/web
+          path: ./apps/client-app/build/web
 
       - name: Deploy to GitHub Pages
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'

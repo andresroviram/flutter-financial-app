@@ -2,6 +2,7 @@ import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_wigilabs_sr/config/env/app_flavor.dart';
 import 'package:flutter_wigilabs_sr/config/injectable/injectable_dependency.dart';
 import 'package:flutter_wigilabs_sr/config/theme/app_theme.dart';
 import 'package:go_router/go_router.dart';
@@ -32,7 +33,18 @@ class MyApp extends StatelessWidget {
             localizationsDelegates: ctx.localizationDelegates,
             supportedLocales: ctx.supportedLocales,
             locale: ctx.locale,
-            builder: BotToastInit(),
+            builder: (context, child) {
+              Widget app = BotToastInit()(context, child);
+              if (kFlavor.showBanner) {
+                app = Banner(
+                  message: kFlavor.label,
+                  location: BannerLocation.topEnd,
+                  color: Color(kFlavor.bannerColor),
+                  child: app,
+                );
+              }
+              return app;
+            },
           ),
         ),
       ),

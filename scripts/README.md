@@ -59,6 +59,6 @@ chmod +x scripts/setup_web.sh
 
 ## 📝 Notas
 
-- Todos los scripts están diseñados para ejecutarse desde la **raíz del workspace** y navegan automáticamente a `apps/app`
+- Todos los scripts están diseñados para ejecutarse desde la **raíz del workspace** y navegan automáticamente a `apps/client-app`
 - Los scripts Bash (.sh) requieren permisos de ejecución: `chmod +x scripts/*.sh`
 - Los scripts PowerShell (.ps1) pueden requerir ajustar la política de ejecución en Windows

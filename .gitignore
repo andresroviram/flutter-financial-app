@@ -58,5 +58,8 @@ app.*.map.json
 # Claude AI folder
 .claude/
 
-# Local environment variables
+# Local environment variables (gitignore todos excepto .env.example)
 .env
+.env.dev
+.env.qa
+.env.prod

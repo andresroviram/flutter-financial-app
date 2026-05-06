@@ -8,7 +8,7 @@ SQLITE3_VERSION="2.4.6"
 
 # Navegar a la app principal
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-cd "$SCRIPT_DIR/../apps/app"
+cd "$SCRIPT_DIR/../apps/client-app"
 
 echo "Configurando Drift Web Support..."
 echo ""
