@@ -11,6 +11,7 @@ import 'package:feature_home/presentation/country_detail/widgets/error_state.dar
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 
 class CountryDetailWeb extends StatelessWidget {
   const CountryDetailWeb({super.key, required this.country});
@@ -35,9 +36,7 @@ class CountryDetailWeb extends StatelessWidget {
                       alignment: Alignment.bottomLeft,
                       child: Row(
                         children: [
-                          BackButton(
-                            onPressed: () => Navigator.of(context).maybePop(),
-                          ),
+                          BackButton(onPressed: () => context.pop()),
                           const SizedBox(width: 8),
                           Expanded(
                             child: state.isLoading
