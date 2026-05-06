@@ -1,5 +1,5 @@
-import '../../../features/home/domain/entities/country_entity.dart';
-import '../../../features/home/data/models/country_model.dart';
+import '../../../modules/home/domain/entities/country_entity.dart';
+import '../../../modules/home/data/models/country_model.dart';
 
 abstract final class CountryIsolateUtils {
   static List<CountryEntity> parseCountries(List<CountryModel> models) {

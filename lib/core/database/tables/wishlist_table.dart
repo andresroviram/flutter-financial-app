@@ -1,6 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:flutter_wigilabs_sr/core/database/app_database.dart';
-import 'package:flutter_wigilabs_sr/features/home/domain/entities/country_entity.dart';
+import 'package:flutter_wigilabs_sr/modules/home/domain/entities/country_entity.dart';
 
 class WishlistTable extends Table {
   TextColumn get cca2 => text()();

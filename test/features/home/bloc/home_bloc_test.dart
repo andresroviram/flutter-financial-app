@@ -3,9 +3,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 import 'package:flutter_wigilabs_sr/core/result.dart';
-import 'package:flutter_wigilabs_sr/features/home/domain/entities/country_entity.dart';
-import 'package:flutter_wigilabs_sr/features/home/domain/usecases/countries_usecases.dart';
-import 'package:flutter_wigilabs_sr/features/home/presentation/home/bloc/home_bloc.dart';
+import 'package:flutter_wigilabs_sr/modules/home/domain/entities/country_entity.dart';
+import 'package:flutter_wigilabs_sr/modules/home/domain/usecases/countries_usecases.dart';
+import 'package:flutter_wigilabs_sr/modules/home/presentation/home/bloc/home_bloc.dart';
 import 'package:flutter_wigilabs_sr/core/error/error.dart';
 
 class MockGetCountriesUseCase extends Mock implements GetCountriesUseCase {}

@@ -1,5 +1,5 @@
 import 'package:flutter_wigilabs_sr/core/database/tables/wishlist_table.dart';
-import 'package:flutter_wigilabs_sr/features/home/domain/entities/country_entity.dart';
+import 'package:flutter_wigilabs_sr/modules/home/domain/entities/country_entity.dart';
 import 'package:injectable/injectable.dart';
 import '../../../../core/database/app_database.dart';
 import '../../../../core/error/error.dart';

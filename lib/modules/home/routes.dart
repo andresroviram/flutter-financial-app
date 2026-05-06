@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_wigilabs_sr/core/constants/app_constants.dart';
-import 'package:flutter_wigilabs_sr/features/home/domain/entities/country_entity.dart';
-import 'package:flutter_wigilabs_sr/features/home/presentation/country_detail/view/country_detail_view.dart';
-import 'package:flutter_wigilabs_sr/features/home/presentation/home/view/home_view.dart';
+import 'package:flutter_wigilabs_sr/modules/home/domain/entities/country_entity.dart';
+import 'package:flutter_wigilabs_sr/modules/home/presentation/country_detail/view/country_detail_view.dart';
+import 'package:flutter_wigilabs_sr/modules/home/presentation/home/view/home_view.dart';
 import 'package:go_router/go_router.dart';
 
 final _homeNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'home');

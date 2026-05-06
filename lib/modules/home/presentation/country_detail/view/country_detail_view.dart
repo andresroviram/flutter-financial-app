@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_wigilabs_sr/config/injectable/injectable_dependency.dart';
 import 'package:flutter_wigilabs_sr/core/utils/helpers.dart';
-import 'package:flutter_wigilabs_sr/features/home/domain/entities/country_entity.dart';
-import 'package:flutter_wigilabs_sr/features/home/domain/usecases/countries_usecases.dart';
+import 'package:flutter_wigilabs_sr/modules/home/domain/entities/country_entity.dart';
+import 'package:flutter_wigilabs_sr/modules/home/domain/usecases/countries_usecases.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 import '../bloc/country_detail_bloc.dart';

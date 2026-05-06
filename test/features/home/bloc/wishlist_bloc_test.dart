@@ -1,11 +1,11 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_wigilabs_sr/features/wishlist/domain/usecases/wishlist_usecases.dart';
+import 'package:flutter_wigilabs_sr/modules/wishlist/domain/usecases/wishlist_usecases.dart';
 import 'package:mocktail/mocktail.dart';
 
 import 'package:flutter_wigilabs_sr/core/result.dart';
-import 'package:flutter_wigilabs_sr/features/home/domain/entities/country_entity.dart';
-import 'package:flutter_wigilabs_sr/features/wishlist/presentation/bloc/wishlist_bloc.dart';
+import 'package:flutter_wigilabs_sr/modules/home/domain/entities/country_entity.dart';
+import 'package:flutter_wigilabs_sr/modules/wishlist/presentation/bloc/wishlist_bloc.dart';
 import 'package:flutter_wigilabs_sr/core/error/error.dart';
 
 class MockGetWishlistUseCase extends Mock implements GetWishlistUseCase {}

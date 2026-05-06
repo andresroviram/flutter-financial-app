@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_wigilabs_sr/features/home/presentation/country_detail/view/country_detail_view.dart';
-import 'package:flutter_wigilabs_sr/features/home/presentation/home/bloc/home_bloc.dart';
+import 'package:flutter_wigilabs_sr/modules/home/presentation/country_detail/view/country_detail_view.dart';
+import 'package:flutter_wigilabs_sr/modules/home/presentation/home/bloc/home_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shimmer/shimmer.dart';

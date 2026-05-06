@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'package:flutter_wigilabs_sr/core/result.dart';
-import 'package:flutter_wigilabs_sr/features/home/domain/entities/country_entity.dart';
-import 'package:flutter_wigilabs_sr/features/wishlist/domain/repository/i_wishlist_repository.dart';
+import 'package:flutter_wigilabs_sr/modules/home/domain/entities/country_entity.dart';
+import 'package:flutter_wigilabs_sr/modules/wishlist/domain/repository/i_wishlist_repository.dart';
 import 'package:injectable/injectable.dart';
 import '../../../../core/error/error.dart';
 import '../datasources/wishlist_local_datasource.dart';
