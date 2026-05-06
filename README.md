@@ -13,17 +13,17 @@ La aplicación está desplegada automáticamente en GitHub Pages mediante GitHub
 ### Mobile (Light Theme)
 <br>
 <p align="center">
-<img src="screenshots/mobile/Screenshot_1771536327.png" width="30%">
-<img src="screenshots/mobile/Screenshot_1771536333.png" width="30%">
-<img src="screenshots/mobile/Screenshot_1771536358.png" width="30%">
+<img src="screenshots/mobile/Screenshot_1771544371.png" width="30%">
+<img src="screenshots/mobile/Screenshot_1771544373.png" width="30%">
+<img src="screenshots/mobile/Screenshot_1771544394.png" width="30%">
 </p>
 
 ### Mobile (Dark Theme)
 <br>
 <p align="center">
-<img src="screenshots/mobile/Screenshot_1771536507.png" width="30%">
-<img src="screenshots/mobile/Screenshot_1771536400.png" width="30%">
-<img src="screenshots/mobile/Screenshot_1771536422.png" width="30%">
+<img src="screenshots/mobile/Screenshot_1771544419.png" width="30%">
+<img src="screenshots/mobile/Screenshot_1771544421.png" width="30%">
+<img src="screenshots/mobile/Screenshot_1771544398.png" width="30%">
 </p>
 
 ### Web (Light Theme)
