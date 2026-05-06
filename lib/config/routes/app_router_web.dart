@@ -8,14 +8,11 @@ import 'package:flutter_wigilabs_sr/modules/home/routes.dart';
 import 'package:flutter_wigilabs_sr/modules/settings/routes.dart';
 import 'package:flutter_wigilabs_sr/modules/wishlist/routes.dart';
 import 'package:go_router/go_router.dart';
-import 'package:injectable/injectable.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 
-@module
-abstract class RouterModule {
-  @singleton
-  GoRouter get router => GoRouter(
+GoRouter createRouter() {
+  return GoRouter(
     navigatorKey: _rootNavigatorKey,
     debugLogDiagnostics: kDebugMode,
     initialLocation: HomeView.path,
