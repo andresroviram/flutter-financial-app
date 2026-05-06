@@ -21,6 +21,15 @@ class GetCountryDetailUseCase {
 }
 
 @lazySingleton
+class GetCountryByCodeUseCase {
+  const GetCountryByCodeUseCase(this._repository);
+  final ICountriesRepository _repository;
+
+  Future<Result<CountryEntity>> call(String code) =>
+      _repository.getCountryByCode(code);
+}
+
+@lazySingleton
 class GetWishlistUseCase {
   const GetWishlistUseCase(this._repository);
   final ICountriesRepository _repository;

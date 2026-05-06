@@ -7,6 +7,11 @@ abstract class CountryDetailEvent with _$CountryDetailEvent {
     required CountryEntity previewCountry,
   }) = _LoadDetail;
 
+  const factory CountryDetailEvent.loadDetailByCode({
+    required String code,
+    required CountryEntity previewCountry,
+  }) = _LoadDetailByCode;
+
   const factory CountryDetailEvent.toggleWishlist(CountryEntity country) =
       _ToggleWishlist;
   const factory CountryDetailEvent.invalidate() = _Invalidate;

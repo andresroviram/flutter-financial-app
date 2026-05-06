@@ -41,18 +41,35 @@ class CountryDetailView extends StatelessWidget {
       providers: [
         BlocProvider(
           lazy: false,
-          create: (_) =>
-              CountryDetailBloc(
-                getCountryDetail: getIt<GetCountryDetailUseCase>(),
-                isInWishlist: getIt<IsInWishlistUseCase>(),
-                addToWishlist: getIt<AddToWishlistUseCase>(),
-                removeFromWishlist: getIt<RemoveFromWishlistUseCase>(),
-              )..add(
+          create: (_) {
+            final bloc = CountryDetailBloc(
+              getCountryDetail: getIt<GetCountryDetailUseCase>(),
+              getCountryByCode: getIt<GetCountryByCodeUseCase>(),
+              isInWishlist: getIt<IsInWishlistUseCase>(),
+              addToWishlist: getIt<AddToWishlistUseCase>(),
+              removeFromWishlist: getIt<RemoveFromWishlistUseCase>(),
+            );
+
+            // Si tenemos el objeto country completo, usar loadDetail con el nombre
+            // Si solo tenemos el código, usar loadDetailByCode
+            if (country != null) {
+              bloc.add(
                 CountryDetailEvent.loadDetail(
-                  name: effectiveCountry.commonName,
+                  name: country.commonName,
+                  previewCountry: country,
+                ),
+              );
+            } else {
+              bloc.add(
+                CountryDetailEvent.loadDetailByCode(
+                  code: countryCode!,
                   previewCountry: effectiveCountry,
                 ),
-              ),
+              );
+            }
+
+            return bloc;
+          },
         ),
       ],
       child: CountryDetailView(country: effectiveCountry),

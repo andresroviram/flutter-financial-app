@@ -6,6 +6,8 @@ abstract class ICountriesRepository {
 
   Future<Result<CountryEntity>> getCountryDetail(String translation);
 
+  Future<Result<CountryEntity>> getCountryByCode(String code);
+
   Future<Result<List<CountryEntity>>> getWishlist();
 
   Future<Result<void>> addToWishlist(CountryEntity country);

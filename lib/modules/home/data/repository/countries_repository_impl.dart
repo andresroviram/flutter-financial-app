@@ -54,6 +54,19 @@ class CountriesRepositoryImpl implements ICountriesRepository {
   }
 
   @override
+  Future<Result<CountryEntity>> getCountryByCode(String code) async {
+    try {
+      final model = await remoteDatasource.getCountryByCode(code);
+      return Success(model.toEntity());
+    } on Failure catch (failure) {
+      return Error(failure);
+    } catch (e) {
+      log('getCountryByCode error: $e');
+      return Error(UnknownFailure(message: e.toString()));
+    }
+  }
+
+  @override
   Future<Result<List<CountryEntity>>> getWishlist() async {
     try {
       final entities = await localDatasource.getWishlist();
