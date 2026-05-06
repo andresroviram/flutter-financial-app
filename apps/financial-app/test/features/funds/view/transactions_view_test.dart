@@ -3,6 +3,7 @@ import 'package:feature_funds/domain/entities/transaction_entity.dart';
 import 'package:feature_funds/presentation/transactions/bloc/transactions_bloc.dart';
 import 'package:feature_funds/presentation/transactions/bloc/transactions_event.dart';
 import 'package:feature_funds/presentation/transactions/bloc/transactions_state.dart';
+import 'package:feature_funds/presentation/transactions/view/transactions_view.dart';
 import 'package:feature_funds/presentation/transactions/widgets/transaction_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -135,7 +136,27 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byType(TransactionTile), findsOneWidget);
+      expect(find.byType(Card), findsOneWidget);
       expect(find.byType(ListView), findsOneWidget);
+      final colorScheme = Theme.of(tester.element(find.byType(Card))).colorScheme;
+      final expectedCardColor = colorScheme.brightness == Brightness.dark
+          ? colorScheme.surfaceContainerLow
+          : colorScheme.surfaceContainerLowest;
+
+      expect(Theme.of(tester.element(find.byType(Card))).cardTheme.color, expectedCardColor);
+      expect(
+        Theme.of(tester.element(find.byType(Card))).cardTheme.surfaceTintColor,
+        Colors.transparent,
+      );
+      expect(
+        tester.widget<ListView>(find.byType(ListView)).padding,
+        const EdgeInsets.fromLTRB(
+          0,
+          8,
+          TransactionsView.verticalListRightPadding,
+          8,
+        ),
+      );
     });
   });
 }
@@ -180,10 +201,28 @@ class _FakeTransactionsScaffold extends StatelessWidget {
       return const Scaffold(body: Center(child: Text('Sin transacciones aún')));
     }
     return Scaffold(
-      body: ListView.builder(
-        itemCount: state.transactions.length,
-        itemBuilder: (_, i) =>
-            TransactionTile(transaction: state.transactions[i]),
+      body: Card(
+        clipBehavior: Clip.antiAlias,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+          side: BorderSide(
+            color: Theme.of(
+              context,
+            ).colorScheme.outlineVariant.withValues(alpha: 0.45),
+          ),
+        ),
+        surfaceTintColor: Colors.transparent,
+        child: ListView.builder(
+          padding: const EdgeInsets.fromLTRB(
+            0,
+            8,
+            TransactionsView.verticalListRightPadding,
+            8,
+          ),
+          itemCount: state.transactions.length,
+          itemBuilder: (_, i) =>
+              TransactionTile(transaction: state.transactions[i]),
+        ),
       ),
     );
   }

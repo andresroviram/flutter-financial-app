@@ -13,8 +13,12 @@ import 'package:gap/gap.dart';
 class FundsMobile extends StatelessWidget {
   const FundsMobile({super.key});
 
+  static const double _subscribedListHeight = 208;
+
   @override
   Widget build(BuildContext context) {
+    final subscribedCardWidth = MediaQuery.sizeOf(context).width - 48;
+
     return Scaffold(
       body: BlocBuilder<FundsBloc, FundsState>(
         buildWhen: (prev, curr) =>
@@ -67,14 +71,26 @@ class FundsMobile extends StatelessWidget {
                           count: state.subscribedFunds.length,
                         ),
                         const Gap(8),
-                        ...state.subscribedFunds.map(
-                          (fund) => FundCard(
-                            fund: fund,
-                            fundsStatus: state.status,
-                            onSubscribe: (_) {},
-                            onCancel: () => context.read<FundsBloc>().add(
-                              FundsEvent.cancelRequested(fund.id),
-                            ),
+                        SizedBox(
+                          height: _subscribedListHeight,
+                          child: ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: state.subscribedFunds.length,
+                            separatorBuilder: (_, _) => const Gap(12),
+                            itemBuilder: (_, index) {
+                              final fund = state.subscribedFunds[index];
+                              return SizedBox(
+                                width: subscribedCardWidth,
+                                child: FundCard(
+                                  fund: fund,
+                                  fundsStatus: state.status,
+                                  onSubscribe: (_) {},
+                                  onCancel: () => context.read<FundsBloc>().add(
+                                    FundsEvent.cancelRequested(fund.id),
+                                  ),
+                                ),
+                              );
+                            },
                           ),
                         ),
                         const Gap(16),
@@ -85,17 +101,20 @@ class FundsMobile extends StatelessWidget {
                       ),
                       const Gap(8),
                       ...state.availableFunds.map(
-                        (fund) => FundCard(
-                          fund: fund,
-                          fundsStatus: state.status,
-                          onSubscribe: (method) =>
-                              context.read<FundsBloc>().add(
-                                FundsEvent.subscribeRequested(
-                                  fundId: fund.id,
-                                  notificationMethod: method,
+                        (fund) => SizedBox(
+                          width: double.infinity,
+                          child: FundCard(
+                            fund: fund,
+                            fundsStatus: state.status,
+                            onSubscribe: (method) =>
+                                context.read<FundsBloc>().add(
+                                  FundsEvent.subscribeRequested(
+                                    fundId: fund.id,
+                                    notificationMethod: method,
+                                  ),
                                 ),
-                              ),
-                          onCancel: () {},
+                            onCancel: () {},
+                          ),
                         ),
                       ),
                       const Gap(80),

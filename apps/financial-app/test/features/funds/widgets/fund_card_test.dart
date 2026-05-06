@@ -59,6 +59,31 @@ void main() {
       expect(tester.takeException(), isNull);
     });
 
+    testWidgets('usa un color de card separado del surface del body', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        makeTestWidget(
+          FundCard(
+            fund: tFundAvailable,
+            fundsStatus: FundsStatus.success,
+            onSubscribe: (_) {},
+            onCancel: () {},
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      final context = tester.element(find.byType(FundCard));
+      final colorScheme = Theme.of(context).colorScheme;
+      final expectedCardColor = colorScheme.brightness == Brightness.dark
+          ? colorScheme.surfaceContainerLow
+          : colorScheme.surfaceContainerLowest;
+
+      expect(Theme.of(context).cardTheme.color, expectedCardColor);
+      expect(Theme.of(context).cardTheme.surfaceTintColor, Colors.transparent);
+    });
+
     testWidgets('renderiza botón para fondo suscrito', (tester) async {
       await tester.pumpWidget(
         makeTestWidget(

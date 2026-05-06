@@ -25,6 +25,7 @@ class FundsColumn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -37,6 +38,12 @@ class FundsColumn extends StatelessWidget {
         const Gap(12),
         if (funds.isEmpty)
           Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+              side: BorderSide(
+                color: colorScheme.outlineVariant.withValues(alpha: 0.45),
+              ),
+            ),
             child: Padding(
               padding: const EdgeInsets.all(24),
               child: Center(

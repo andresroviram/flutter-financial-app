@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:financial_app/config/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,12 +10,17 @@ class _TestAssetLoader extends AssetLoader {
   @override
   Future<Map<String, dynamic>> load(String path, Locale locale) async => {
     'funds': {
+      'title': 'Fondos',
       'balance': 'Saldo disponible',
+      'available': 'Fondos Disponibles',
+      'subscribed': 'Fondos Suscritos',
       'subscribe': 'Suscribirse',
       'cancel': 'Cancelar suscripcion',
       'subscribed_badge': 'Suscrito',
       'minimum_amount': 'Monto minimo: {}',
       'error_loading': 'Error al cargar fondos',
+      'retry': 'Reintentar',
+      'empty': 'Sin fondos disponibles',
       'dialog': {
         'confirm_title': 'Confirmar suscripcion',
         'fund_label': 'Fondo: {}',
@@ -60,6 +66,8 @@ Widget makeTestWidget(Widget child, {bool withBreakpoints = false}) {
     fallbackLocale: const Locale('es'),
     child: Builder(
       builder: (ctx) => MaterialApp(
+        theme: AppTheme.light,
+        darkTheme: AppTheme.dark,
         localizationsDelegates: ctx.localizationDelegates,
         supportedLocales: ctx.supportedLocales,
         locale: const Locale('es'),

@@ -16,6 +16,7 @@ class TransactionsView extends StatefulWidget {
 
   static const String path = '/transactions';
   static const String name = 'transactions';
+  static const double verticalListRightPadding = 16;
 
   static Widget create() => BlocProvider(
     create: (_) =>
@@ -60,8 +61,13 @@ class _TransactionsViewState extends State<TransactionsView> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
-      appBar: AppBar(title: Text('transactions.title'.tr())),
+      appBar: AppBar(
+        title: Text('transactions.title'.tr()),
+        forceMaterialTransparency: true,
+      ),
       body: BlocBuilder<TransactionsBloc, TransactionsState>(
         builder: (context, state) => state.resolve(
           loading: () => const Center(child: CircularProgressIndicator()),
@@ -95,12 +101,30 @@ class _TransactionsViewState extends State<TransactionsView> {
             onRefresh: () async => context.read<TransactionsBloc>().add(
               const TransactionsEvent.loadRequested(),
             ),
-            child: ListView.separated(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              itemCount: transactions.length,
-              separatorBuilder: (_, _) => const Divider(height: 1, indent: 72),
-              itemBuilder: (_, i) =>
-                  TransactionTile(transaction: transactions[i]),
+            child: Padding(
+              padding: const EdgeInsets.all(24),
+              child: Card(
+                clipBehavior: Clip.antiAlias,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  side: BorderSide(
+                    color: colorScheme.outlineVariant.withValues(alpha: 0.45),
+                  ),
+                ),
+                child: ListView.separated(
+                  padding: const EdgeInsets.fromLTRB(
+                    0,
+                    8,
+                    TransactionsView.verticalListRightPadding,
+                    8,
+                  ),
+                  itemCount: transactions.length,
+                  separatorBuilder: (_, _) =>
+                      const Divider(height: 1, indent: 72),
+                  itemBuilder: (_, i) =>
+                      TransactionTile(transaction: transactions[i]),
+                ),
+              ),
             ),
           ),
         ),

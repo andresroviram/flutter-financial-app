@@ -49,6 +49,12 @@ class FundCard extends StatelessWidget {
 
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 6),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: BorderSide(
+          color: colorScheme.outlineVariant.withValues(alpha: 0.45),
+        ),
+      ),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(

@@ -23,6 +23,15 @@ const tFund = FundEntity(
   category: FundCategory.fpv,
 );
 
+const tSubscribedFund = FundEntity(
+  id: '2',
+  name: 'FIC_BTG_PACTUAL_EFECTIVO',
+  minimumAmount: 50000,
+  category: FundCategory.fic,
+  isSubscribed: true,
+  subscribedAmount: 50000,
+);
+
 void main() {
   setUpAll(() async {
     await initTestLocalization();
@@ -114,6 +123,39 @@ void main() {
 
         expect(find.byType(BalanceHeader), findsOneWidget);
         expect(find.byType(FundCard), findsWidgets);
+      },
+    );
+
+    testWidgets(
+      'muestra fondos suscritos en lista horizontal antes de fondos disponibles',
+      (tester) async {
+        final bloc = MockFundsBloc();
+        whenListen(
+          bloc,
+          const Stream<FundsState>.empty(),
+          initialState: const FundsState(
+            status: FundsStatus.success,
+            funds: [tSubscribedFund, tFund],
+          ),
+        );
+
+        await tester.pumpWidget(buildSubject(bloc));
+        await tester.pumpAndSettle();
+
+        final horizontalList = tester.widget<ListView>(find.byType(ListView));
+
+        expect(horizontalList.scrollDirection, Axis.horizontal);
+        expect(find.text('Fondos Suscritos'), findsOneWidget);
+        expect(find.text('Saldo disponible'), findsOneWidget);
+        expect(find.text('Fondos Disponibles'), findsOneWidget);
+        expect(
+          tester.getTopLeft(find.text('Fondos Suscritos')).dy,
+          greaterThan(tester.getTopLeft(find.text('Saldo disponible')).dy),
+        );
+        expect(
+          tester.getTopLeft(find.text('Fondos Disponibles')).dy,
+          greaterThan(tester.getTopLeft(find.text('Fondos Suscritos')).dy),
+        );
       },
     );
 
