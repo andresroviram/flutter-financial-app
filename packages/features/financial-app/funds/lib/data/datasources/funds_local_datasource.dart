@@ -15,72 +15,20 @@ abstract interface class IFundsLocalDatasource {
   Future<List<TransactionEntity>> getTransactions();
 }
 
-const _initialFunds = [
-  (
-    id: '1',
-    name: 'FPV_BTG_PACTUAL_RECAUDADORA',
-    minimumAmount: 75000,
-    category: 'fpv',
-  ),
-  (
-    id: '2',
-    name: 'FPV_BTG_PACTUAL_ECOPETROL',
-    minimumAmount: 125000,
-    category: 'fpv',
-  ),
-  (id: '3', name: 'DEUDAPRIVADA', minimumAmount: 50000, category: 'fic'),
-  (id: '4', name: 'FDO-ACCIONES', minimumAmount: 250000, category: 'fic'),
-  (
-    id: '5',
-    name: 'FPV_BTG_PACTUAL_DINAMICA',
-    minimumAmount: 100000,
-    category: 'fpv',
-  ),
-];
-
 @LazySingleton(as: IFundsLocalDatasource)
 class FundsLocalDatasource implements IFundsLocalDatasource {
   const FundsLocalDatasource({required this.database});
 
   final FundsDatabase database;
 
-  Future<void> _ensureSeeded() async {
-    final count = await database.fundsTable.count().getSingle();
-    if (count == 0) {
-      await database.batch((batch) {
-        batch.insertAll(
-          database.fundsTable,
-          _initialFunds
-              .map(
-                (f) => FundsTableCompanion.insert(
-                  id: f.id,
-                  name: f.name,
-                  minimumAmount: f.minimumAmount,
-                  category: f.category,
-                ),
-              )
-              .toList(),
-          mode: InsertMode.insertOrIgnore,
-        );
-        batch.insert(
-          database.balanceTable,
-          BalanceTableCompanion.insert(id: const Value(1), amount: 500000),
-          mode: InsertMode.insertOrIgnore,
-        );
-      });
-    }
-  }
-
   @override
   Future<List<FundEntity>> getFunds() async {
-    await _ensureSeeded();
     final rows = await database.select(database.fundsTable).get();
     return rows.map(_fundRowToEntity).toList();
   }
 
   @override
   Future<int> getBalance() async {
-    await _ensureSeeded();
     final row = await (database.select(
       database.balanceTable,
     )..where((t) => t.id.equals(1))).getSingle();
@@ -92,7 +40,6 @@ class FundsLocalDatasource implements IFundsLocalDatasource {
     String fundId,
     NotificationMethod notificationMethod,
   ) async {
-    await _ensureSeeded();
     await database.transaction(() async {
       final fundRow = await (database.select(
         database.fundsTable,
@@ -146,7 +93,6 @@ class FundsLocalDatasource implements IFundsLocalDatasource {
 
   @override
   Future<void> cancelFund(String fundId) async {
-    await _ensureSeeded();
     await database.transaction(() async {
       final fundRow = await (database.select(
         database.fundsTable,
@@ -194,7 +140,6 @@ class FundsLocalDatasource implements IFundsLocalDatasource {
 
   @override
   Future<List<TransactionEntity>> getTransactions() async {
-    await _ensureSeeded();
     final rows = await (database.select(
       database.fundsTransactionsTable,
     )..orderBy([(t) => OrderingTerm.desc(t.date)])).get();
