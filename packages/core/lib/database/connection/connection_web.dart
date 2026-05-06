@@ -1,6 +1,9 @@
+import 'dart:js_interop';
+
 import 'package:drift/drift.dart';
 import 'package:drift/wasm.dart';
 import 'package:flutter/material.dart';
+import 'package:web/web.dart' as web;
 
 DatabaseConnection connect() {
   return DatabaseConnection.delayed(
@@ -18,7 +21,16 @@ DatabaseConnection connect() {
         );
       }
 
-      return result.resolvedExecutor;
+      final executor = result.resolvedExecutor;
+
+      web.window.addEventListener(
+        'beforeunload',
+        (web.Event _) {
+          executor.close();
+        }.toJS,
+      );
+
+      return executor;
     }),
   );
 }
