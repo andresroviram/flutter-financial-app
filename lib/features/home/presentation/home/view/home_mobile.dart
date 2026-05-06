@@ -1,0 +1,95 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_wigilabs_sr/features/wishlist/presentation/view/wishlist_view.dart';
+import 'package:go_router/go_router.dart';
+import '../bloc/home_bloc.dart';
+import '../widgets/country_card.dart';
+import '../widgets/error_retry.dart';
+import '../widgets/loading_grid.dart';
+import '../../../../../core/utils/snackbar_utils.dart';
+
+class HomeMobile extends StatelessWidget {
+  const HomeMobile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Países de Europa'),
+        centerTitle: false,
+        actions: [
+          IconButton(
+            tooltip: 'Lista de deseos',
+            icon: const Icon(Icons.favorite),
+            onPressed: () async {
+              await context.push(WishlistView.path);
+              if (context.mounted) {
+                context.read<HomeBloc>().add(const HomeEvent.loadWishlist());
+              }
+            },
+          ),
+        ],
+      ),
+      body: BlocConsumer<HomeBloc, HomeState>(
+        bloc: context.read<HomeBloc>(),
+        listener: (context, state) {
+          if (state.failure != null) {
+            SnackbarUtils.showErrorSnackbar(context, state.failure!);
+            context.read<HomeBloc>().add(
+                  const HomeEvent.invalidate(),
+                );
+          }
+        },
+        builder: (context, state) {
+          if (state.isLoading && state.countries.isEmpty) {
+            return const LoadingGrid();
+          }
+
+          if (state.countries.isEmpty && state.failure != null) {
+            return ErrorRetry(
+              failure: state.failure!,
+              onRetry: () =>
+                  context.read<HomeBloc>().add(const HomeEvent.loadCountries()),
+            );
+          }
+
+          return RefreshIndicator(
+            onRefresh: () async {
+              context.read<HomeBloc>().add(const HomeEvent.loadCountries());
+            },
+            child: CustomScrollView(
+              slivers: [
+                SliverPadding(
+                  padding: const EdgeInsets.all(16),
+                  sliver: SliverGrid(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 12,
+                      crossAxisSpacing: 12,
+                      childAspectRatio: 0.75,
+                    ),
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        final country = state.countries[index];
+                        final isInWishlist =
+                            state.wishlistCca2s.contains(country.cca2);
+                        return RepaintBoundary(
+                          child: CountryCard(
+                            country: country,
+                            isInWishlist: isInWishlist,
+                          ),
+                        );
+                      },
+                      childCount: state.countries.length,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+}

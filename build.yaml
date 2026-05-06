@@ -1,0 +1,31 @@
+# Configuración de build_runner para compilar el web worker de Drift
+#
+# Este archivo configura la compilación del worker (web/drift_worker.dart) a JavaScript
+# usando dart2js a través de build_web_compilers.
+#
+# Alternativa: También se puede compilar directamente con:
+#   dart compile js -O4 web/drift_worker.dart -o web/drift_worker.dart.js
+#
+# Pero usamos build_runner porque:
+# - Se integra con el flujo de trabajo de código generado existente
+# - Permite compilación condicional (debug/release)
+# - Es más consistente con el resto del proyecto
+#
+# El worker compilado (~1.1 MB) es necesario para que Drift funcione en web.
+# Drift no provee un worker precompilado universal porque cada proyecto puede
+# necesitar funciones SQL personalizadas.
+
+targets:
+  $default:
+    builders:
+      build_web_compilers:entrypoint:
+        generate_for:
+          - web/drift_worker.dart
+        options:
+          compiler: dart2js # Requerido - dartdevc no es compatible con workers
+        dev_options:
+          dart2js_args:
+            - --no-minify # Facilita debugging
+        release_options:
+          dart2js_args:
+            - -O4 # Optimización máxima para producción

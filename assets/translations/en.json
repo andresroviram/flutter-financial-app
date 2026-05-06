@@ -1,0 +1,39 @@
+{
+	"app_title": "Country Explorer",
+	"countries_list": {
+		"title": "European Countries",
+		"wishlist_tooltip": "Wishlist",
+		"refresh": "Refresh"
+	},
+	"wishlist": {
+		"title": "Wishlist",
+		"empty_title": "Your wishlist is empty",
+		"empty_subtitle": "Add countries by tapping ❤ on the countries list.",
+		"remove_tooltip": "Remove from wishlist"
+	},
+	"detail": {
+		"general_info": "General info",
+		"official_name": "Official name",
+		"capital": "Capital",
+		"region": "Region",
+		"population": "Population",
+		"area": "Area",
+		"area_unit": "km²",
+		"languages": "Languages",
+		"currencies": "Currencies",
+		"timezones": "Timezones",
+		"borders": "Bordering countries",
+		"wishlist_add": "Add to wishlist",
+		"wishlist_remove": "Remove from wishlist"
+	},
+	"errors": {
+		"no_internet": "No internet connection",
+		"load_countries": "Error loading countries",
+		"load_detail": "Could not load country detail",
+		"unexpected": "An unexpected error occurred",
+		"retry": "Retry"
+	},
+	"switch_to_dark": "Switch to dark mode",
+	"switch_to_light": "Switch to light mode",
+	"profile": "Profile"
+}
