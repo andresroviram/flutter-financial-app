@@ -37,7 +37,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   ) async {
     emit(state.copyWith(isLoading: true, failure: null));
 
-    final countriesResult = await _getCountries(event.lang);
+    final countriesResult = await _getCountries();
     final wishlistResult = await _getWishlist();
 
     final wishlistCca2s = wishlistResult.fold(

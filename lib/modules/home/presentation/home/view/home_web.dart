@@ -1,9 +1,7 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_wigilabs_sr/components/shimmer/countries_grid_shimmer.dart';
 import 'package:gap/gap.dart';
-import '../../../../../core/utils/locale_utils.dart';
 import '../../../../../core/utils/snackbar_utils.dart';
 import '../bloc/home_bloc.dart';
 import '../widgets/country_card.dart';
@@ -29,9 +27,8 @@ class _HomeWebState extends State<HomeWeb> {
 
   final _webGridPadding = EdgeInsets.fromLTRB(24, 0, 24, 24);
 
-  void _onRefresh(BuildContext context) => context.read<HomeBloc>().add(
-    HomeEvent.loadCountries(LocaleUtils.toLang(context.locale)),
-  );
+  void _onRefresh(BuildContext context) =>
+      context.read<HomeBloc>().add(const HomeEvent.loadCountries());
 
   @override
   Widget build(BuildContext context) {

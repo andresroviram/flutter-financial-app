@@ -59,14 +59,14 @@ void main() {
         'emite [loading, loaded] cuando la petición es exitosa',
         setUp: () {
           when(
-            () => mockGetCountries(any()),
+            () => mockGetCountries(),
           ).thenAnswer((_) async => Success(tCountries));
           when(
             () => mockGetWishlist(),
           ).thenAnswer((_) async => const Success([]));
         },
         build: buildBloc,
-        act: (bloc) => bloc.add(const HomeEvent.loadCountries('english')),
+        act: (bloc) => bloc.add(const HomeEvent.loadCountries()),
         expect: () => [
           const HomeState(isLoading: true),
           HomeState(
@@ -76,7 +76,7 @@ void main() {
           ),
         ],
         verify: (_) {
-          verify(() => mockGetCountries(any())).called(1);
+          verify(() => mockGetCountries()).called(1);
           verify(() => mockGetWishlist()).called(1);
         },
       );
@@ -85,14 +85,14 @@ void main() {
         'emite [loading, error] cuando la API falla con NetworkFailure',
         setUp: () {
           when(
-            () => mockGetCountries(any()),
+            () => mockGetCountries(),
           ).thenAnswer((_) async => const Error(NetworkFailure()));
           when(
             () => mockGetWishlist(),
           ).thenAnswer((_) async => const Success([]));
         },
         build: buildBloc,
-        act: (bloc) => bloc.add(const HomeEvent.loadCountries('english')),
+        act: (bloc) => bloc.add(const HomeEvent.loadCountries()),
         expect: () => [
           const HomeState(isLoading: true),
           const HomeState(isLoading: false, failure: NetworkFailure()),
@@ -103,14 +103,14 @@ void main() {
         'carga correctamente la wishlist junto con los países',
         setUp: () {
           when(
-            () => mockGetCountries(any()),
+            () => mockGetCountries(),
           ).thenAnswer((_) async => Success(tCountries));
           when(
             () => mockGetWishlist(),
           ).thenAnswer((_) async => Success([tCountry]));
         },
         build: buildBloc,
-        act: (bloc) => bloc.add(const HomeEvent.loadCountries('english')),
+        act: (bloc) => bloc.add(const HomeEvent.loadCountries()),
         expect: () => [
           const HomeState(isLoading: true),
           HomeState(

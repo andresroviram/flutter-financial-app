@@ -8,8 +8,7 @@ class GetCountriesUseCase {
   const GetCountriesUseCase(this._repository);
   final ICountriesRepository _repository;
 
-  Future<Result<List<CountryEntity>>> call(String lang) =>
-      _repository.getCountriesByLang(lang);
+  Future<Result<List<CountryEntity>>> call() => _repository.getCountries();
 }
 
 @lazySingleton

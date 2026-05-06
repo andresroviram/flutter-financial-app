@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_wigilabs_sr/core/utils/helpers.dart';
-import 'package:flutter_wigilabs_sr/core/utils/locale_utils.dart';
 import 'package:flutter_wigilabs_sr/modules/home/presentation/home/bloc/home_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:responsive_framework/responsive_framework.dart';
@@ -57,9 +56,7 @@ class _HomeViewState extends State<HomeView> {
     final currentLocale = context.locale;
     if (_prevLocale != currentLocale) {
       _prevLocale = currentLocale;
-      context.read<HomeBloc>().add(
-        HomeEvent.loadCountries(LocaleUtils.toLang(currentLocale)),
-      );
+      context.read<HomeBloc>().add(const HomeEvent.loadCountries());
     }
   }
 
