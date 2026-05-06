@@ -22,7 +22,7 @@ class FundsView extends StatelessWidget {
       getBalance: getIt<GetBalanceUseCase>(),
       subscribeFund: getIt<SubscribeFundUseCase>(),
       cancelFund: getIt<CancelFundUseCase>(),
-    )..add(const FundsLoadRequested()),
+    )..add(const FundsEvent.loadRequested()),
     child: const FundsView(),
   );
 
