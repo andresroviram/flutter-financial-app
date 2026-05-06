@@ -75,6 +75,22 @@ Este proyecto implementa Clean Architecture con la siguiente estructura de capas
 <img src="screenshots/Clean Architecture Bloc - Flutter.jpg" width="80%">
 </p>
 
+## Project Structure
+
+```
+lib/
+├── main.dart
+├── my_app.dart
+├── components/         # UI components reutilizables
+├── config/             # Configuración de la app
+├── core/               # Utilidades y core features
+└── modules/            # Módulos de características
+    └── [feature]/
+        ├── data/
+        ├── domain/
+        └── presentation/
+```
+
 ## How to use
 
 Para clonar y ejecutar esta aplicación, necesitarás tener [Git](https://git-scm.com/downloads) y [Flutter](https://flutter.dev/docs/get-started/install) instalados en tu computadora. Desde tu línea de comandos:
@@ -182,22 +198,6 @@ Para que los workflows funcionen correctamente, configura los siguientes secrets
 
 **Coverage:**
 - `CODECOV_TOKEN` - Token para reportar cobertura a Codecov
-
-## Project Structure
-
-```
-lib/
-├── main.dart
-├── my_app.dart
-├── components/         # UI components reutilizables
-├── config/             # Configuración de la app
-├── core/               # Utilidades y core features
-└── modules/            # Módulos de características
-    └── [feature]/
-        ├── data/
-        ├── domain/
-        └── presentation/
-```
 
 ## Features
 
