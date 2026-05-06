@@ -50,7 +50,6 @@ void main() {
 
   group('kFlavor', () {
     test('defaults to dev when no --dart-define is provided', () {
-      // En tests sin --dart-define=FLAVOR=X el valor es 'dev'
       expect(kFlavor, AppFlavor.dev);
     });
   });
