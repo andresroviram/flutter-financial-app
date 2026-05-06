@@ -138,12 +138,17 @@ void main() {
       expect(find.byType(TransactionTile), findsOneWidget);
       expect(find.byType(Card), findsOneWidget);
       expect(find.byType(ListView), findsOneWidget);
-      final colorScheme = Theme.of(tester.element(find.byType(Card))).colorScheme;
+      final colorScheme = Theme.of(
+        tester.element(find.byType(Card)),
+      ).colorScheme;
       final expectedCardColor = colorScheme.brightness == Brightness.dark
           ? colorScheme.surfaceContainerLow
           : colorScheme.surfaceContainerLowest;
 
-      expect(Theme.of(tester.element(find.byType(Card))).cardTheme.color, expectedCardColor);
+      expect(
+        Theme.of(tester.element(find.byType(Card))).cardTheme.color,
+        expectedCardColor,
+      );
       expect(
         Theme.of(tester.element(find.byType(Card))).cardTheme.surfaceTintColor,
         Colors.transparent,

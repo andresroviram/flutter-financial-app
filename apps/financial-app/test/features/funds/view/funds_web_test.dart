@@ -68,7 +68,8 @@ void main() {
       await tester.pumpAndSettle();
 
       final horizontalListFinder = find.byWidgetPredicate(
-        (widget) => widget is ListView && widget.scrollDirection == Axis.horizontal,
+        (widget) =>
+            widget is ListView && widget.scrollDirection == Axis.horizontal,
       );
       final horizontalList = tester.widget<ListView>(horizontalListFinder);
 
@@ -87,7 +88,8 @@ void main() {
       expect(behavior.dragDevices, contains(PointerDeviceKind.trackpad));
 
       final verticalListFinder = find.byWidgetPredicate(
-        (widget) => widget is ListView && widget.scrollDirection == Axis.vertical,
+        (widget) =>
+            widget is ListView && widget.scrollDirection == Axis.vertical,
       );
       final mouse = await tester.createGesture(kind: PointerDeviceKind.mouse);
       addTearDown(mouse.removePointer);
@@ -97,10 +99,7 @@ void main() {
 
       final verticalList = tester.widget<ListView>(verticalListFinder.first);
       expect(verticalList.physics, isA<NeverScrollableScrollPhysics>());
-      expect(
-        verticalList.padding,
-        const EdgeInsets.only(right: 16),
-      );
+      expect(verticalList.padding, const EdgeInsets.only(right: 16));
     });
 
     testWidgets('mantiene dos columnas en anchos amplios', (tester) async {
