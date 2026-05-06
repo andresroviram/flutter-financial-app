@@ -3,9 +3,6 @@ import 'package:feature_funds/domain/entities/fund_entity.dart';
 import 'package:feature_funds/domain/entities/transaction_entity.dart';
 import 'package:financial_app/config/database/funds_database.dart';
 
-export 'package:feature_funds/data/database/funds_database.dart'
-    show FundsDatabase;
-
 abstract interface class IFundsLocalDatasource {
   Future<List<FundEntity>> getFunds();
   Future<int> getBalance();
@@ -97,8 +94,9 @@ class FundsLocalDatasource implements IFundsLocalDatasource {
         database.fundsTable,
       )..where((t) => t.id.equals(fundId))).getSingleOrNull();
       if (fundRow == null) throw Exception('Fondo no encontrado');
-      if (fundRow.isSubscribed)
+      if (fundRow.isSubscribed) {
         throw Exception('Ya está suscrito a este fondo');
+      }
 
       final balanceRow = await (database.select(
         database.balanceTable,
@@ -150,8 +148,9 @@ class FundsLocalDatasource implements IFundsLocalDatasource {
         database.fundsTable,
       )..where((t) => t.id.equals(fundId))).getSingleOrNull();
       if (fundRow == null) throw Exception('Fondo no encontrado');
-      if (!fundRow.isSubscribed)
+      if (!fundRow.isSubscribed) {
         throw Exception('No está suscrito a este fondo');
+      }
 
       final amount = fundRow.subscribedAmount ?? fundRow.minimumAmount;
       final balanceRow = await (database.select(
