@@ -15,9 +15,9 @@ Prueba técnica – Explorador de países de Europa con BLoC, Drift y Dio.
 ### Mobile (Dark Theme)
 <br>
 <p align="center">
-<img src="screenshots/mobile/Screenshot_1771536367.png" width="30%">
-<img src="screenshots/mobile/Screenshot_1771536376.png" width="30%">
-<img src="screenshots/mobile/Screenshot_1771536387.png" width="30%">
+<img src="screenshots/mobile/Screenshot_1771536507.png" width="30%">
+<img src="screenshots/mobile/Screenshot_1771536400.png" width="30%">
+<img src="screenshots/mobile/Screenshot_1771536422.png" width="30%">
 </p>
 
 ### Web (Light Theme)
@@ -32,10 +32,10 @@ Prueba técnica – Explorador de países de Europa con BLoC, Drift y Dio.
 ### Web (Dark Theme)
 <br>
 <p align="center">
-<img src="screenshots/web/Screenshot_19-2-2026_16170_localhost.jpeg" width="45%">
-<img src="screenshots/web/Screenshot_19-2-2026_161737_localhost.jpeg" width="45%">
 <img src="screenshots/web/Screenshot_19-2-2026_161827_localhost.jpeg" width="45%">
+<img src="screenshots/web/Screenshot_19-2-2026_161927_localhost.jpeg" width="45%">
 <img src="screenshots/web/Screenshot_19-2-2026_161842_localhost.jpeg" width="45%">
+<img src="screenshots/web/Screenshot_19-2-2026_16187_localhost.jpeg" width="45%">
 </p>
 
 ## Using on this app
