@@ -42,14 +42,14 @@ melos:
       description: Analiza solo los packages que cambiaron respecto a main.
 
     format:
-      exec: dart format --set-exit-if-changed .
+      exec: find . -name "*.dart" ! -name "*.g.dart" ! -name "*.freezed.dart" ! -name "injectable.module.dart" ! -path "*/build/*" ! -path "*/.dart_tool/*" | xargs dart format --set-exit-if-changed
       concurrency: 4
-      description: Verifica el formato de todos los packages.
+      description: Verifica el formato de todos los packages (excluye archivos generados).
 
     format:fix:
-      exec: dart format .
+      exec: find . -name "*.dart" ! -name "*.g.dart" ! -name "*.freezed.dart" ! -name "injectable.module.dart" ! -path "*/build/*" ! -path "*/.dart_tool/*" | xargs dart format
       concurrency: 4
-      description: Aplica formato a todos los packages.
+      description: Aplica formato a todos los packages (excluye archivos generados).
 
     build:all:
       run: melos run build:core && melos run build:feature_home && melos run build:feature_wishlist && melos run build:app
