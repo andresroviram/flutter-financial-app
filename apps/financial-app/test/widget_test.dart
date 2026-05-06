@@ -22,7 +22,7 @@ void main() {
     if (!GetIt.instance.isRegistered<GoRouter>()) {
       GetIt.instance.registerSingleton<GoRouter>(
         GoRouter(
-          routes: [GoRoute(path: '/', builder: (_, __) => const SizedBox())],
+          routes: [GoRoute(path: '/', builder: (_, _) => const SizedBox())],
         ),
       );
     }
