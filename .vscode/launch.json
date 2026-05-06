@@ -71,27 +71,27 @@
         },
         {
             "name": "home",
-            "cwd": "packages/client-features/home",
+            "cwd": "packages/features/client-app/home",
             "request": "launch",
             "type": "dart"
         },
         {
             "name": "home (profile mode)",
-            "cwd": "packages/client-features/home",
+            "cwd": "packages/features/client-app/home",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
         },
         {
             "name": "home (release mode)",
-            "cwd": "packages/client-features/home",
+            "cwd": "packages/features/client-app/home",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"
         },
         {
             "name": "settings",
-            "cwd": "packages/client-features/settings",
+            "cwd": "packages/features/client-app/settings",
             "request": "launch",
             "type": "dart"
         },
@@ -104,27 +104,27 @@
         },
         {
             "name": "settings (release mode)",
-            "cwd": "packages/client-features/settings",
+            "cwd": "packages/features/client-app/settings",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"
         },
         {
             "name": "wishlist",
-            "cwd": "packages/client-features/wishlist",
+            "cwd": "packages/features/client-app/wishlist",
             "request": "launch",
             "type": "dart"
         },
         {
             "name": "wishlist (profile mode)",
-            "cwd": "packages/client-features/wishlist",
+            "cwd": "packages/features/client-app/wishlist",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
         },
         {
             "name": "wishlist (release mode)",
-            "cwd": "packages/client-features/wishlist",
+            "cwd": "packages/features/client-app/wishlist",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"
