@@ -31,15 +31,21 @@ final class EnvProd {
 
 @LazySingleton(as: IEnvConfig)
 final class Env implements IEnvConfig {
+  /// [flavor] es opcional: en producción usa [kFlavor] (compile-time constant);
+  /// en tests se puede inyectar cualquier flavor para ejercer todas las ramas.
+  Env({AppFlavor? flavor}) : _flavor = flavor ?? kFlavor;
+
+  final AppFlavor _flavor;
+
   @override
-  String? get apiKey => switch (kFlavor) {
+  String? get apiKey => switch (_flavor) {
     AppFlavor.dev => EnvDev.apiKey,
     AppFlavor.qa => EnvQa.apiKey,
     AppFlavor.prod => EnvProd.apiKey,
   };
 
   @override
-  String get baseUrl => switch (kFlavor) {
+  String get baseUrl => switch (_flavor) {
     AppFlavor.dev => EnvDev.baseUrl,
     AppFlavor.qa => EnvQa.baseUrl,
     AppFlavor.prod => EnvProd.baseUrl,
