@@ -91,6 +91,11 @@ lib/
         └── presentation/
 ```
 
+<br>
+<p align="center">
+<img src="screenshots/Clean Architecture Bloc - Flutter.jpg" width="80%">
+</p>
+
 ## Features
 
 - 🌍 Explorador de países de Europa
