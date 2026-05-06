@@ -54,7 +54,7 @@ melos:
       description: Aplica formato a todos los packages (excluye archivos generados).
 
     build:all:
-      run: melos run build:core && melos run build:feature_home && melos run build:feature_wishlist && melos run build:feature_funds && melos run build:app && melos run build:financial-app && melos run build:web-worker
+      run: melos run build:core && melos run build:feature_home && melos run build:feature_wishlist && melos run build:feature_funds && melos run build:app && melos run build:financial-app && melos run build:web-worker && melos run build:web-worker:financial
       description: Genera código en todos los packages en orden secuencial y recompila el web worker.
 
     build:core:
