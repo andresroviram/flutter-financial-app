@@ -31,7 +31,7 @@ dependencies:
   easy_localization: ^3.0.8
 
   # DI
-  injectable: ^2.7.1+4
+  injectable: ^3.0.0
 
 dev_dependencies:
   flutter_test:
