@@ -9,7 +9,11 @@ part 'env.g.dart';
 final class EnvDev {
   @EnviedField(varName: 'API_KEY', obfuscate: true, defaultValue: '')
   static final String apiKey = _EnvDev.apiKey;
-  @EnviedField(varName: 'BASE_URL', obfuscate: true)
+  @EnviedField(
+    varName: 'BASE_URL',
+    obfuscate: true,
+    defaultValue: 'http://localhost:3000',
+  )
   static final String baseUrl = _EnvDev.baseUrl;
 }
 
@@ -17,7 +21,11 @@ final class EnvDev {
 final class EnvQa {
   @EnviedField(varName: 'API_KEY', obfuscate: true, defaultValue: '')
   static final String apiKey = _EnvQa.apiKey;
-  @EnviedField(varName: 'BASE_URL', obfuscate: true)
+  @EnviedField(
+    varName: 'BASE_URL',
+    obfuscate: true,
+    defaultValue: 'http://localhost:3000',
+  )
   static final String baseUrl = _EnvQa.baseUrl;
 }
 
@@ -25,7 +33,11 @@ final class EnvQa {
 final class EnvProd {
   @EnviedField(varName: 'API_KEY', obfuscate: true, defaultValue: '')
   static final String apiKey = _EnvProd.apiKey;
-  @EnviedField(varName: 'BASE_URL', obfuscate: true)
+  @EnviedField(
+    varName: 'BASE_URL',
+    obfuscate: true,
+    defaultValue: 'http://localhost:3000',
+  )
   static final String baseUrl = _EnvProd.baseUrl;
 }
 
